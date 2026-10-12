@@ -21,14 +21,14 @@ export function JournalPostHeader({
     <div className="bg-forest pt-36 pb-16 text-ivory">
       <div className="container max-w-4xl">
         {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="breadcrumb mb-6 text-ivory/50">
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs sm:text-sm mb-6 text-ivory/50">
           <Link
             href="/"
             className="text-ivory/50 hover:text-ivory transition-colors"
           >
             Home
           </Link>
-          <span className="breadcrumb-sep" aria-hidden="true">
+          <span aria-hidden="true" className="text-ivory/40">
             ·
           </span>
           <Link
@@ -39,7 +39,7 @@ export function JournalPostHeader({
           </Link>
           {category && (
             <>
-              <span className="breadcrumb-sep" aria-hidden="true">
+              <span aria-hidden="true" className="text-ivory/40">
                 ·
               </span>
               <span className="text-gold">{category}</span>
@@ -63,7 +63,7 @@ export function JournalPostHeader({
           {title}
         </h1>
 
-        <div className="flex flex-wrap items-center gap-6 text-[13px] text-ivory/65 pt-4 border-t border-ivory/10">
+        <div className="flex flex-wrap items-center gap-6 text-xs sm:text-sm text-ivory/65 pt-4 border-t border-ivory/10">
           {author && (
             <span className="inline-flex items-center gap-1.5">
               <User size={14} />

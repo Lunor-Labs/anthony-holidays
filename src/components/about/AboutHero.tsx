@@ -19,13 +19,13 @@ export function AboutHero() {
           className="object-cover object-[center_40%]"
         />
       </div>
-      <div className="hero-overlay" aria-hidden="true" />
+      <div className="absolute inset-0 z-1 bg-gradient-to-b from-black/40 via-transparent to-black/80 pointer-events-none" aria-hidden="true" />
 
       <div className="container relative z-10 text-center">
         {/* Breadcrumb */}
         <nav
           aria-label="Breadcrumb"
-          className="breadcrumb mb-6 text-ivory/60 justify-center"
+          className="flex items-center gap-2 text-xs sm:text-sm mb-6 text-ivory/60 justify-center"
         >
           <Link
             href="/"
@@ -33,7 +33,7 @@ export function AboutHero() {
           >
             Home
           </Link>
-          <span className="breadcrumb-sep" aria-hidden="true">
+          <span aria-hidden="true" className="text-ivory/40">
             ·
           </span>
           <span className="text-gold">About Us</span>

@@ -211,7 +211,7 @@ export function ReviewSubmissionForm() {
         </div>
 
         {/* Moderation Policy Notice */}
-        <div className="flex items-start gap-2 text-[11px] text-stone bg-offwhite p-3 border-l-2 border-forest">
+        <div className="flex items-start gap-2 text-xs text-stone bg-offwhite p-3 border-l-2 border-forest">
           <ShieldCheck size={14} className="text-forest shrink-0 mt-0.5" />
           <span>
             To maintain genuine transparency, reviews are verified by our team before publishing. We never alter guest feedback.

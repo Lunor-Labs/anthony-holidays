@@ -56,11 +56,11 @@ export default async function SpecialPackageDetailPage({ params }: PageProps) {
         <div className="overlay-gradient pointer-events-none" aria-hidden="true" />
 
         <div className="container relative z-10 text-ivory">
-          <nav aria-label="Breadcrumb" className="breadcrumb mb-6 text-ivory/60">
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs sm:text-sm mb-6 text-ivory/60">
             <Link href="/" className="hover:text-ivory transition-colors">Home</Link>
-            <span className="mx-2">/</span>
+            <span className="mx-1 text-ivory/40">/</span>
             <Link href="/special-packages" className="hover:text-ivory transition-colors">Special Packages</Link>
-            <span className="mx-2">/</span>
+            <span className="mx-1 text-ivory/40">/</span>
             <span className="text-gold">{pkg.title}</span>
           </nav>
 
@@ -68,7 +68,7 @@ export default async function SpecialPackageDetailPage({ params }: PageProps) {
             {pkg.categoryLabel}
           </span>
 
-          <h1 className="font-serif text-[clamp(2.25rem,4.5vw,3.75rem)] font-normal leading-tight mb-4 max-w-4xl">
+          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal leading-tight mb-4 max-w-4xl">
             {pkg.title}
           </h1>
 
@@ -90,7 +90,7 @@ export default async function SpecialPackageDetailPage({ params }: PageProps) {
       </div>
 
       {/* Main Content & Sidebar */}
-      <div className="section bg-offwhite py-16">
+      <div className="section-padding bg-offwhite">
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Left Content (2 cols) */}

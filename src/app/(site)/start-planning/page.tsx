@@ -28,7 +28,7 @@ export default async function StartPlanningPage({
     ''
 
   return (
-    <div className="bg-surface text-primary pt-32 pb-24">
+    <div className="bg-surface text-primary pt-32 section-padding-bottom">
       <div className="max-w-4xl mx-auto px-6 mb-12 text-center">
         <span className="text-xs font-semibold tracking-widest text-secondary uppercase">
           Private Ceylon Explorations

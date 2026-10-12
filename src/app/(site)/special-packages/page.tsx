@@ -16,7 +16,7 @@ export default async function SpecialPackagesPage() {
     <>
       <SpecialPackagesHero />
 
-      <section className="section bg-offwhite py-16 md:py-24">
+      <section className="section-padding bg-offwhite">
         <div className="container">
           <SpecialPackagesFilter packages={packages} />
         </div>

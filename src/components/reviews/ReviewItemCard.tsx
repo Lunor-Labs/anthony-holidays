@@ -66,7 +66,7 @@ export function ReviewItemCard({ review }: ReviewItemCardProps) {
         </div>
 
         {travelDate && (
-          <span className="text-stone flex items-center gap-1 text-[11px]">
+          <span className="text-stone flex items-center gap-1 text-xs">
             <Calendar size={11} />
             {travelDate}
           </span>

@@ -29,9 +29,9 @@ export interface JourneyCardProps {
 
 export function JourneyCard({ journey }: JourneyCardProps) {
   return (
-    <article className="journey-card group flex flex-col h-full bg-white border border-sand/60 shadow-sm hover:shadow-md transition-all duration-300">
+    <article className="group flex flex-col h-full bg-white border border-sand/60 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 overflow-hidden">
       {/* Cover Image */}
-      <div className="journey-card-image relative aspect-[4/3] overflow-hidden">
+      <div className="relative aspect-[4/3] overflow-hidden">
         <Image
           src={journey.coverImage}
           alt={journey.alt || journey.title}
@@ -39,7 +39,7 @@ export function JourneyCard({ journey }: JourneyCardProps) {
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
-        <div className="overlay-gradient pointer-events-none" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none" aria-hidden="true" />
 
         {/* Duration badge */}
         <div className="absolute top-4 right-4 bg-ivory/95 px-3 py-1.5 flex items-center gap-1.5 shadow-sm">
@@ -80,7 +80,7 @@ export function JourneyCard({ journey }: JourneyCardProps) {
         <div className="pt-4 border-t border-sand/40 flex items-center justify-between mt-auto">
           {journey.pricing && journey.pricing.priceFrom > 0 ? (
             <div>
-              <span className="text-[11px] uppercase tracking-wider text-muted block">
+              <span className="text-xs uppercase tracking-wider text-muted block">
                 From
               </span>
               <span className="font-serif text-base font-medium text-charcoal">

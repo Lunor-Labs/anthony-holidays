@@ -39,7 +39,7 @@ export default async function ToursPage() {
         <div className="container">
           <nav
             aria-label="Breadcrumb"
-            className="breadcrumb mb-8 text-ivory/50"
+            className="flex items-center gap-2 text-xs sm:text-sm mb-8 text-ivory/50"
           >
             <Link
               href="/"
@@ -47,7 +47,7 @@ export default async function ToursPage() {
             >
               Home
             </Link>
-            <span className="breadcrumb-sep" aria-hidden="true">
+            <span aria-hidden="true" className="text-ivory/40">
               ·
             </span>
             <span className="text-gold">Tour Packages</span>
@@ -57,7 +57,7 @@ export default async function ToursPage() {
           <h1 className="text-heading-1 text-ivory mb-4">
             Sri Lanka Tour Packages
           </h1>
-          <p className="text-ivory/75 text-[1.0625rem] max-w-[600px] leading-relaxed">
+          <p className="text-ivory/75 text-base md:text-lg max-w-[600px] leading-relaxed">
             From ancient kingdoms to tropical coastlines - discover our curated
             tour packages or let us craft something entirely personal for you.
           </p>
@@ -65,14 +65,14 @@ export default async function ToursPage() {
       </div>
 
       {/* Filter + Grid Section */}
-      <section className="section bg-offwhite" aria-label="Journey listings">
+      <section className="section-padding bg-offwhite" aria-label="Journey listings">
         <div className="container">
           <JourneysFilter journeys={journeys} />
         </div>
       </section>
 
       {/* Custom Journey CTA */}
-      <section className="section-sm bg-cream">
+      <section className="section-padding-sm bg-cream">
         <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center p-12 bg-forest">
             <div>

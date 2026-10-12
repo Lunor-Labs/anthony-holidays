@@ -63,7 +63,7 @@ export default async function JournalPostPage({
       />
 
       {/* Featured Image */}
-      <section className="bg-offwhite pt-12">
+      <section className="bg-offwhite section-padding-top">
         <div className="container max-w-4xl">
           <div className="relative aspect-video overflow-hidden shadow-xl">
             <Image
@@ -79,8 +79,8 @@ export default async function JournalPostPage({
       </section>
 
       {/* Article Content */}
-      <article className="py-12 lg:py-20 bg-offwhite">
-        <div className="container max-w-2xl text-charcoal text-[17px] leading-relaxed">
+      <article className="section-padding-bottom bg-offwhite">
+        <div className="container max-w-2xl text-charcoal text-lg leading-relaxed">
           <p className="font-serif italic text-2xl leading-relaxed text-forest mb-8">
             {article.excerpt}
           </p>
@@ -124,7 +124,7 @@ export default async function JournalPostPage({
             <h3 className="font-serif text-2xl text-forest mb-3 font-normal">
               Ready to explore Ceylon with our national guides?
             </h3>
-            <p className="text-[15px] text-stone mb-6">
+            <p className="text-sm text-stone mb-6">
               Allow us to formulate an original custom itinerary tailored around
               your interests.
             </p>
@@ -137,7 +137,7 @@ export default async function JournalPostPage({
       </article>
 
       {/* Related Articles */}
-      <section className="py-12 lg:py-20 bg-cream border-t border-forest/10">
+      <section className="section-padding bg-cream border-t border-forest/10">
         <div className="container max-w-4xl">
           <h2 className="font-serif text-3xl text-forest text-center mb-10 font-light">
             More from the Journal
@@ -160,7 +160,7 @@ export default async function JournalPostPage({
                   />
                 </div>
                 <div>
-                  <span className="text-[10px] uppercase tracking-wider text-gold font-semibold block mb-1">
+                  <span className="text-xs uppercase tracking-wider text-gold font-semibold block mb-1">
                     {rel.category}
                   </span>
                   <h3 className="font-serif text-lg text-forest leading-snug font-medium">

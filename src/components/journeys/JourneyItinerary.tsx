@@ -30,7 +30,7 @@ export function JourneyItinerary({ itinerary }: JourneyItineraryProps) {
             </div>
 
             <div className="bg-white p-6 md:p-8 border border-sand/60 shadow-xs">
-              <span className="text-[11px] font-sans font-semibold tracking-widest text-gold uppercase block mb-1">
+              <span className="text-xs font-sans font-semibold tracking-widest text-gold uppercase block mb-1">
                 Day {day.day}
               </span>
               <h3 className="font-serif text-xl font-normal text-charcoal mb-3">

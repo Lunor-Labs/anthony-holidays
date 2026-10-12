@@ -53,14 +53,14 @@ export function Header() {
             <Link href="/" aria-label="Anthony Holidays - Home">
               <div className="flex flex-col leading-tight">
                 <span
-                  className={`font-serif text-[1.375rem] font-semibold tracking-[0.08em] uppercase transition-colors duration-400 ${
+                  className={`font-serif text-xl lg:text-2xl font-semibold tracking-[0.08em] uppercase transition-colors duration-400 ${
                     isTransparent ? "text-ivory" : "text-forest"
                   }`}
                 >
                   Anthony
                 </span>
                 <span
-                  className={`font-sans text-[0.6rem] font-medium tracking-[0.22em] uppercase transition-colors duration-400 ${
+                  className={`font-sans text-xs font-medium tracking-[0.22em] uppercase transition-colors duration-400 ${
                     isTransparent ? "text-ivory/70" : "text-stone"
                   }`}
                 >
@@ -72,7 +72,7 @@ export function Header() {
             {/* Desktop Nav */}
             <nav
               aria-label="Primary navigation"
-              className="hidden xl:flex items-center gap-7 text-[13px]"
+              className="hidden xl:flex items-center gap-7 text-xs sm:text-sm"
             >
               {navLinks.map((link) => (
                 <Link
@@ -136,7 +136,7 @@ export function Header() {
               <li key={link.href} className="border-b border-ivory/10">
                 <Link
                   href={link.href}
-                  className="block py-3.5 font-serif text-[1.4rem] font-normal text-ivory hover:text-gold transition-colors"
+                  className="block py-3.5 font-serif text-xl font-normal text-ivory hover:text-gold transition-colors"
                 >
                   {link.label}
                 </Link>

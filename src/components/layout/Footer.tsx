@@ -74,7 +74,7 @@ export function Footer({ siteSettings }: FooterProps = {}) {
               <p className="font-serif text-2xl font-semibold tracking-widest uppercase text-ivory mb-1">
                 Anthony
               </p>
-              <p className="font-sans text-[10px] tracking-[0.25em] uppercase text-stone">
+              <p className="font-sans text-xs tracking-[0.25em] uppercase text-stone">
                 Holidays
               </p>
             </div>

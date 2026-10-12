@@ -117,7 +117,7 @@ export default async function JourneyDetailPage({
       />
 
       {/* Main Content & Sticky Booking Sidebar */}
-      <div className="section bg-offwhite">
+      <div className="section-padding bg-offwhite">
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-start">
             {/* Main Content (2 Columns) */}
@@ -147,7 +147,7 @@ export default async function JourneyDetailPage({
                   <h2 className="font-serif text-2xl text-charcoal mb-4 font-normal">
                     Important Travel Information
                   </h2>
-                  <p className="text-[15px] text-stone leading-relaxed">
+                  <p className="text-sm text-stone leading-relaxed">
                     {journey.travelInfo}
                   </p>
                 </div>

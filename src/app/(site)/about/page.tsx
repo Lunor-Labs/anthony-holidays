@@ -22,7 +22,7 @@ export default async function AboutPage() {
       <PhilosophySection />
 
       {founder && (
-        <section className="section bg-white py-16 md:py-24">
+        <section className="section-padding bg-white">
           <div className="container">
             <FounderProfileCard
               founder={founder}

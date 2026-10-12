@@ -18,7 +18,7 @@ export default async function TeamPage() {
     <>
       <TeamHero />
 
-      <section className="section bg-offwhite py-16 md:py-24">
+      <section className="section-padding bg-offwhite">
         <div className="container">
           {founder && <FounderProfileCard founder={founder} />}
 

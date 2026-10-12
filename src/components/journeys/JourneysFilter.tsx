@@ -107,7 +107,7 @@ export function JourneysFilter({ journeys }: JourneysFilterProps) {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             aria-label="Search journeys by name"
-            className="w-full pl-11 pr-4 py-3 border border-cream font-sans text-[15px] text-charcoal bg-white outline-none focus:border-forest transition-colors"
+            className="w-full pl-11 pr-4 py-3 border border-cream font-sans text-sm text-charcoal bg-white outline-none focus:border-forest transition-colors"
           />
         </div>
 
@@ -122,7 +122,7 @@ export function JourneysFilter({ journeys }: JourneysFilterProps) {
           <SlidersHorizontal size={15} />
           Filters
           {hasFilters && (
-            <span className="bg-gold text-charcoal rounded-full w-4.5 h-4.5 text-[10px] flex items-center justify-center font-bold">
+            <span className="bg-gold text-charcoal rounded-full w-4.5 h-4.5 text-xs flex items-center justify-center font-bold">
               {[search, selectedCategory, selectedDuration].filter(Boolean).length}
             </span>
           )}
@@ -152,7 +152,11 @@ export function JourneysFilter({ journeys }: JourneysFilterProps) {
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat === selectedCategory ? '' : cat)}
-                  className={`filter-tag${selectedCategory === cat ? ' active' : ''}`}
+                  className={`inline-flex items-center px-4 py-1.5 border text-xs font-medium tracking-wide cursor-pointer transition-all duration-200 ${
+                    selectedCategory === cat
+                      ? 'bg-forest text-ivory border-forest'
+                      : 'bg-white text-charcoal border-cream hover:bg-forest hover:text-ivory hover:border-forest'
+                  }`}
                   aria-pressed={selectedCategory === cat}
                 >
                   {categoryLabels[cat] || cat}
@@ -171,7 +175,11 @@ export function JourneysFilter({ journeys }: JourneysFilterProps) {
                 <button
                   key={range.label}
                   onClick={() => setSelectedDuration(range.label === selectedDuration ? '' : range.label)}
-                  className={`filter-tag${selectedDuration === range.label ? ' active' : ''}`}
+                  className={`inline-flex items-center px-4 py-1.5 border text-xs font-medium tracking-wide cursor-pointer transition-all duration-200 ${
+                    selectedDuration === range.label
+                      ? 'bg-forest text-ivory border-forest'
+                      : 'bg-white text-charcoal border-cream hover:bg-forest hover:text-ivory hover:border-forest'
+                  }`}
                   aria-pressed={selectedDuration === range.label}
                 >
                   {range.label}
@@ -194,16 +202,16 @@ export function JourneysFilter({ journeys }: JourneysFilterProps) {
       {filtered.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filtered.map((journey) => (
-            <article key={journey.id} className="journey-card">
-              <div className="journey-card-image relative aspect-[4/3] overflow-hidden">
+            <article key={journey.id} className="group flex flex-col h-full bg-white border border-sand/60 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+              <div className="relative aspect-[4/3] overflow-hidden">
                 <Image
                   src={journey.coverImage}
                   alt={journey.alt}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 />
-                <div className="overlay-gradient" aria-hidden="true" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none" aria-hidden="true" />
 
                 {/* Duration badge */}
                 <div className="absolute top-4 right-4 bg-ivory/95 px-3 py-1.5 flex items-center gap-1.5">
@@ -235,7 +243,7 @@ export function JourneysFilter({ journeys }: JourneysFilterProps) {
                   {journey.categories.map((cat) => (
                     <span
                       key={cat}
-                      className="text-[11px] font-medium tracking-wider uppercase text-stone border border-cream px-2 py-0.5"
+                      className="text-xs font-medium tracking-wider uppercase text-stone border border-cream px-2 py-0.5"
                     >
                       {categoryLabels[cat] || cat}
                     </span>
@@ -260,7 +268,7 @@ export function JourneysFilter({ journeys }: JourneysFilterProps) {
           <p className="font-serif text-2xl mb-3 text-charcoal">
             No journeys match your search.
           </p>
-          <p className="text-[15px] mb-6">
+          <p className="text-sm mb-6">
             Try different filters, or enquire about a custom journey.
           </p>
           <div className="flex justify-center gap-4 flex-wrap">

@@ -22,7 +22,7 @@ export function JourneyHero({
   destinations,
 }: JourneyHeroProps) {
   return (
-    <div className="page-hero min-h-[70vh] relative">
+    <div className="relative min-h-[70vh] flex items-end overflow-hidden pb-16">
       <Image
         src={coverImage}
         alt={alt || title}
@@ -31,13 +31,13 @@ export function JourneyHero({
         sizes="100vw"
         className="object-cover object-center"
       />
-      <div className="page-hero-overlay" />
+      <div className="absolute inset-0 z-1 bg-gradient-to-b from-black/30 via-transparent to-black/80 pointer-events-none" />
 
-      <div className="page-hero-content container">
+      <div className="container relative z-10 text-ivory">
         {/* Breadcrumb */}
         <nav
           aria-label="Breadcrumb"
-          className="breadcrumb mb-6 text-ivory/60"
+          className="flex items-center gap-2 text-xs sm:text-sm mb-6 text-ivory/60"
         >
           <Link
             href="/"
@@ -45,7 +45,7 @@ export function JourneyHero({
           >
             Home
           </Link>
-          <span className="breadcrumb-sep" aria-hidden="true">
+          <span aria-hidden="true" className="text-ivory/40">
             ·
           </span>
           <Link
@@ -54,7 +54,7 @@ export function JourneyHero({
           >
             Tours
           </Link>
-          <span className="breadcrumb-sep" aria-hidden="true">
+          <span aria-hidden="true" className="text-ivory/40">
             ·
           </span>
           <span className="text-gold">{title}</span>

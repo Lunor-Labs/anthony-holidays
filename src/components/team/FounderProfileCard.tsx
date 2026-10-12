@@ -71,7 +71,7 @@ export function FounderProfileCard({
             </p>
           </div>
 
-          <div className="space-y-4 text-stone leading-relaxed font-light text-[15px] md:text-base">
+          <div className="space-y-4 text-stone leading-relaxed font-light text-sm md:text-base">
             {bioParagraphs.map((para, idx) => (
               <p key={idx}>{para}</p>
             ))}

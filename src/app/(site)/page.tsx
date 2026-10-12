@@ -8,7 +8,7 @@ import {
 import {
   HeroSection,
   IntroSection,
-  FeaturedJourneysSection,
+  DiscoverSriLankaSection,
   FeaturedSpecialPackagesSection,
   ExperiencesSection,
   WhyChooseUsSection,
@@ -48,7 +48,7 @@ export default async function HomePage() {
     <>
       <HeroSection />
       <IntroSection />
-      <FeaturedJourneysSection journeys={journeys} />
+      <DiscoverSriLankaSection journeys={journeys} />
       <FeaturedSpecialPackagesSection specialPackages={specialPackages} />
       <ExperiencesSection />
       <WhyChooseUsSection />

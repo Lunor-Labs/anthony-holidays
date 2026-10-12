@@ -62,7 +62,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
 
           {highlights && highlights.length > 0 && (
             <div className="mb-6 border-t border-cream pt-5">
-              <p className="text-[11px] font-bold tracking-wider uppercase text-stone mb-3">
+              <p className="text-xs font-bold tracking-wider uppercase text-stone mb-3">
                 Key Standards & Features:
               </p>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -86,7 +86,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
             <ArrowRight size={14} />
           </Link>
 
-          <span className="text-[11px] text-stone tracking-wide">
+          <span className="text-xs text-stone tracking-wide">
             SLTDA Regulated
           </span>
         </div>

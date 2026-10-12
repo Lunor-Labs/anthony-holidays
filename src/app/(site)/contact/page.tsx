@@ -71,7 +71,7 @@ export default async function ContactPage() {
       {/* Header */}
       <div className="bg-forest pt-[clamp(7rem,12vw,10rem)] pb-[clamp(4rem,7vw,6rem)] text-ivory">
         <div className="container">
-          <nav aria-label="Breadcrumb" className="breadcrumb mb-8 text-ivory/50">
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs sm:text-sm mb-8 text-ivory/50">
             <Link href="/" className="text-ivory/50 hover:text-ivory transition-colors">
               Home
             </Link>
@@ -80,16 +80,16 @@ export default async function ContactPage() {
           </nav>
 
           <span className="section-label text-gold block mb-3">Direct Inquiries</span>
-          <h1 className="font-serif text-[clamp(2.5rem,5vw,4.5rem)] text-ivory font-normal leading-[1.1] mb-6 max-w-3xl">
+          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl text-ivory font-normal leading-[1.1] mb-6 max-w-3xl">
             We Are Always Here to Assist
           </h1>
-          <p className="font-sans text-[clamp(1rem,1.5vw,1.15rem)] text-ivory/75 max-w-2xl leading-relaxed font-light">
+          <p className="font-sans text-base lg:text-lg text-ivory/75 max-w-2xl leading-relaxed font-light">
             Connect directly with Anthony and our licensed guide lecturers. We answer every inquiry with precision, warmth, and genuine local expertise.
           </p>
         </div>
       </div>
 
-      <div className="section bg-offwhite py-16 md:py-24">
+      <div className="section-padding bg-offwhite">
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             {/* Direct Contact Cards */}
@@ -107,7 +107,7 @@ export default async function ContactPage() {
                       <MessageSquare className="w-5 h-5 text-gold" />
                     </div>
                     <div>
-                      <span className="text-[11px] font-bold text-stone uppercase tracking-wider block">
+                      <span className="text-xs font-bold text-stone uppercase tracking-wider block">
                         WhatsApp Concierge
                       </span>
                       <a
@@ -130,7 +130,7 @@ export default async function ContactPage() {
                       <Mail className="w-5 h-5 text-gold" />
                     </div>
                     <div>
-                      <span className="text-[11px] font-bold text-stone uppercase tracking-wider block">
+                      <span className="text-xs font-bold text-stone uppercase tracking-wider block">
                         Inquiries & Proposals
                       </span>
                       <a
@@ -148,7 +148,7 @@ export default async function ContactPage() {
                       <Phone className="w-5 h-5 text-gold" />
                     </div>
                     <div>
-                      <span className="text-[11px] font-bold text-stone uppercase tracking-wider block">
+                      <span className="text-xs font-bold text-stone uppercase tracking-wider block">
                         Direct Telephone
                       </span>
                       <a
@@ -166,7 +166,7 @@ export default async function ContactPage() {
                       <MapPin className="w-5 h-5 text-gold" />
                     </div>
                     <div>
-                      <span className="text-[11px] font-bold text-stone uppercase tracking-wider block">
+                      <span className="text-xs font-bold text-stone uppercase tracking-wider block">
                         Office Location
                       </span>
                       <span className="font-medium text-charcoal">
@@ -184,7 +184,7 @@ export default async function ContactPage() {
                       <Clock className="w-5 h-5 text-gold" />
                     </div>
                     <div>
-                      <span className="text-[11px] font-bold text-stone uppercase tracking-wider block">
+                      <span className="text-xs font-bold text-stone uppercase tracking-wider block">
                         Operating Hours
                       </span>
                       <span className="font-medium text-charcoal">
@@ -199,7 +199,7 @@ export default async function ContactPage() {
 
                 {/* Social Media Links */}
                 <div className="mt-8 pt-6 border-t border-cream">
-                  <span className="text-[11px] font-bold text-stone uppercase tracking-wider block mb-3">
+                  <span className="text-xs font-bold text-stone uppercase tracking-wider block mb-3">
                     Follow Our Explorations
                   </span>
                   <div className="flex gap-3">
@@ -301,7 +301,7 @@ export default async function ContactPage() {
                 <MapPin size={16} className="text-gold" />
                 <span className="font-serif text-lg">Destination Base Map</span>
               </div>
-              <span className="text-[11px] text-stone">
+              <span className="text-xs text-stone">
                 Configured via Payload CMS Site Settings
               </span>
             </div>

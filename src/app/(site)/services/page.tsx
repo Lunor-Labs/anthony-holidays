@@ -16,7 +16,7 @@ export default async function ServicesPage() {
     <>
       <ServicesHero />
 
-      <section className="section bg-offwhite py-16 md:py-24">
+      <section className="section-padding bg-offwhite">
         <div className="container space-y-8">
           {services.map((service) => (
             <ServiceCard key={service.id} service={service} />

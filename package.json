@@ -16,6 +16,7 @@
     "@payloadcms/ui": "^3.90.2",
     "framer-motion": "^14.1.0",
     "graphql": "^16.14.2",
+    "lenis": "^1.3.26",
     "lucide-react": "^1.55.0",
     "next": "16.4.0",
     "payload": "^3.90.2",

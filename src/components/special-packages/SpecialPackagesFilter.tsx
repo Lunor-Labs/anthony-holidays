@@ -59,8 +59,10 @@ export function SpecialPackagesFilter({ packages }: SpecialPackagesFilterProps) 
             <button
               key={cat.id}
               onClick={() => setSelectedCategory(cat.id)}
-              className={`filter-tag transition-colors ${
-                selectedCategory === cat.id ? 'active' : ''
+              className={`inline-flex items-center px-4 py-1.5 border text-xs font-medium tracking-wide cursor-pointer transition-all duration-200 ${
+                selectedCategory === cat.id
+                  ? 'bg-forest text-ivory border-forest'
+                  : 'bg-white text-charcoal border-cream hover:bg-forest hover:text-ivory hover:border-forest'
               }`}
               aria-pressed={selectedCategory === cat.id}
             >

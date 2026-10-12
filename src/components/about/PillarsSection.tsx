@@ -26,7 +26,7 @@ const pillars = [
 
 export function PillarsSection() {
   return (
-    <section className="py-16 lg:py-24 bg-cream border-y border-forest/10">
+    <section className="section-padding bg-cream border-y border-forest/10">
       <div className="container">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <p className="section-label text-gold mb-2 justify-center">

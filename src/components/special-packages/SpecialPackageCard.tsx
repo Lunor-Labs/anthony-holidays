@@ -28,16 +28,16 @@ export function SpecialPackageCard({ packageItem }: SpecialPackageCardProps) {
     packageItem
 
   return (
-    <article className="journey-card flex flex-col h-full bg-white border border-cream transition-all duration-300 hover:shadow-lg">
-      <div className="journey-card-image relative aspect-[16/10] overflow-hidden bg-offwhite">
+    <article className="group flex flex-col h-full bg-white border border-cream transition-all duration-300 hover:-translate-y-1 hover:shadow-lg overflow-hidden">
+      <div className="relative aspect-[16/10] overflow-hidden bg-offwhite">
         <Image
           src={coverImage}
           alt={alt || title}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover transition-transform duration-700 hover:scale-105"
+          className="object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <div className="overlay-gradient pointer-events-none" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none" aria-hidden="true" />
 
         {/* Duration badge */}
         <div className="absolute top-4 right-4 bg-ivory/95 px-3 py-1 flex items-center gap-1.5 shadow-sm">
@@ -49,7 +49,7 @@ export function SpecialPackageCard({ packageItem }: SpecialPackageCardProps) {
 
         {/* Category tag */}
         <div className="absolute bottom-4 left-4">
-          <span className="bg-forest/90 text-gold text-[11px] font-semibold tracking-wider uppercase px-2.5 py-1">
+          <span className="bg-forest/90 text-gold text-xs font-semibold tracking-wider uppercase px-2.5 py-1">
             {categoryLabel}
           </span>
         </div>
@@ -66,7 +66,7 @@ export function SpecialPackageCard({ packageItem }: SpecialPackageCardProps) {
 
         {activities && activities.length > 0 && (
           <div className="mb-6 border-t border-cream pt-4">
-            <p className="text-[11px] font-semibold tracking-wider uppercase text-stone mb-2">
+            <p className="text-xs font-semibold tracking-wider uppercase text-stone mb-2">
               Key Experiences:
             </p>
             <ul className="space-y-1.5">
@@ -84,7 +84,7 @@ export function SpecialPackageCard({ packageItem }: SpecialPackageCardProps) {
           <div>
             {pricing?.showPrice && pricing.priceFrom ? (
               <div>
-                <span className="text-[11px] text-stone uppercase tracking-wider block">From</span>
+                <span className="text-xs text-stone uppercase tracking-wider block">From</span>
                 <span className="font-serif text-lg font-semibold text-forest">
                   ${pricing.priceFrom.toLocaleString()}{' '}
                   <span className="text-xs font-normal text-stone font-sans">{pricing.currency || 'USD'}</span>

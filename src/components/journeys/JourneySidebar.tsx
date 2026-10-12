@@ -81,7 +81,7 @@ export function JourneySidebar({
 
         {/* Trust badge */}
         <div className="mt-8 pt-6 border-t border-sand/40 text-center">
-          <p className="text-[11px] uppercase tracking-widest text-muted">
+          <p className="text-xs uppercase tracking-widest text-muted">
             Direct &amp; Personal
           </p>
           <p className="text-xs text-stone mt-1">

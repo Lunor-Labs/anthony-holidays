@@ -30,7 +30,7 @@ export function TeamMemberCard({ member }: TeamMemberCardProps) {
           />
         </div>
 
-        <span className="text-[11px] font-bold uppercase tracking-wider text-gold block mb-1">
+        <span className="text-xs font-bold uppercase tracking-wider text-gold block mb-1">
           Faculty Guide
         </span>
 
@@ -48,13 +48,13 @@ export function TeamMemberCard({ member }: TeamMemberCardProps) {
 
         {credentials && credentials.length > 0 && (
           <div className="mb-4 bg-offwhite p-3.5">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-forest mb-1.5 flex items-center gap-1">
+            <p className="text-xs font-bold uppercase tracking-wider text-forest mb-1.5 flex items-center gap-1">
               <Award size={12} className="text-gold" />
               Credentials:
             </p>
             <ul className="space-y-1">
               {credentials.map((c, i) => (
-                <li key={i} className="text-[11px] text-charcoal/80">
+                <li key={i} className="text-xs text-charcoal/80">
                   • {c}
                 </li>
               ))}
@@ -63,7 +63,7 @@ export function TeamMemberCard({ member }: TeamMemberCardProps) {
         )}
       </div>
 
-      <div className="pt-4 border-t border-cream grid grid-cols-2 gap-2 text-[11px] text-stone">
+      <div className="pt-4 border-t border-cream grid grid-cols-2 gap-2 text-xs text-stone">
         <div>
           <span className="font-semibold block text-charcoal/70">Focus:</span>
           <span className="line-clamp-1">{specialties[0]}</span>

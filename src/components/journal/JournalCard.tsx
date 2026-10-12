@@ -48,7 +48,7 @@ export function JournalCard({ article }: JournalCardProps) {
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
         {article.category && (
-          <span className="absolute top-4 left-4 bg-forest text-gold text-[11px] uppercase tracking-wider px-3 py-1 font-semibold">
+          <span className="absolute top-4 left-4 bg-forest text-gold text-xs uppercase tracking-wider px-3 py-1 font-semibold">
             {article.category}
           </span>
         )}
@@ -76,7 +76,7 @@ export function JournalCard({ article }: JournalCardProps) {
           </Link>
         </h2>
 
-        <p className="text-[15px] text-stone leading-relaxed flex-1 mb-7 line-clamp-3">
+        <p className="text-sm text-stone leading-relaxed flex-1 mb-7 line-clamp-3">
           {article.excerpt}
         </p>
 

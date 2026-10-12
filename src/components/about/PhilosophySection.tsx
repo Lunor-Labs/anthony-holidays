@@ -4,7 +4,7 @@ import { SECTION_MEDIA } from "@/lib/media-catalog";
 
 export function PhilosophySection() {
   return (
-    <section className="py-16 lg:py-28 bg-offwhite">
+    <section className="section-padding bg-offwhite">
       <div className="container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
           <div>
