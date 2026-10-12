@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Calendar, Clock, ArrowLeft, ArrowRight, User } from "lucide-react";
-import { getJournalPosts, FALLBACK_POSTS } from "@/lib/payload-data";
+import { getJournalPosts } from "@/lib/payload-data";
 import { JournalPostHeader } from "@/components/journal";
 
 export async function generateStaticParams() {
@@ -20,7 +20,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const articles = await getJournalPosts();
-  const article = articles.find((a) => a.slug === slug) || FALLBACK_POSTS.find((a) => a.slug === slug);
+  const article = articles.find((a) => a.slug === slug);
   if (!article) return { title: "Article Not Found" };
 
   return {
@@ -41,7 +41,7 @@ export default async function JournalPostPage({
 }) {
   const { slug } = await params;
   const articles = await getJournalPosts();
-  const article = articles.find((a) => a.slug === slug) || FALLBACK_POSTS.find((a) => a.slug === slug);
+  const article = articles.find((a) => a.slug === slug);
 
   if (!article) {
     notFound();

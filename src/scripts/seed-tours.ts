@@ -1,3 +1,5 @@
+import { TOUR_MEDIA } from './seed-media'
+
 export interface TourDetailData {
   title: string;
   slug: string;
@@ -36,19 +38,9 @@ export const toursData: Record<string, TourDetailData> = {
 Guided by our Licensed National Tourist Guide Lecturers, you won't merely view monuments through a bus window; you will understand the hydraulic genius of 5th-century Sigiriya and witness the living religious traditions of the Temple of the Sacred Tooth Relic. Designed for travellers with limited time who refuse to compromise on intellectual depth or private comfort.`,
     duration: { days: 3, nights: 4 },
     destinations: ["Sigiriya", "Dambulla", "Kandy", "Peradeniya"],
-    coverImage:
-      "https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?w=1600&q=85",
-    alt: "Sigiriya Lion Rock Fortress rising above Sri Lanka's jungle",
-    gallery: [
-      {
-        src: "https://images.unsplash.com/photo-1546708973-b339540b5162?w=1200&q=80",
-        alt: "Ancient temple carvings Sri Lanka",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1586861635167-e5223aadc9fe?w=1200&q=80",
-        alt: "Temple of the Tooth Kandy",
-      },
-    ],
+    coverImage: TOUR_MEDIA['essence-of-ceylon'].url,
+    alt: TOUR_MEDIA['essence-of-ceylon'].alt,
+    gallery: TOUR_MEDIA['essence-of-ceylon'].gallery.map((g) => ({ src: g.url, alt: g.alt })),
     itinerary: [
       {
         day: 1,
@@ -128,19 +120,9 @@ This five-day private journey bridges the architectural grandiosity of Sri Lanka
       "Nuwara Eliya",
       "Ramboda",
     ],
-    coverImage:
-      "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=1600&q=85",
-    alt: "Tea plantations in the misty highlands of Sri Lanka",
-    gallery: [
-      {
-        src: "https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?w=1200&q=80",
-        alt: "Sigiriya Rock Fortress",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=1200&q=80",
-        alt: "Highland tea country",
-      },
-    ],
+    coverImage: TOUR_MEDIA['tea-trails-ancient-temples'].url,
+    alt: TOUR_MEDIA['tea-trails-ancient-temples'].alt,
+    gallery: TOUR_MEDIA['tea-trails-ancient-temples'].gallery.map((g) => ({ src: g.url, alt: g.alt })),
     itinerary: [
       {
         day: 1,
@@ -232,19 +214,9 @@ A seamless six-day synthesis of Sri Lanka’s greatest highlights: the ancient r
       "Ella",
       "Yala",
     ],
-    coverImage:
-      "https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1600&q=85",
-    alt: "Wild Sri Lankan leopard in Yala National Park",
-    gallery: [
-      {
-        src: "https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?w=1200&q=80",
-        alt: "Sigiriya Rock",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1200&q=80",
-        alt: "Scenic mountain railway",
-      },
-    ],
+    coverImage: TOUR_MEDIA['classic-triangle-and-wildlife'].url,
+    alt: TOUR_MEDIA['classic-triangle-and-wildlife'].alt,
+    gallery: TOUR_MEDIA['classic-triangle-and-wildlife'].gallery.map((g) => ({ src: g.url, alt: g.alt })),
     itinerary: [
       {
         day: 1,
@@ -343,19 +315,9 @@ An expansive 7-day itinerary traversing 2,500 years of civilization: from the ho
       "Galle",
       "Hikkaduwa",
     ],
-    coverImage:
-      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=1600&q=85",
-    alt: "Galle Fort ramparts and ocean waves Sri Lanka",
-    gallery: [
-      {
-        src: "https://images.unsplash.com/photo-1588598198321-9735fd52455b?w=1200&q=80",
-        alt: "Ancient stupa Anuradhapura",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80",
-        alt: "Hikkaduwa golden beach",
-      },
-    ],
+    coverImage: TOUR_MEDIA['heritage-and-southern-coast'].url,
+    alt: TOUR_MEDIA['heritage-and-southern-coast'].alt,
+    gallery: TOUR_MEDIA['heritage-and-southern-coast'].gallery.map((g) => ({ src: g.url, alt: g.alt })),
     itinerary: [
       {
         day: 1,
@@ -466,19 +428,9 @@ An eight-day definitive island loop taking in ancient kingdoms, wild elephant ga
       "Mirissa",
       "Galle",
     ],
-    coverImage:
-      "https://images.unsplash.com/photo-1512100356356-de1b84283e18?w=1600&q=85",
-    alt: "Galle lighthouse and coastal ramparts at sunset",
-    gallery: [
-      {
-        src: "https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1200&q=80",
-        alt: "Wildlife safari Yala",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1200&q=80",
-        alt: "Nine Arch Bridge Ella",
-      },
-    ],
+    coverImage: TOUR_MEDIA['grand-sri-lankan-loop'].url,
+    alt: TOUR_MEDIA['grand-sri-lankan-loop'].alt,
+    gallery: TOUR_MEDIA['grand-sri-lankan-loop'].gallery.map((g) => ({ src: g.url, alt: g.alt })),
     itinerary: [
       {
         day: 1,
@@ -605,19 +557,9 @@ A 9-day journey crafted for travellers who value authentic encounters and unhurr
       "Tangalle",
       "Galle",
     ],
-    coverImage:
-      "https://images.unsplash.com/photo-1588598198321-9735fd52455b?w=1600&q=85",
-    alt: "Highland cloud forest and dramatic landscapes Sri Lanka",
-    gallery: [
-      {
-        src: "https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?w=1200&q=80",
-        alt: "Sigiriya Rock",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1200&q=80",
-        alt: "Yala wildlife",
-      },
-    ],
+    coverImage: TOUR_MEDIA['deep-dive-culture-and-nature'].url,
+    alt: TOUR_MEDIA['deep-dive-culture-and-nature'].alt,
+    gallery: TOUR_MEDIA['deep-dive-culture-and-nature'].gallery.map((g) => ({ src: g.url, alt: g.alt })),
     itinerary: [
       {
         day: 1,
@@ -743,19 +685,9 @@ A sacred ten-day pilgrimage guided by scholars of epic history and mythology. Vi
       "Ussangoda",
       "Galle",
     ],
-    coverImage:
-      "https://images.unsplash.com/photo-1586861635167-e5223aadc9fe?w=1600&q=85",
-    alt: "Sacred temple sanctuary and Hindu kovil Sri Lanka",
-    gallery: [
-      {
-        src: "https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?w=1200&q=80",
-        alt: "Sigiriya Cobra Hood Cave",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=1200&q=80",
-        alt: "Ramboda tea hills",
-      },
-    ],
+    coverImage: TOUR_MEDIA['ramayana-trail-special'].url,
+    alt: TOUR_MEDIA['ramayana-trail-special'].alt,
+    gallery: TOUR_MEDIA['ramayana-trail-special'].gallery.map((g) => ({ src: g.url, alt: g.alt })),
     itinerary: [
       {
         day: 1,
@@ -900,19 +832,9 @@ A grand fourteen-day masterwork covering Wilpattu’s leopard-filled jungle lake
       "Galle",
       "Colombo",
     ],
-    coverImage:
-      "https://images.unsplash.com/photo-1546708973-b339540b5162?w=1600&q=85",
-    alt: "Epic Sri Lanka vistas spanning heritage and ocean",
-    gallery: [
-      {
-        src: "https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1200&q=80",
-        alt: "Wilpattu leopards",
-      },
-      {
-        src: "https://images.unsplash.com/photo-1512100356356-de1b84283e18?w=1200&q=80",
-        alt: "Galle Fort lighthouse",
-      },
-    ],
+    coverImage: TOUR_MEDIA['ultimate-pearl-experience'].url,
+    alt: TOUR_MEDIA['ultimate-pearl-experience'].alt,
+    gallery: TOUR_MEDIA['ultimate-pearl-experience'].gallery.map((g) => ({ src: g.url, alt: g.alt })),
     itinerary: [
       {
         day: 1,

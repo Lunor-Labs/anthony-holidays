@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Calendar, Clock, ArrowRight } from 'lucide-react'
+import { DEFAULT_MEDIA } from '@/lib/media-catalog'
 
 export interface Article {
   slug: string
@@ -25,7 +26,7 @@ export function JournalCard({ article }: JournalCardProps) {
   const imageUrl =
     article.image ||
     article.coverImage ||
-    'https://images.unsplash.com/photo-1546708973-b339540b5162?w=1200&q=85'
+    DEFAULT_MEDIA.url
 
   const readTimeString =
     article.readTime ||

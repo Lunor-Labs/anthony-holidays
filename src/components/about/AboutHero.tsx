@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { HERO_MEDIA } from '@/lib/media-catalog'
 
 export function AboutHero() {
   return (
@@ -10,8 +11,8 @@ export function AboutHero() {
     >
       <div className="absolute inset-0">
         <Image
-          src="https://images.unsplash.com/photo-1546708973-b339540b5162?w=2000&q=85"
-          alt="Anthony Holidays Sri Lanka Heritage"
+          src={HERO_MEDIA.aboutHero.url}
+          alt={HERO_MEDIA.aboutHero.alt}
           fill
           priority
           sizes="100vw"

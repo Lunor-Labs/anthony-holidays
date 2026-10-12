@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { ArrowRight, Clock, Calendar } from 'lucide-react'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { formatDate } from '@/lib/utils'
+import { DEFAULT_MEDIA } from '@/lib/media-catalog'
 
 export interface JournalPreviewSectionProps {
   posts: any[]
@@ -37,7 +38,7 @@ export function JournalPreviewSection({ posts }: JournalPreviewSectionProps) {
                 <Image
                   src={
                     post.coverImage ||
-                    'https://images.unsplash.com/photo-1546708973-b339540b5162?w=800&q=80'
+                    DEFAULT_MEDIA.url
                   }
                   alt={post.alt || post.title}
                   fill

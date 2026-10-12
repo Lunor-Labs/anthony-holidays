@@ -2,7 +2,7 @@
 
 import { getWhatsAppUrl } from '@/lib/utils'
 
-const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '94771234567'
+const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '94703247929'
 const DEFAULT_MESSAGE =
   "Hello, I'm interested in planning a Sri Lanka journey with Anthony Holidays. Could you help me?"
 
@@ -14,7 +14,7 @@ export function WhatsAppButton({
   const number =
     whatsappNumber ||
     process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ||
-    '94771234567'
+    '94703247929'
   const whatsappUrl = getWhatsAppUrl(number, DEFAULT_MESSAGE)
 
   return (

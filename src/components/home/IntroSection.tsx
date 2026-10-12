@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+import { SECTION_MEDIA } from "@/lib/media-catalog";
 
 export function IntroSection() {
   return (
@@ -38,8 +39,8 @@ export function IntroSection() {
             <div className="grid grid-cols-2 grid-rows-2 gap-4">
               <div className="col-span-1 row-span-2 overflow-hidden aspect-[3/4]">
                 <Image
-                  src="https://images.unsplash.com/photo-1546708973-b339540b5162?w=600&q=80"
-                  alt="Buddhist temple stupa and heritage Sri Lanka"
+                  src={SECTION_MEDIA.introTemple.url}
+                  alt={SECTION_MEDIA.introTemple.alt}
                   width={400}
                   height={533}
                   className="w-full h-full object-cover"
@@ -47,8 +48,8 @@ export function IntroSection() {
               </div>
               <div className="overflow-hidden aspect-square">
                 <Image
-                  src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80"
-                  alt="Tropical beach in Sri Lanka"
+                  src={SECTION_MEDIA.introBeach.url}
+                  alt={SECTION_MEDIA.introBeach.alt}
                   width={300}
                   height={300}
                   className="w-full h-full object-cover"
@@ -56,8 +57,8 @@ export function IntroSection() {
               </div>
               <div className="overflow-hidden aspect-square">
                 <Image
-                  src="https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=400&q=80"
-                  alt="Tea plantation hills in Sri Lanka"
+                  src={SECTION_MEDIA.introTea.url}
+                  alt={SECTION_MEDIA.introTea.alt}
                   width={300}
                   height={300}
                   className="w-full h-full object-cover"

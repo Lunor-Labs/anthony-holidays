@@ -9,8 +9,7 @@ import {
   JourneySidebar,
   JourneyFaq,
 } from "@/components/journeys";
-import { toursData } from "@/lib/tours-data";
-import { getJourneys } from "@/lib/payload-data";
+import { getJourneys, getJourneyBySlug } from "@/lib/payload-data";
 
 type Params = Promise<{ slug: string }>;
 
@@ -20,7 +19,7 @@ export async function generateMetadata({
   params: Params;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const journey = toursData[slug];
+  const journey = await getJourneyBySlug(slug);
 
   if (!journey) {
     return { title: "Journey Not Found" };
@@ -46,10 +45,7 @@ export async function generateMetadata({
 
 export async function generateStaticParams() {
   const journeys = await getJourneys();
-  const allSlugs = Array.from(
-    new Set([...Object.keys(toursData), ...journeys.map((j) => j.slug)])
-  );
-  return allSlugs.map((slug) => ({ slug }));
+  return journeys.map((j) => ({ slug: j.slug }));
 }
 
 export default async function JourneyDetailPage({
@@ -58,7 +54,7 @@ export default async function JourneyDetailPage({
   params: Params;
 }) {
   const { slug } = await params;
-  const journey = toursData[slug];
+  const journey = await getJourneyBySlug(slug);
 
   if (!journey) {
     notFound();
@@ -77,7 +73,7 @@ export default async function JourneyDetailPage({
     name: journey.title,
     description: journey.excerpt,
     touristType: "Culture",
-    itinerary: journey.itinerary.map((day) => ({
+    itinerary: journey.itinerary.map((day: any) => ({
       "@type": "Event",
       name: `Day ${day.day}: ${day.title}`,
       description: day.description,

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed": "tsx --env-file=.env src/scripts/seed.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.90.2",

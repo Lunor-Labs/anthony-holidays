@@ -12,17 +12,17 @@ export const metadata: Metadata = {
 
 export default async function ContactPage() {
   const siteSettings = await getSiteSettings()
-  const whatsappNumber = siteSettings?.contact?.whatsappNumber || '94771234567'
+  const whatsappNumber = siteSettings?.contact?.whatsappNumber || '94703247929'
   const whatsappUrl = getWhatsAppUrl(
     whatsappNumber,
     'Hello Anthony Holidays, I would like to get in touch regarding a private Sri Lanka tour.',
   )
-  const email = siteSettings?.contact?.email || 'inquiries@anthonyholidays.com'
-  const phone = siteSettings?.contact?.phone || '+94 77 123 4567'
-  const address = siteSettings?.contact?.address || 'Colombo & Kandy, Sri Lanka (Client Address Placeholder)'
+  const email = siteSettings?.contact?.email || 'anthonyholidaysdmc@gmail.com'
+  const phone = siteSettings?.contact?.phone || '+94 70 324 7929'
+  const address = siteSettings?.contact?.address || '480/2, Subodha Mawatha, Kadawatha, Sri Lanka'
   const googleMapsEmbedUrl =
     (siteSettings?.contact as any)?.googleMapsEmbedUrl ||
-    'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2024222.9515905096!2d79.8083!3d7.8731!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2593cf65a1e9d%3A0xe13da4b400e2d38c!2sSri%20Lanka!5e0!3m2!1sen!2slk!4v1700000000000'
+    'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.228519495393!2d79.9515598!3d6.9823432!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae25776269b0eb3%3A0x6b4ef8d4b310d5ec!2sSubodha%20Mawatha%2C%20Kadawatha!5e0!3m2!1sen!2slk!4v1700000000000'
 
   const socialLinks = [
     {

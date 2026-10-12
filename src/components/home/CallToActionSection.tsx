@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
+import { HERO_MEDIA } from '@/lib/media-catalog'
 
 export function CallToActionSection() {
   return (
@@ -12,8 +13,8 @@ export function CallToActionSection() {
       {/* Ambient background photo */}
       <div className="absolute inset-0 opacity-15 pointer-events-none">
         <Image
-          src="https://images.unsplash.com/photo-1588598198321-9735fd52455b?w=1200&q=60"
-          alt=""
+          src={HERO_MEDIA.ctaBackground.url}
+          alt={HERO_MEDIA.ctaBackground.alt}
           fill
           sizes="100vw"
           className="object-cover"

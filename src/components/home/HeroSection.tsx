@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
+import { HERO_MEDIA } from "@/lib/media-catalog";
 
 export function HeroSection() {
   return (
@@ -9,8 +10,8 @@ export function HeroSection() {
       {/* Background image */}
       <div className="hero-bg">
         <Image
-          src="https://images.unsplash.com/photo-1588598198321-9735fd52455b?w=1920&q=85"
-          alt="Sigiriya Rock Fortress rising majestically from the Sri Lankan jungle"
+          src={HERO_MEDIA.homeHero.url}
+          alt={HERO_MEDIA.homeHero.alt}
           fill
           priority
           sizes="100vw"

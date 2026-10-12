@@ -1,6 +1,7 @@
 import { buildConfig } from "payload";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
+import sharp from "sharp";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -48,6 +49,7 @@ export default buildConfig({
   ],
   globals: [SiteSettings],
   editor: lexicalEditor({}),
+  sharp,
   secret:
     process.env.PAYLOAD_SECRET || "fallback-secret-min-32-chars-change-in-prod",
   typescript: {
