@@ -42,7 +42,7 @@ export function HeroSection() {
         />
 
         {/* Hero Content */}
-        <div className="relative z-20 pb-[clamp(4rem,8vw,8rem)] container w-full">
+        <div className="relative z-20 pb-16 md:pb-24 lg:pb-32 container w-full">
           <div className="max-w-4xl">
             {/* Label with animated line */}
             <p className="section-label animate-fade-in text-secondary/90">

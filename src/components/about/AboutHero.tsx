@@ -6,7 +6,7 @@ import { HERO_MEDIA } from '@/lib/media-catalog'
 export function AboutHero() {
   return (
     <section
-      className="relative h-[clamp(480px,65vh,680px)] flex items-center justify-center overflow-hidden bg-charcoal"
+      className="relative h-[500px] md:h-[600px] lg:h-[680px] flex items-center justify-center overflow-hidden bg-charcoal"
       aria-label="About Hero"
     >
       <div className="absolute inset-0">
@@ -50,6 +50,15 @@ export function AboutHero() {
           Licensed National Tourist Guide Lecturers, dedicated to genuine
           cultural immersion and peerless private journeys.
         </p>
+
+        <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
+          <a
+            href="#team"
+            className="btn btn-gold text-xs py-2.5 px-6 font-semibold"
+          >
+            Meet Our Guiding Team
+          </a>
+        </div>
       </div>
     </section>
   )

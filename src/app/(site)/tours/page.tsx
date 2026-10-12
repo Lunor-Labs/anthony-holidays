@@ -35,7 +35,7 @@ export default async function ToursPage() {
       />
 
       {/* Page Header */}
-      <div className="bg-forest pt-[clamp(7rem,12vw,10rem)] pb-[clamp(4rem,7vw,6rem)]">
+      <div className="bg-forest pt-32 pb-16 md:pt-40 md:pb-20">
         <div className="container">
           <nav
             aria-label="Breadcrumb"

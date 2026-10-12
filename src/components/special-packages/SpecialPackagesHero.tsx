@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export function SpecialPackagesHero() {
   return (
-    <div className="bg-forest pt-[clamp(7rem,12vw,10rem)] pb-[clamp(4rem,7vw,6rem)]">
+    <div className="bg-forest pt-32 pb-16 md:pt-40 md:pb-20">
       <div className="container">
         <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs sm:text-sm mb-8 text-ivory/50">
           <Link href="/" className="text-ivory/50 hover:text-ivory transition-colors">

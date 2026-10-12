@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Award, CheckCircle, Languages, Compass, ArrowRight, ShieldCheck } from 'lucide-react'
+import { Award, CheckCircle, Languages, Compass, ArrowRight, ShieldCheck, User } from 'lucide-react'
+import { slugify } from '@/lib/utils'
 
 export interface FounderProfileCardProps {
   founder: {
@@ -11,6 +12,7 @@ export interface FounderProfileCardProps {
     bio: string
     specialties: string[]
     languages: string[]
+    slug?: string
   }
   sectionTitle?: string
   headline?: string
@@ -24,6 +26,7 @@ export function FounderProfileCard({
   bioOverride,
 }: FounderProfileCardProps) {
   const { name, role, photo, credentials, bio, specialties, languages } = founder
+  const founderSlug = founder.slug || slugify(name)
   const activeBio = bioOverride || bio
   const bioParagraphs = activeBio
     ? activeBio.split('\n\n').map((p) => p.trim()).filter(Boolean)
@@ -111,12 +114,16 @@ export function FounderProfileCard({
           </div>
 
           <div className="pt-4 border-t border-cream flex flex-wrap gap-4 items-center">
-            <Link href="/start-planning" className="btn btn-primary">
-              Plan a Journey with Anthony
-              <ArrowRight size={14} />
+            <Link
+              href={`/team/${founderSlug}`}
+              className="btn btn-outline text-xs py-2.5 px-5"
+            >
+              <User size={14} />
+              <span>View Founder Profile</span>
             </Link>
-            <Link href="/about" className="text-xs text-stone hover:text-forest underline">
-              Read Our Guiding Philosophy
+            <Link href="/start-planning" className="btn btn-primary text-xs py-2.5 px-5">
+              <span>Plan a Journey with Anthony</span>
+              <ArrowRight size={14} />
             </Link>
           </div>
         </div>

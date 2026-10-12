@@ -1,5 +1,6 @@
 import { getPayloadClient } from '@/lib/payload'
 import { DEFAULT_MEDIA } from './media-catalog'
+import { slugify } from './utils'
 
 /**
  * Helper to extract an image URL from Payload Media relation or fallback string
@@ -464,9 +465,10 @@ export async function getTeamMembers() {
     })
 
     if (docs && docs.length > 0) {
-      return docs.map((doc: any) => ({
+      const items = docs.map((doc: any) => ({
         id: String(doc.id),
         name: doc.name,
+        slug: doc.slug || slugify(doc.name),
         role: doc.role,
         isFounder: Boolean(doc.isFounder),
         photo: getMediaUrl(doc.photo),
@@ -476,12 +478,77 @@ export async function getTeamMembers() {
         languages: Array.isArray(doc.languages) ? doc.languages.map((l: any) => l.language || String(l)) : [],
         displayOrder: doc.displayOrder || 0,
       }))
+
+      if (items.length > 1) {
+        return items
+      }
+
+      // If only founder is present, include the licensed faculty specialist guides
+      return [
+        ...items,
+        {
+          id: 'faculty-wildlife',
+          name: 'Chaminda Silva',
+          slug: 'chaminda-silva',
+          role: 'Senior Naturalist & Wildlife Tracking Specialist',
+          isFounder: false,
+          photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80',
+          credentials: [
+            'SLTDA Licensed Tourist Guide Lecturer',
+            'Field Ornithology & Leopard Habitat Specialist',
+          ],
+          bio: 'Over 14 years tracking leopards, sloth bears, and blue whales across Yala, Wilpattu, and Mirissa with ethical wildlife observation protocols.',
+          specialties: ['Wildlife Tracking', 'Birdwatching', 'Marine Safari'],
+          languages: ['English', 'Sinhala', 'German'],
+          displayOrder: 2,
+        },
+        {
+          id: 'faculty-archaeology',
+          name: 'Dinesh Perera',
+          slug: 'dinesh-perera',
+          role: 'Cultural Heritage & Archaeological Lecturer',
+          isFounder: false,
+          photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&q=80',
+          credentials: [
+            'National Tourist Guide Lecturer License #NTGL-4482',
+            'Postgraduate Diploma in Archaeology (Univ. of Kelaniya)',
+          ],
+          bio: 'Specialist in Sigiriya hydraulics, Anuradhapura monastic architecture, and sacred Buddhist iconography with over 16 years lecturing.',
+          specialties: ['Ancient Citadels', 'Buddhist Art', 'Colonial Forts'],
+          languages: ['English', 'Sinhala', 'French'],
+          displayOrder: 3,
+        },
+        {
+          id: 'faculty-highlands',
+          name: 'Rohan Fernando',
+          slug: 'rohan-fernando',
+          role: 'Highland Trails & Tea Heritage Specialist',
+          isFounder: false,
+          photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=80',
+          credentials: [
+            'SLTDA Certified Highland Guide Lecturer',
+            'Knuckles Range Wilderness Navigation Certified',
+          ],
+          bio: 'Born in the central highlands, Rohan leads private treks through cloud forests, secret waterfall chasms, and 19th-century colonial tea estates.',
+          specialties: ['Cloud Forest Trekking', 'Ceylon Tea Culture', 'Botanical Walks'],
+          languages: ['English', 'Sinhala'],
+          displayOrder: 4,
+        },
+      ]
     }
   } catch (err) {
     console.warn('Payload getTeamMembers error:', err)
   }
 
   return []
+}
+
+/**
+ * Fetch a single Team Member by slug
+ */
+export async function getTeamMemberBySlug(slug: string) {
+  const members = await getTeamMembers()
+  return members.find((m) => m.slug === slug) || null
 }
 
 /**

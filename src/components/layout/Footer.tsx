@@ -136,7 +136,7 @@ export function Footer({ siteSettings }: FooterProps = {}) {
             <ul className="list-none flex flex-col gap-2.5">
               {[
                 { href: '/about', label: 'About Us' },
-                { href: '/team', label: 'Founder & Team' },
+                { href: '/about#team', label: 'Founder & Guiding Team' },
                 { href: '/reviews', label: 'Guest Reviews' },
                 { href: '/blog', label: 'Blog & Articles' },
                 { href: '/contact', label: 'Contact Us' },

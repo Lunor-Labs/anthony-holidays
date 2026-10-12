@@ -72,6 +72,14 @@ export const SECTION_MEDIA = {
     title: 'Philosophy Section - Living Heritage',
     category: 'section',
   },
+  travelBeyondOrdinary: {
+    key: 'section_travel_beyond_ordinary',
+    url: '/images/travel-beyond-ordinary.jpg',
+    localPath: '/images/travel-beyond-ordinary.jpg',
+    alt: 'Traveller gazing at dramatic coastal rock formations with Anthony Holidays Sri Lanka',
+    title: 'Travel Beyond The Ordinary - Coastal Exploration',
+    category: 'section',
+  },
 }
 
 /**

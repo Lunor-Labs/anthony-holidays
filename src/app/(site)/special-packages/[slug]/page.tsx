@@ -44,7 +44,7 @@ export default async function SpecialPackageDetailPage({ params }: PageProps) {
   return (
     <>
       {/* Hero Header */}
-      <div className="relative bg-forest min-h-[50vh] flex items-end pt-[clamp(8rem,14vw,12rem)] pb-12 overflow-hidden">
+      <div className="relative bg-forest min-h-[50vh] flex items-end pt-32 md:pt-40 lg:pt-48 pb-12 overflow-hidden">
         <Image
           src={pkg.coverImage}
           alt={pkg.alt || pkg.title}
