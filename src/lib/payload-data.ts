@@ -244,10 +244,10 @@ export async function getTestimonials() {
     if (docs && docs.length > 0) {
       return docs.map((doc: any) => ({
         id: String(doc.id),
-        quote: doc.quote || '',
+        quote: doc.quote || doc.reviewText || '',
         travellerName: doc.guestName || '',
         travellerCountry: doc.country || '',
-        journeyTitle: doc.journeyName || (doc.journey && typeof doc.journey === 'object' ? doc.journey.title : '') || 'Private Sri Lanka Journey',
+        journeyTitle: doc.journeyName || doc.tourName || (doc.journey && typeof doc.journey === 'object' ? doc.journey.title : '') || 'Private Sri Lanka Journey',
         rating: doc.rating || 5,
       }))
     }

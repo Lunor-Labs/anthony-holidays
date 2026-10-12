@@ -141,7 +141,7 @@ export function StartPlanningForm({ preselectedTour = '' }: { preselectedTour?: 
           href="https://wa.me/94771234567"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-8 py-3.5 bg-primary text-white text-xs uppercase tracking-widest rounded-sm hover:bg-primary-hover transition-colors"
+          className="btn btn-primary"
         >
           Message Us on WhatsApp for Immediate Inquiries
         </a>
@@ -284,10 +284,10 @@ export function StartPlanningForm({ preselectedTour = '' }: { preselectedTour?: 
                   }
                   setStep(2)
                 }}
-                className="inline-flex items-center gap-2 px-8 py-3.5 bg-primary text-white text-xs uppercase tracking-widest rounded-sm hover:bg-primary-hover transition-colors"
+                className="btn btn-primary"
               >
                 Proceed to Trip Dates
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight size={15} />
               </button>
             </div>
           </div>
@@ -408,18 +408,18 @@ export function StartPlanningForm({ preselectedTour = '' }: { preselectedTour?: 
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                className="inline-flex items-center gap-2 px-6 py-3 text-xs uppercase tracking-wider text-subtle hover:text-primary"
+                className="btn-link"
               >
-                <ArrowLeft className="w-4 h-4" />
+                <ArrowLeft size={14} />
                 Back
               </button>
               <button
                 type="button"
                 onClick={() => setStep(3)}
-                className="inline-flex items-center gap-2 px-8 py-3.5 bg-primary text-white text-xs uppercase tracking-widest rounded-sm hover:bg-primary-hover transition-colors"
+                className="btn btn-primary"
               >
                 Custom Details
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight size={15} />
               </button>
             </div>
           </div>
@@ -494,18 +494,18 @@ export function StartPlanningForm({ preselectedTour = '' }: { preselectedTour?: 
               <button
                 type="button"
                 onClick={() => setStep(2)}
-                className="inline-flex items-center gap-2 px-6 py-3 text-xs uppercase tracking-wider text-subtle hover:text-primary"
+                className="btn-link"
               >
-                <ArrowLeft className="w-4 h-4" />
+                <ArrowLeft size={14} />
                 Back
               </button>
               <button
                 type="button"
                 onClick={() => setStep(4)}
-                className="inline-flex items-center gap-2 px-8 py-3.5 bg-primary text-white text-xs uppercase tracking-widest rounded-sm hover:bg-primary-hover transition-colors"
+                className="btn btn-primary"
               >
                 Review Summary
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight size={15} />
               </button>
             </div>
           </div>
@@ -596,22 +596,22 @@ export function StartPlanningForm({ preselectedTour = '' }: { preselectedTour?: 
               <button
                 type="button"
                 onClick={() => setStep(3)}
-                className="inline-flex items-center gap-2 px-6 py-3 text-xs uppercase tracking-wider text-subtle hover:text-primary"
+                className="btn-link"
               >
-                <ArrowLeft className="w-4 h-4" />
+                <ArrowLeft size={14} />
                 Edit Preferences
               </button>
 
               <button
                 type="submit"
                 disabled={status === 'submitting'}
-                className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-white text-xs uppercase tracking-widest rounded-sm hover:bg-primary-hover transition-colors disabled:opacity-50"
+                className="btn btn-primary disabled:opacity-50"
               >
                 {status === 'submitting' ? (
                   'Transmitting Proposal...'
                 ) : (
                   <>
-                    <Send className="w-4 h-4" />
+                    <Send size={15} />
                     Submit Custom Journey Enquiry
                   </>
                 )}

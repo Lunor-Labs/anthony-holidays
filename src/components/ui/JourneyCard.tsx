@@ -93,7 +93,7 @@ export function JourneyCard({ journey }: JourneyCardProps) {
 
           <Link
             href={`/tours/${journey.slug}`}
-            className="inline-flex items-center gap-1.5 text-xs font-medium tracking-wider uppercase text-forest transition-all hover:gap-2.5"
+            className="btn-link"
             aria-label={`Explore ${journey.title} journey`}
           >
             Explore Tour

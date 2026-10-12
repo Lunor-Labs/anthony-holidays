@@ -39,7 +39,6 @@ export function SpecialPackageCard({ packageItem }: SpecialPackageCardProps) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none" aria-hidden="true" />
 
-        {/* Duration badge */}
         <div className="absolute top-4 right-4 bg-ivory/95 px-3 py-1 flex items-center gap-1.5 shadow-sm">
           <Clock size={12} className="text-gold" />
           <span className="text-xs font-medium text-charcoal tracking-wide">
@@ -47,7 +46,6 @@ export function SpecialPackageCard({ packageItem }: SpecialPackageCardProps) {
           </span>
         </div>
 
-        {/* Category tag */}
         <div className="absolute bottom-4 left-4">
           <span className="bg-forest/90 text-gold text-xs font-semibold tracking-wider uppercase px-2.5 py-1">
             {categoryLabel}
@@ -55,7 +53,7 @@ export function SpecialPackageCard({ packageItem }: SpecialPackageCardProps) {
         </div>
       </div>
 
-      <div className="p-7 flex flex-col flex-1">
+      <div className="p-5 flex flex-col flex-1">
         <h2 className="font-serif text-2xl font-normal text-charcoal mb-3 leading-snug">
           {title}
         </h2>
@@ -63,22 +61,6 @@ export function SpecialPackageCard({ packageItem }: SpecialPackageCardProps) {
         <p className="text-sm text-stone leading-relaxed mb-6 line-clamp-3">
           {excerpt}
         </p>
-
-        {activities && activities.length > 0 && (
-          <div className="mb-6 border-t border-cream pt-4">
-            <p className="text-xs font-semibold tracking-wider uppercase text-stone mb-2">
-              Key Experiences:
-            </p>
-            <ul className="space-y-1.5">
-              {activities.slice(0, 3).map((act, idx) => (
-                <li key={idx} className="flex items-start gap-2 text-xs text-charcoal/80">
-                  <CheckCircle2 size={13} className="text-gold shrink-0 mt-0.5" />
-                  <span className="line-clamp-1">{act.title}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
 
         <div className="mt-auto pt-4 border-t border-cream flex items-center justify-between">
           <div>
@@ -97,7 +79,7 @@ export function SpecialPackageCard({ packageItem }: SpecialPackageCardProps) {
 
           <Link
             href={`/special-packages/${slug}`}
-            className="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wider uppercase text-forest hover:text-gold hover:gap-2.5 transition-all"
+            className="btn-link"
             aria-label={`Explore ${title} package details`}
           >
             Explore

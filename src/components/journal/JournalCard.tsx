@@ -86,7 +86,7 @@ export function JournalCard({ article }: JournalCardProps) {
           )}
           <Link
             href={`/blog/${article.slug}`}
-            className="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider font-semibold text-forest hover:text-gold transition-colors ml-auto"
+            className="btn-link ml-auto"
           >
             Read Story
             <ArrowRight size={14} />

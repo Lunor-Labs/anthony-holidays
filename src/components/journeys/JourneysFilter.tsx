@@ -252,7 +252,7 @@ export function JourneysFilter({ journeys }: JourneysFilterProps) {
 
                 <Link
                   href={`/tours/${journey.slug}`}
-                  className="inline-flex items-center gap-1.5 text-xs font-medium tracking-wider uppercase text-forest hover:gap-2.5 transition-all"
+                  className="btn-link"
                   aria-label={`View ${journey.title} journey details`}
                 >
                   Explore Journey

@@ -114,7 +114,7 @@ a {
    ============================================= */
 .text-display {
   font-family: var(--font-serif);
-  font-size: clamp(2.5rem, 7vw, 6rem);
+  font-size: clamp(2rem, 6vw, 5rem);
   font-weight: 400;
   line-height: 1.05;
   letter-spacing: 0.04em;
@@ -123,7 +123,7 @@ a {
 
 .text-heading-1 {
   font-family: var(--font-serif);
-  font-size: clamp(1.8rem, 4vw, 3.5rem);
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
   font-weight: 400;
   line-height: 1.15;
   letter-spacing: 0.04em;
@@ -148,37 +148,37 @@ a {
    LAYOUT & CONTAINER
    ============================================= */
 .container {
-  max-width: 1320px;
+  max-width: 1520px;
   margin-inline: auto;
   padding-inline: clamp(1.5rem, 5vw, 5rem);
 }
 
 .section,
 .section-padding {
-  padding-top: clamp(5rem, 10vw, 10rem);
-  padding-bottom: clamp(5rem, 10vw, 10rem);
+  padding-top: clamp(4rem, 6vw, 6rem);
+  padding-bottom: clamp(4rem, 6vw, 6rem);
 }
 
 .section-padding-top {
-  padding-top: clamp(5rem, 10vw, 10rem);
+  padding-top: clamp(4rem, 6vw, 6rem);
 }
 
 .section-padding-bottom {
-  padding-bottom: clamp(5rem, 10vw, 10rem);
+  padding-bottom: clamp(4rem, 6vw, 6rem);
 }
 
 .section-sm,
 .section-padding-sm {
-  padding-top: clamp(3rem, 6vw, 6rem);
-  padding-bottom: clamp(3rem, 6vw, 6rem);
+  padding-top: clamp(3rem, 5vw, 5rem);
+  padding-bottom: clamp(3rem, 5vw, 5rem);
 }
 
 .section-padding-sm-top {
-  padding-top: clamp(3rem, 6vw, 6rem);
+  padding-top: clamp(3rem, 5vw, 5rem);
 }
 
 .section-padding-sm-bottom {
-  padding-bottom: clamp(3rem, 6vw, 6rem);
+  padding-bottom: clamp(3rem, 5vw, 5rem);
 }
 
 /* =============================================
@@ -189,7 +189,7 @@ a {
   align-items: center;
   gap: 0.75rem;
   font-family: var(--font-sans);
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -200,8 +200,8 @@ a {
 .section-label::before {
   content: "";
   display: block;
-  width: 2rem;
-  height: 1px;
+  width: 1rem;
+  height: 2px;
   background: var(--color-gold);
 }
 
@@ -218,6 +218,7 @@ a {
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   font-family: var(--font-sans);
   font-size: 0.8125rem;
@@ -227,11 +228,38 @@ a {
   padding: 0.875rem 2rem;
   border: 1.5px solid transparent;
   cursor: pointer;
-  transition: all var(--duration-fast) var(--ease-out);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   text-decoration: none;
   white-space: nowrap;
 }
 
+.btn svg {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+}
+
+.btn:hover svg {
+  transform: translateX(3px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* Button Sizes */
+.btn-sm {
+  padding: 0.55rem 1.25rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+}
+
+.btn-lg {
+  padding: 1.125rem 2.5rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+}
+
+/* Button Variants */
 .btn-primary {
   background: var(--color-forest);
   color: var(--color-ivory);
@@ -241,7 +269,8 @@ a {
 .btn-primary:hover {
   background: var(--color-forest-light);
   border-color: var(--color-forest-light);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -6px rgba(28, 58, 46, 0.35);
 }
 
 .btn-gold {
@@ -253,7 +282,8 @@ a {
 .btn-gold:hover {
   background: var(--color-gold-light);
   border-color: var(--color-gold-light);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -6px rgba(201, 168, 76, 0.4);
 }
 
 .btn-outline {
@@ -265,6 +295,22 @@ a {
 .btn-outline:hover {
   background: var(--color-forest);
   color: var(--color-ivory);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -6px rgba(28, 58, 46, 0.25);
+}
+
+.btn-outline-gold {
+  background: transparent;
+  color: var(--color-forest);
+  border-color: var(--color-gold);
+}
+
+.btn-outline-gold:hover {
+  background: var(--color-forest);
+  color: var(--color-gold);
+  border-color: var(--color-forest);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -6px rgba(28, 58, 46, 0.25);
 }
 
 .btn-outline-ivory {
@@ -274,8 +320,10 @@ a {
 }
 
 .btn-outline-ivory:hover {
-  background: rgba(247, 243, 236, 0.1);
+  background: var(--color-ivory);
+  color: var(--color-forest);
   border-color: var(--color-ivory);
+  transform: translateY(-2px);
 }
 
 /* Authenticities Circular Arrow Button */
@@ -283,7 +331,7 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 1.15rem;
-  color: #1a1a1a;
+  color: var(--color-charcoal);
   text-decoration: none;
   font-family: var(--font-sans);
   font-size: 0.8125rem;
@@ -291,7 +339,6 @@ a {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  margin-top: 2rem;
   width: max-content;
 }
 
@@ -299,7 +346,7 @@ a {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  border: 1px solid var(--color-forest);
+  border: 1.5px solid var(--color-forest);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -319,6 +366,41 @@ a {
   border-color: var(--color-forest);
   transform: translateX(4px);
   box-shadow: 0 6px 18px rgba(28, 58, 46, 0.25);
+}
+
+.btn-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-forest);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.btn-link:hover {
+  color: var(--color-gold);
+}
+
+.btn-link svg {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+}
+
+.btn-link:hover svg {
+  transform: translateX(3px);
+}
+
+.btn-link-gold {
+  color: var(--color-gold);
+}
+
+.btn-link-gold:hover {
+  color: var(--color-gold-light);
 }
 
 /* =============================================
@@ -493,7 +575,7 @@ a {
   100% { transform: translateX(-50%); }
 }
 
-/* Scroll-triggered reveal — default hidden state */
+/* Scroll-triggered reveal - default hidden state */
 .reveal {
   opacity: 0;
   transform: translateY(40px);
@@ -580,6 +662,10 @@ a {
   outline-offset: 3px;
 }
 
-
-
-
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

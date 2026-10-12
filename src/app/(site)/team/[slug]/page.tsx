@@ -217,7 +217,7 @@ export default async function SingleTeamMemberPage({
                 <div className="pt-2 flex flex-col gap-3">
                   <Link
                     href={`/start-planning?preferredGuide=${encodeURIComponent(member.name)}`}
-                    className="btn btn-gold text-xs py-3 w-full justify-center text-center font-semibold"
+                    className="btn btn-sm btn-gold w-full font-semibold"
                   >
                     <Calendar size={14} />
                     <span>Plan a Journey With {member.name.split(' ')[0]}</span>
@@ -226,7 +226,7 @@ export default async function SingleTeamMemberPage({
                     href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn btn-outline-ivory text-xs py-3 w-full justify-center text-center"
+                    className="btn btn-sm btn-outline-ivory w-full"
                   >
                     <MessageCircle size={14} />
                     <span>Inquire via WhatsApp</span>

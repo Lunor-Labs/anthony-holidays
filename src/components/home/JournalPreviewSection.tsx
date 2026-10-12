@@ -19,6 +19,7 @@ export function JournalPreviewSection({ posts }: JournalPreviewSectionProps) {
       <div className="container">
         <ScrollReveal direction="up">
           <SectionHeading
+            id="journal-heading"
             label="Travel Inspiration"
             title="From the"
             highlight="Travel Journal"
@@ -79,7 +80,7 @@ export function JournalPreviewSection({ posts }: JournalPreviewSectionProps) {
 
                   <Link
                     href={`/blog/${post.slug}`}
-                    className="inline-flex items-center gap-1.5 text-xs font-medium tracking-widest uppercase text-forest transition-all hover:gap-2.5 mt-auto"
+                    className="btn-link mt-auto"
                   >
                     Read Article
                     <ArrowRight size={13} />

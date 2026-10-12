@@ -54,7 +54,7 @@ export function AboutHero() {
         <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
           <a
             href="#team"
-            className="btn btn-gold text-xs py-2.5 px-6 font-semibold"
+            className="btn btn-sm btn-gold font-semibold"
           >
             Meet Our Guiding Team
           </a>

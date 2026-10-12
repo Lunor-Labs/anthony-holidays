@@ -22,6 +22,7 @@ export function FeaturedJourneysSection({
       <div className="container">
         <ScrollReveal direction="up">
           <SectionHeading
+            id="journeys-heading"
             label="Curated Journeys"
             title="Journeys Worth"
             highlight="Remembering"

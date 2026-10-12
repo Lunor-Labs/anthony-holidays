@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Clock, Compass, MapPin } from "lucide-react";
 import { formatPrice, formatDuration } from "@/lib/utils";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { ParallaxImage } from "@/components/ui/ParallaxImage";
 
 export interface DiscoverJourneyItem {
   id?: string;
@@ -59,7 +61,13 @@ const FALLBACK_JOURNEYS: DiscoverJourneyItem[] = [
     coverImage:
       "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=1600&q=85",
     alt: "Misty tea plantations and highlands in Nuwara Eliya",
-    destinations: ["Sigiriya", "Polonnaruwa", "Kandy", "Nuwara Eliya", "Hatton"],
+    destinations: [
+      "Sigiriya",
+      "Polonnaruwa",
+      "Kandy",
+      "Nuwara Eliya",
+      "Hatton",
+    ],
     categories: ["Highlands", "Tea Heritage"],
   },
   {
@@ -74,7 +82,14 @@ const FALLBACK_JOURNEYS: DiscoverJourneyItem[] = [
     coverImage:
       "https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1600&q=85",
     alt: "Wild Sri Lankan leopard resting in Yala National Park",
-    destinations: ["Colombo", "Sigiriya", "Kandy", "Ella", "Yala Safari", "Galle Fort"],
+    destinations: [
+      "Colombo",
+      "Sigiriya",
+      "Kandy",
+      "Ella",
+      "Yala Safari",
+      "Galle Fort",
+    ],
     categories: ["Wildlife Safari", "Archaeology"],
   },
   {
@@ -89,7 +104,13 @@ const FALLBACK_JOURNEYS: DiscoverJourneyItem[] = [
     coverImage:
       "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=1600&q=85",
     alt: "Historic Galle Dutch Fort ramparts overlooking the Indian Ocean",
-    destinations: ["Kandy", "Ella", "Yala", "Mirissa Coast", "Galle Dutch Fort"],
+    destinations: [
+      "Kandy",
+      "Ella",
+      "Yala",
+      "Mirissa Coast",
+      "Galle Dutch Fort",
+    ],
     categories: ["Southern Coast", "Colonial History"],
   },
   {
@@ -104,7 +125,15 @@ const FALLBACK_JOURNEYS: DiscoverJourneyItem[] = [
     coverImage:
       "https://images.unsplash.com/photo-1512100356356-de1b84283e18?w=1600&q=85",
     alt: "Coastal palm fringed waters and southern Ceylon shoreline",
-    destinations: ["Anuradhapura", "Sigiriya", "Kandy", "Hatton", "Yala", "Mirissa", "Colombo"],
+    destinations: [
+      "Anuradhapura",
+      "Sigiriya",
+      "Kandy",
+      "Hatton",
+      "Yala",
+      "Mirissa",
+      "Colombo",
+    ],
     categories: ["Grand Tour", "Total Immersion"],
   },
 ];
@@ -112,7 +141,6 @@ const FALLBACK_JOURNEYS: DiscoverJourneyItem[] = [
 export function DiscoverSriLankaSection({
   journeys,
 }: DiscoverSriLankaSectionProps) {
-  // Use passed journeys if non-empty, otherwise use rich theme fallbacks
   const displayJourneys: DiscoverJourneyItem[] =
     journeys && journeys.length > 0
       ? journeys.slice(0, 5).map((j, idx) => ({
@@ -129,7 +157,6 @@ export function DiscoverSriLankaSection({
   const sectionRef = useRef<HTMLElement>(null);
   const imageInnerRef = useRef<HTMLDivElement>(null);
 
-  // IntersectionObserver to sync active journey smoothly as user scrolls
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
 
@@ -145,7 +172,7 @@ export function DiscoverSriLankaSection({
           root: null,
           rootMargin: "-25% 0px -40% 0px",
           threshold: 0,
-        }
+        },
       );
       observer.observe(el);
       observers.push(observer);
@@ -156,33 +183,46 @@ export function DiscoverSriLankaSection({
     };
   }, [displayJourneys.length]);
 
-  // Silky continuous RAF LERP for the right sticky image parallax
   useEffect(() => {
     let rafId: number;
     let targetY = 0;
     let currentY = 0;
     const lerp = 0.08;
 
-    const loop = () => {
-      if (sectionRef.current && imageInnerRef.current) {
-        const rect = sectionRef.current.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
+    const calculateTarget = () => {
+      const activeEl = journeyRefs.current[activeIndex];
+      const windowHeight = window.innerHeight;
+
+      if (activeEl) {
+        const rect = activeEl.getBoundingClientRect();
         const elementCenter = rect.top + rect.height / 2;
         const screenCenter = windowHeight / 2;
         const diff = elementCenter - screenCenter;
 
-        targetY = diff * -0.07;
-        targetY = Math.max(-50, Math.min(50, targetY));
+        targetY = diff * -0.38;
+        targetY = Math.max(-170, Math.min(170, targetY));
+      } else if (sectionRef.current) {
+        const rect = sectionRef.current.getBoundingClientRect();
+        const elementCenter = rect.top + rect.height / 2;
+        const screenCenter = windowHeight / 2;
+        const diff = elementCenter - screenCenter;
 
+        targetY = Math.max(-170, Math.min(170, diff * -0.25));
+      }
+    };
+
+    const loop = () => {
+      if (imageInnerRef.current) {
+        calculateTarget();
         currentY += (targetY - currentY) * lerp;
-        imageInnerRef.current.style.transform = `translate3d(0, ${currentY.toFixed(2)}px, 0)`;
+        imageInnerRef.current.style.transform = `translate3d(0, ${currentY.toFixed(2)}px, 0) scale(1.15)`;
       }
       rafId = requestAnimationFrame(loop);
     };
 
     rafId = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(rafId);
-  }, []);
+  }, [activeIndex]);
 
   const scrollToJourney = (index: number) => {
     setActiveIndex(index);
@@ -201,40 +241,26 @@ export function DiscoverSriLankaSection({
       aria-label="Curated Journeys - Discover Sri Lanka"
     >
       <div className="container">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_0.85fr] gap-14 lg:gap-16 items-start">
-          {/* ── LEFT COLUMN: Text narrative and scrollable journeys ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-14 lg:gap-16 items-start">
           <div className="flex flex-col">
-            {/* Header Block matching Authenticities Sri Lanka aesthetic */}
             <div className="pb-10 lg:pb-14 border-b border-gold/30 mb-6">
-              <span className="inline-flex items-center gap-2.5 font-sans text-xs font-semibold tracking-[0.22em] uppercase text-gold mb-3.5">
-                <Compass size={14} className="text-gold" />
-                Curated Journeys · Discover Sri Lanka
-              </span>
-              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal leading-[1.14] tracking-[0.03em] uppercase text-forest mb-5">
-                A Land of Living Heritage
-              </h2>
-              <span className="w-14 h-[1px] bg-gold mb-6 block" />
-              <p className="font-sans text-base lg:text-lg font-light leading-[1.85] text-forest/80 max-w-[620px] mb-8">
-                We are an island nation devoted to our heritage, deeply influenced by
-                millennia of culture, yet true to our roots. Explore our handcrafted
-                private itineraries led by licensed national tourist guide lecturers —
-                designed with intellectual depth, private comfort, and authentic emotion.
-              </p>
-              <Link
-                href="/tours"
-                className="inline-flex items-center gap-4 text-charcoal font-sans text-xs sm:text-sm font-semibold tracking-[0.16em] uppercase group w-fit transition-colors duration-300 hover:text-gold"
-              >
-                <span className="w-11 h-11 rounded-full border border-forest flex items-center justify-center text-forest transition-all duration-300 group-hover:bg-forest group-hover:text-ivory group-hover:translate-x-1 shrink-0">
-                  <ArrowRight
-                    size={16}
-                    className="transition-transform duration-300 group-hover:translate-x-0.5"
-                  />
-                </span>
-                <span>EXPLORE ALL JOURNEYS</span>
-              </Link>
+              <SectionHeading
+                label="Curated Journeys · Discover Sri Lanka"
+                title="A Land of Living"
+                highlight="Heritage"
+                description="We are an island nation devoted to our heritage, deeply influenced by millennia of culture, yet true to our roots. Explore our handcrafted private itineraries led by licensed national tourist guide lecturers - designed with intellectual depth, private comfort, and authentic emotion."
+                action={
+                  <Link href="/tours" className="theme-btn-circle">
+                    <span className="theme-btn-circle__icon">
+                      <ArrowRight size={16} />
+                    </span>
+                    <span>EXPLORE ALL JOURNEYS</span>
+                  </Link>
+                }
+                className="mb-0"
+              />
             </div>
 
-            {/* Journeys list that user scrolls through */}
             <div className="flex flex-col">
               {displayJourneys.map((journey, i) => {
                 const isActive = activeIndex === i;
@@ -257,7 +283,6 @@ export function DiscoverSriLankaSection({
                     }`}
                     onClick={() => scrollToJourney(i)}
                   >
-                    {/* Meta row: Number + Line + Duration Badge + Category */}
                     <div className="flex items-center justify-between gap-4 mb-3.5 flex-wrap">
                       <div className="flex items-center gap-3.5 font-serif text-3xl lg:text-4xl text-gold font-normal leading-none">
                         <span>{formattedNum}</span>
@@ -272,7 +297,7 @@ export function DiscoverSriLankaSection({
                           <Clock size={12} className="text-gold" />
                           {formatDuration(
                             journey.duration?.days || 1,
-                            journey.duration?.nights || 0
+                            journey.duration?.nights || 0,
                           )}
                         </span>
                         <span className="inline-flex font-sans text-xs font-medium tracking-widest uppercase text-stone bg-black/5 px-2.5 py-1 rounded-xs">
@@ -280,8 +305,6 @@ export function DiscoverSriLankaSection({
                         </span>
                       </div>
                     </div>
-
-                    {/* Journey Title */}
                     <h3 className="font-serif text-2xl lg:text-3xl font-normal uppercase tracking-wide text-forest leading-tight mb-3">
                       <Link
                         href={`/tours/${journey.slug}`}
@@ -291,49 +314,47 @@ export function DiscoverSriLankaSection({
                         {journey.title}
                       </Link>
                     </h3>
-
-                    {/* Destinations Route Breadcrumb */}
-                    {journey.destinations && journey.destinations.length > 0 && (
-                      <div className="inline-flex items-center gap-2 font-sans text-xs sm:text-sm tracking-wide text-stone mb-4">
-                        <MapPin size={13} className="text-gold shrink-0" />
-                        <span className="leading-snug">
-                          {journey.destinations.join("  ·  ")}
-                        </span>
-                      </div>
-                    )}
-
-                    {/* Mobile-only inline image fallback */}
-                    <div className="lg:hidden relative w-full aspect-[16/10] overflow-hidden my-6 border border-gold/30 shadow-md">
-                      <Image
+                    {journey.destinations &&
+                      journey.destinations.length > 0 && (
+                        <div className="inline-flex items-center gap-2 font-sans text-xs sm:text-sm tracking-wide text-stone mb-4">
+                          <MapPin size={13} className="text-gold shrink-0" />
+                          <span className="leading-snug">
+                            {journey.destinations.join("  ·  ")}
+                          </span>
+                        </div>
+                      )}
+                    <div className="lg:hidden relative w-full overflow-hidden my-6 border border-gold/30 shadow-md">
+                      <ParallaxImage
                         src={journey.coverImage}
                         alt={journey.alt || journey.title}
-                        fill
+                        aspectRatio="16/10"
+                        speed={0.42}
+                        maxTranslate={150}
+                        scale={1}
                         sizes="100vw"
-                        className="object-cover"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-forest/80 via-transparent to-transparent pointer-events-none" />
-                      <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-xs z-10">
+                      <div className="absolute inset-0 bg-gradient-to-t from-forest/85 via-transparent to-transparent pointer-events-none z-10" />
+                      <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-xs z-20">
                         <span className="bg-forest/90 px-2.5 py-1 backdrop-blur-sm tracking-wide text-xs font-medium border border-gold/30">
-                          {journey.duration?.days}D / {journey.duration?.nights}N
+                          {journey.duration?.days}D / {journey.duration?.nights}
+                          N
                         </span>
                         {journey.pricing && journey.pricing.priceFrom > 0 && (
                           <span className="bg-gold text-forest font-semibold px-2.5 py-1 text-xs">
                             From{" "}
                             {formatPrice(
                               journey.pricing.priceFrom,
-                              journey.pricing.currency
+                              journey.pricing.currency,
                             )}
                           </span>
                         )}
                       </div>
                     </div>
 
-                    {/* Excerpt / Summary */}
                     <p className="font-sans text-sm font-light leading-[1.8] text-forest/80 max-w-[580px] mb-6">
                       {journey.excerpt || journey.tagline}
                     </p>
 
-                    {/* Footer: Price & Explore CTA */}
                     <div className="flex items-center justify-between gap-6 pt-5 border-t border-gold/20 flex-wrap">
                       <div className="flex flex-col">
                         {journey.pricing && journey.pricing.priceFrom > 0 ? (
@@ -344,7 +365,7 @@ export function DiscoverSriLankaSection({
                             <span className="font-serif text-xl font-medium text-forest">
                               {formatPrice(
                                 journey.pricing.priceFrom,
-                                journey.pricing.currency
+                                journey.pricing.currency,
                               )}
                               <span className="font-sans text-xs font-normal text-stone">
                                 {" "}
@@ -361,14 +382,11 @@ export function DiscoverSriLankaSection({
 
                       <Link
                         href={`/tours/${journey.slug}`}
-                        className="inline-flex items-center gap-2 font-sans text-xs font-semibold tracking-widest uppercase text-forest bg-gold/15 px-5 py-2.5 border border-gold/40 rounded-xs transition-all duration-300 hover:bg-forest hover:text-ivory hover:border-forest group"
+                        className="btn btn-sm btn-outline-gold"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        <span>VIEW ITINERARY</span>
-                        <ArrowRight
-                          size={14}
-                          className="transition-transform duration-300 group-hover:translate-x-1"
-                        />
+                        <span>View Itinerary</span>
+                        <ArrowRight size={13} />
                       </Link>
                     </div>
                   </div>
@@ -377,23 +395,20 @@ export function DiscoverSriLankaSection({
             </div>
           </div>
 
-          {/* ── RIGHT COLUMN: FIXED / STICKY IMAGE PANEL ── */}
           <div
             className="hidden lg:block relative sticky top-[110px] h-[calc(100vh-150px)] min-h-[580px] max-h-[760px]"
             aria-hidden="true"
           >
-            <div className="relative w-full h-full overflow-hidden bg-forest border border-gold/35 shadow-[0_24px_60px_-15px_rgba(28,58,46,0.25)]">
-              {/* Hardware-accelerated LERP translation wrapper */}
+            <div className="relative w-full h-full overflow-hidden bg-forest shadow-[0_24px_60px_-15px_rgba(28,58,46,0.25)]">
               <div
                 ref={imageInnerRef}
                 className="absolute inset-x-0 w-full"
                 style={{
-                  top: "-10%",
-                  height: "120%",
+                  top: "-28%",
+                  height: "156%",
                   willChange: "transform",
                 }}
               >
-                {/* Stacked crossfade image layers */}
                 {displayJourneys.map((j, idx) => {
                   const isSelected = activeIndex === idx;
                   return (
@@ -402,7 +417,7 @@ export function DiscoverSriLankaSection({
                       className="absolute inset-0"
                       style={{
                         opacity: isSelected ? 1 : 0,
-                        transform: isSelected ? "scale(1.02)" : "scale(1.08)",
+                        transform: isSelected ? "scale(1.01)" : "scale(1.04)",
                         pointerEvents: isSelected ? "auto" : "none",
                         transition:
                           "opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1)",
@@ -420,15 +435,13 @@ export function DiscoverSriLankaSection({
                   );
                 })}
               </div>
-
-              {/* Luxury dark gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-forest/95 via-forest/30 to-transparent pointer-events-none z-10" />
 
-              {/* Top Badge: Duration & Category */}
               <div className="absolute top-7 left-7 z-20 flex items-center gap-2 pointer-events-none">
                 <span className="inline-flex items-center gap-1.5 font-sans text-xs font-semibold tracking-widest uppercase text-white bg-forest/90 backdrop-blur-md px-3 py-1.5 border border-gold/40">
                   <Clock size={11} className="text-gold" />
-                  {activeJourney.duration?.days}D / {activeJourney.duration?.nights}N
+                  {activeJourney.duration?.days}D /{" "}
+                  {activeJourney.duration?.nights}N
                 </span>
                 {activeJourney.categories && activeJourney.categories[0] && (
                   <span className="inline-flex font-sans text-xs font-medium tracking-wider uppercase text-gold bg-black/60 backdrop-blur-md px-3 py-1.5 border border-white/15">
@@ -437,7 +450,6 @@ export function DiscoverSriLankaSection({
                 )}
               </div>
 
-              {/* Bottom Info: Route, Title, and Action */}
               <div className="absolute bottom-8 left-8 right-24 z-20">
                 {activeJourney.destinations &&
                   activeJourney.destinations.length > 0 && (
@@ -456,13 +468,10 @@ export function DiscoverSriLankaSection({
                 <div className="flex items-center gap-4 pointer-events-auto">
                   <Link
                     href={`/tours/${activeJourney.slug}`}
-                    className="inline-flex items-center gap-2 font-sans text-xs font-semibold tracking-widest uppercase text-forest bg-gold px-4 py-2 rounded-xs transition-all duration-300 hover:bg-gold-light hover:translate-x-0.5 group"
+                    className="btn btn-sm btn-gold"
                   >
-                    <span>VIEW ITINERARY</span>
-                    <ArrowRight
-                      size={13}
-                      className="transition-transform duration-300 group-hover:translate-x-1"
-                    />
+                    <span>View Itinerary</span>
+                    <ArrowRight size={13} />
                   </Link>
 
                   {activeJourney.pricing &&
@@ -471,14 +480,12 @@ export function DiscoverSriLankaSection({
                         From{" "}
                         {formatPrice(
                           activeJourney.pricing.priceFrom,
-                          activeJourney.pricing.currency
+                          activeJourney.pricing.currency,
                         )}
                       </span>
                     )}
                 </div>
               </div>
-
-              {/* Chapter counter at bottom right */}
               <div className="absolute bottom-8 right-8 z-20 flex items-baseline gap-1 font-serif text-gold pointer-events-none">
                 <span className="font-serif text-3xl font-normal text-ivory leading-none">
                   {String(activeIndex + 1).padStart(2, "0")}
@@ -487,8 +494,6 @@ export function DiscoverSriLankaSection({
                   / {String(displayJourneys.length).padStart(2, "0")}
                 </span>
               </div>
-
-              {/* Vertical navigation dots */}
               <div className="absolute top-1/2 -translate-y-1/2 right-4 z-20 flex flex-col gap-2.5">
                 {displayJourneys.map((j, i) => (
                   <button

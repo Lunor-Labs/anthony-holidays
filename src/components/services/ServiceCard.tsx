@@ -80,7 +80,7 @@ export function ServiceCard({ service }: ServiceCardProps) {
         <div className="pt-4 border-t border-cream flex items-center justify-between">
           <Link
             href={`/start-planning?service=${encodeURIComponent(title)}`}
-            className="inline-flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-forest hover:text-gold hover:gap-3 transition-all"
+            className="btn-link"
           >
             Enquire for This Service
             <ArrowRight size={14} />

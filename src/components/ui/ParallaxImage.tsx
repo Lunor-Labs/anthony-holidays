@@ -6,7 +6,9 @@ import Image from "next/image";
 interface ParallaxImageProps {
   src: string;
   alt: string;
-  speed?: number; // e.g. 0.25 for noticeable smooth float
+  speed?: number;
+  maxTranslate?: number;
+  scale?: number;
   aspectRatio?: string;
   className?: string;
   imgClassName?: string;
@@ -17,7 +19,9 @@ interface ParallaxImageProps {
 export function ParallaxImage({
   src,
   alt,
-  speed = 0.25,
+  speed = 0.36,
+  maxTranslate = 160,
+  scale = 1.22,
   aspectRatio = "4/5",
   className = "",
   imgClassName = "",
@@ -32,7 +36,7 @@ export function ParallaxImage({
     let isVisible = false;
     let targetY = 0;
     let currentY = 0;
-    const lerp = 0.09; // smooth follow factor
+    const lerp = 0.08;
 
     const calculateTarget = () => {
       if (!containerRef.current) return;
@@ -44,17 +48,16 @@ export function ParallaxImage({
       const screenCenter = windowHeight / 2;
       const diff = elementCenter - screenCenter;
 
-      // Smooth translation opposite to scroll direction
-      targetY = diff * speed * -0.5;
-      targetY = Math.max(-80, Math.min(80, targetY));
+      // Deep translation opposite to scroll direction
+      targetY = diff * speed * -0.9;
+      targetY = Math.max(-maxTranslate, Math.min(maxTranslate, targetY));
     };
 
     const loop = () => {
       if (isVisible && imageWrapperRef.current) {
         calculateTarget();
-        // LERP for continuous buttery smooth inertia follow
         currentY += (targetY - currentY) * lerp;
-        imageWrapperRef.current.style.transform = `translate3d(0, ${currentY.toFixed(2)}px, 0) scale(1.18)`;
+        imageWrapperRef.current.style.transform = `translate3d(0, ${currentY.toFixed(2)}px, 0) scale(${scale})`;
       }
       rafId = requestAnimationFrame(loop);
     };
@@ -67,7 +70,7 @@ export function ParallaxImage({
           currentY = targetY; // snap initial position without jumping
         }
       },
-      { root: null, rootMargin: "250px 0px 250px 0px" }
+      { root: null, rootMargin: "300px 0px 300px 0px" }
     );
 
     if (containerRef.current) {
@@ -80,7 +83,7 @@ export function ParallaxImage({
       observer.disconnect();
       cancelAnimationFrame(rafId);
     };
-  }, [speed]);
+  }, [speed, maxTranslate, scale]);
 
   return (
     <div
@@ -92,8 +95,8 @@ export function ParallaxImage({
         ref={imageWrapperRef}
         className="absolute inset-x-0 w-full"
         style={{
-          top: "-20%",
-          height: "140%",
+          top: "-30%",
+          height: "160%",
           willChange: "transform",
         }}
       >

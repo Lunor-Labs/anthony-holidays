@@ -212,7 +212,7 @@ export default async function SpecialPackageDetailPage({ params }: PageProps) {
 
                 <Link
                   href={`/start-planning?specialPackage=${pkg.slug}&title=${encodeURIComponent(pkg.title)}`}
-                  className="btn btn-primary w-full justify-center text-center mb-4 py-3.5"
+                  className="btn btn-primary w-full mb-4"
                 >
                   Start Planning This Trip
                   <ArrowRight size={15} />
@@ -222,7 +222,7 @@ export default async function SpecialPackageDetailPage({ params }: PageProps) {
                   href={`https://wa.me/94771234567?text=${encodeURIComponent(`Ayubowan Anthony Holidays, I am interested in the ${pkg.title} special package.`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn btn-outline w-full justify-center text-center text-xs py-3"
+                  className="btn btn-outline w-full"
                 >
                   <MessageSquare size={14} />
                   Chat on WhatsApp

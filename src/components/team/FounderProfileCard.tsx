@@ -116,12 +116,12 @@ export function FounderProfileCard({
           <div className="pt-4 border-t border-cream flex flex-wrap gap-4 items-center">
             <Link
               href={`/team/${founderSlug}`}
-              className="btn btn-outline text-xs py-2.5 px-5"
+              className="btn btn-sm btn-outline"
             >
               <User size={14} />
               <span>View Founder Profile</span>
             </Link>
-            <Link href="/start-planning" className="btn btn-primary text-xs py-2.5 px-5">
+            <Link href="/start-planning" className="btn btn-sm btn-primary">
               <span>Plan a Journey with Anthony</span>
               <ArrowRight size={14} />
             </Link>

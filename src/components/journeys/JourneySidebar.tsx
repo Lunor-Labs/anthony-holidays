@@ -62,7 +62,7 @@ export function JourneySidebar({
         <div className="space-y-3">
           <Link
             href={`/start-planning?journey=${journeySlug}`}
-            className="btn btn-gold w-full text-center text-xs py-3.5"
+            className="btn btn-gold w-full"
           >
             Start Planning This Journey
             <ArrowRight size={14} />
@@ -72,7 +72,7 @@ export function JourneySidebar({
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-outline w-full text-center text-xs py-3.5 flex items-center justify-center gap-2"
+            className="btn btn-outline w-full"
           >
             <Phone size={13} />
             Chat on WhatsApp

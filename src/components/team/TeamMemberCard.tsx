@@ -76,7 +76,7 @@ export function TeamMemberCard({ member }: TeamMemberCardProps) {
         </div>
         <Link
           href={`/team/${memberSlug}`}
-          className="inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wider text-forest hover:text-gold transition-colors"
+          className="btn-link"
         >
           <span>View Profile</span>
           <ArrowRight size={13} />
