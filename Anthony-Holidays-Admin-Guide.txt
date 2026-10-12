@@ -1,0 +1,649 @@
+ANTHONY HOLIDAYS — ADMIN PANEL COMPLETE GUIDE
+==============================================
+Website: https://anthonyholidays.com
+Admin Panel: https://anthonyholidays.com/admin
+Document Version: October 2026
+==============================================
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+GETTING STARTED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Go to /admin on your website URL
+2. Enter your email and password
+3. The admin sidebar appears on the left with two groups:
+
+   CONTENT GROUP
+   ├── Tour Packages
+   ├── Special Packages
+   ├── Services
+   ├── Blog Articles
+   ├── Team Members
+   └── Testimonials
+
+   ADMINISTRATION GROUP
+   ├── Inquiries
+   ├── Users
+   └── Site Settings
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 1 — TOUR PACKAGES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Where it appears on the website: /tours and /tours/[slug]
+Homepage: Featured tours section (if "Featured on Homepage" is ticked)
+
+HOW TO ADD A TOUR PACKAGE
+--------------------------
+
+STEP 1 — BASIC DETAILS
+  Tour Title          : Full name of the tour
+                        Example: "8-Day Cultural Triangle & Hill Country"
+  Slug                : Auto-generated from title. Becomes the URL.
+                        Example: /tours/8-day-cultural-triangle-hill-country
+                        (You can edit this manually if needed)
+
+STEP 2 — SIDEBAR SETTINGS (right panel)
+  Status              : Draft = not visible to public
+                        Published = live on website
+  Featured on Homepage: Tick to show this tour in the homepage featured section
+
+STEP 3 — COVER IMAGE
+  Click "Upload" or "Choose from existing"
+  Always fill in the Alt Text (e.g. "Sigiriya Rock Fortress at sunrise")
+  This image appears on the listing card and the tour hero banner
+
+STEP 4 — GALLERY (optional)
+  Add multiple photos for the tour gallery on the detail page
+  Click "Add Gallery Item" and upload each image with alt text
+
+STEP 5 — DESCRIPTIONS
+  Short Description   : 1-2 sentences shown on listing cards
+                        Keep under 200 characters
+                        Example: "Explore Sri Lanka's ancient kingdoms, misty hill country,
+                        and colonial coast on this expertly guided 8-day journey."
+  Full Description    : Rich text editor — write the full tour overview
+                        Include highlights, unique experiences, and what makes it special
+
+STEP 6 — DURATION & DESTINATIONS
+  Days                : e.g. 8
+  Nights              : e.g. 7
+  Destinations        : Type each destination and press Enter to add as a tag
+                        Examples: Colombo, Sigiriya, Polonnaruwa, Kandy, Nuwara Eliya, Galle
+
+STEP 7 — TRAVEL STYLES & THEMES
+  Select all categories that apply:
+  - Cultural & Heritage Tours
+  - Luxury Tours
+  - Wildlife & Adventure Tours
+  - Romantic & Honeymoon Tours
+  - Leisure Tours
+  - Hill Country Tours
+  - Beach Tours
+  - Untouched
+  - Pilgrimage Tours
+
+STEP 8 — DAY-BY-DAY ITINERARY
+  Click "Add Itinerary Day" for each day of the tour.
+  For each day:
+    Day Number         : 1, 2, 3, etc.
+    Day Title          : e.g. "Arrival in Colombo - City Orientation"
+    Day Description    : Rich text — full activities for that day
+    Locations Visited  : e.g. Colombo
+    Accommodation      : Hotel name e.g. "Cinnamon Grand Colombo"
+    Meals Included     : e.g. Dinner / Breakfast & Dinner
+    Day Image          : Optional photo for that specific day
+
+STEP 9 — INCLUSIONS (What Is Included)
+  Click "Add Item" for each item. Examples:
+  - Airport transfers in a private air-conditioned vehicle
+  - Accommodation on a half board basis
+  - Services of a Licensed National Tourist Guide Lecturer
+  - Entrance fees to all listed sites & monuments
+
+STEP 10 — EXCLUSIONS (What Is Not Included)
+  Click "Add Item" for each item. Examples:
+  - International flights
+  - Travel insurance (strongly recommended)
+  - Personal expenses
+  - Tips and gratuities
+  - Optional excursions
+
+STEP 11 — PRACTICAL INFORMATION
+  Transport Arrangements : e.g. "Private air-conditioned luxury vehicle
+                           with dedicated English-speaking chauffeur guide"
+  Guide Details          : e.g. "Licensed National Tourist Guide Lecturer
+                           accompanying throughout the entire journey"
+  Visa Information       : e.g. "Sri Lanka Electronic Travel Authorisation (ETA)
+                           required. Apply at eta.gov.lk before departure."
+  Air-Ticket Information : e.g. "International flights are not included.
+                           Please book flights to Bandaranaike International
+                           Airport, Colombo (CMB)."
+  Insurance Information  : e.g. "Travel insurance is not included in this
+                           package and is strongly recommended."
+  Accommodation Details  : Hotel categories or specific property notes
+
+STEP 12 — INCLUDED SITES & MONUMENTS
+  Add sites where entrance fees and guided access are covered in the package.
+  Examples:
+  - Sigiriya Rock Fortress
+  - Dambulla Cave Temple
+  - Temple of the Tooth Relic, Kandy
+  - Galle Fort
+
+STEP 13 — OPTIONAL SITES & EXCURSIONS
+  Add recommended optional sites (not included in price):
+  Examples:
+  - Pinnawala Elephant Orphanage
+  - Spice Garden Visit
+  - Whale Watching, Mirissa
+
+STEP 14 — PRICING (Optional)
+  Show Starting Price    : Tick to display a price publicly
+  Starting Price         : Number only (e.g. 1200)
+  Currency               : USD / EUR / GBP (default: USD)
+  Pricing Note           : e.g. "per person, based on double occupancy"
+  NOTE: Leave unticked if you only take enquiry-based bookings
+
+STEP 15 — FREQUENTLY ASKED QUESTIONS (Optional)
+  Click "Add FAQ" to add tour-specific questions and answers
+  Example:
+    Q: "Is this tour suitable for children?"
+    A: "Yes, suitable for families with children aged 6 and above."
+
+STEP 16 — SEO SETTINGS
+  SEO Title       : e.g. "8-Day Cultural Triangle & Hill Country Tour | Anthony Holidays"
+  Meta Description: 150-160 character summary for Google search results
+  SEO Image       : Image shown when sharing the tour link on WhatsApp, Facebook, etc.
+
+STEP 17 — RELATED JOURNEYS (Optional)
+  Select up to 3 other published tours to display as recommendations
+  at the bottom of this tour's detail page
+
+STEP 18 — SAVE & PUBLISH
+  Click "Save Draft" to save without making it live
+  Change Status to "Published" in the sidebar, then click Save
+
+PRE-PUBLISH CHECKLIST
+  [ ] Tour title and slug set correctly
+  [ ] Cover image uploaded with alt text
+  [ ] Short description written (under 200 characters)
+  [ ] Full description written
+  [ ] Duration set (days and nights)
+  [ ] At least 3 destinations added
+  [ ] Travel style category selected
+  [ ] All itinerary days added with descriptions
+  [ ] Inclusions list complete
+  [ ] Exclusions list complete
+  [ ] Visa, air-ticket, and insurance info filled
+  [ ] Transport and guide details filled
+  [ ] SEO title and description written
+  [ ] Status set to Published
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 2 — SPECIAL PACKAGES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Where it appears: /special-packages and /special-packages/[slug]
+Homepage: Featured special packages section (if "Featured Package" is ticked)
+
+Special Packages are different from Tour Packages. They cover niche or
+themed experiences like volunteering, budget travel, adventure, or
+Hikkaduwa-based tourism.
+
+HOW TO ADD A SPECIAL PACKAGE
+------------------------------
+
+STEP 1 — BASIC DETAILS
+  Package Title  : Full name of the package
+                   Example: "Volunteer & Teach English in Rural Sri Lanka"
+  Slug           : Auto-generated. Becomes the URL.
+
+STEP 2 — SIDEBAR SETTINGS
+  Category       : Select the type of special package:
+                   - Volunteering Experience
+                   - Hikkaduwa-Based Tourism
+                   - Customised Tour
+                   - Budget-Based Tour
+                   - Adventure Tour
+                   - Other Special Package
+  Status         : Draft or Published
+  Featured       : Tick to appear on the homepage special packages section
+
+STEP 3 — COVER IMAGE
+  Upload the main image with alt text
+
+STEP 4 — GALLERY (optional)
+  Upload additional photos for the detail page gallery
+
+STEP 5 — DESCRIPTIONS
+  Summary / Excerpt  : Short text shown on listing cards (max 250 characters)
+  Full Description   : Rich text — detailed overview of the experience
+
+STEP 6 — DURATION
+  Days   : e.g. 14
+  Nights : e.g. 13
+
+STEP 7 — KEY ACTIVITIES & EXPERIENCES
+  Click "Add Activity" for each major activity. For each one:
+    Activity Title       : e.g. "English Teaching at Village School"
+    Activity Description : Brief explanation of what it involves
+
+STEP 8 — ITINERARY (Optional — Stage-Based)
+  For packages with a structured programme, add stages:
+    Stage Number : 1, 2, 3...
+    Stage Title  : e.g. "Week 1 - Orientation & Community Integration"
+    Description  : What happens during this stage
+
+STEP 9 — CONDITIONS & REQUIREMENTS
+  Use this field for health, fitness, age, or conduct requirements.
+  Examples:
+  - Minimum age: 18 years
+  - Basic physical fitness required for trekking activities
+  - Volunteers must adhere to the community code of conduct
+  - Valid yellow fever vaccination certificate required
+
+STEP 10 — INCLUSIONS & EXCLUSIONS
+  Same as Tour Packages — list what is and is not covered
+
+STEP 11 — PRICING (Optional)
+  Same as Tour Packages — tick "Show Price Publicly" to display a price
+
+STEP 12 — SEO SETTINGS
+  Fill SEO Title, Meta Description, and SEO Image
+
+STEP 13 — SAVE & PUBLISH
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 3 — SERVICES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Where it appears: /services page and homepage services section
+
+Services describe what Anthony Holidays offers as a company.
+Examples: Private Touring, Guide Lecturing, Airport Transfers.
+
+HOW TO ADD A SERVICE
+---------------------
+
+STEP 1 — TITLE & SLUG
+  Service Title : e.g. "Licensed National Tourist Guide Lecturing"
+  Slug          : Auto-generated
+
+STEP 2 — SIDEBAR SETTINGS
+  Status         : Published (default) or Draft
+  Display Order  : Number controlling the order services appear on the page
+                   Lower numbers appear first (e.g. 1 = first, 2 = second)
+
+STEP 3 — DESCRIPTIONS
+  Short Description  : 2-3 sentences for the services listing card
+  Detailed Information: Rich text — full description of the service
+
+STEP 4 — SERVICE PHOTOGRAPH (Optional)
+  Upload an image representing this service
+
+STEP 5 — LUCIDE ICON NAME (Optional)
+  Enter a Lucide React icon name to display an icon for the service
+  Common options: Compass, ShieldCheck, Car, Map, Award, Users, Camera, Star
+  Browse all icons at: https://lucide.dev/icons/
+
+STEP 6 — SERVICE HIGHLIGHTS
+  Click "Add Item" for each key feature of the service. Examples:
+  - Licensed by the Sri Lanka Tourism Authority
+  - Expert in UNESCO World Heritage Sites
+  - Fluent in English, German, and French
+  - Available for private and group bookings
+
+STEP 7 — SAVE
+  Services are Published by default. Click Save.
+
+NOTE: Do not delete existing services — edit them if content needs updating.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 4 — BLOG ARTICLES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Where it appears: /blog and /blog/[slug]
+
+The blog (called "Journal" on the website) publishes travel guides,
+destination insights, and news from Anthony Holidays.
+
+HOW TO ADD A BLOG ARTICLE
+---------------------------
+
+STEP 1 — TITLE & SLUG
+  Article Title : e.g. "10 Hidden Gems of Sri Lanka's Cultural Triangle"
+  Slug          : Auto-generated from title
+
+STEP 2 — SIDEBAR SETTINGS
+  Status           : Draft or Published
+  Publication Date : Select the date to display on the article
+  Author Name      : Default is "Anthony Holidays"
+                     Change this if written by a specific team member
+
+STEP 3 — COVER IMAGE
+  Upload the main article image with alt text
+  This appears at the top of the article and on listing cards
+
+STEP 4 — EXCERPT
+  Write a short summary shown on listing cards (2-3 sentences)
+
+STEP 5 — ARTICLE CONTENT
+  Use the rich text editor to write the full article
+  You can add headings, bold text, bullet points, images, and links
+
+STEP 6 — CATEGORIES (Optional)
+  Click "Add Category" to tag the article
+  Examples: Destinations, Travel Tips, Culture, Wildlife, History
+
+STEP 7 — TAGS (Optional)
+  Click "Add Tag" to add specific keywords
+  Examples: Sigiriya, Galle, Elephant, Tea Country, UNESCO
+
+STEP 8 — RELATED ARTICLES (Optional)
+  Select other published blog articles to recommend at the bottom of this article
+
+STEP 9 — RELATED JOURNEYS (Optional)
+  Link published tour packages related to this article's destination
+  These display as recommended tours within or below the article
+
+STEP 10 — SEO SETTINGS
+  SEO Title       : e.g. "Hidden Gems of Sri Lanka | Anthony Holidays Blog"
+  Meta Description: 150-160 character article summary for Google
+  SEO Image       : Usually the same as the cover image
+
+STEP 11 — SAVE & PUBLISH
+  Change Status to Published when ready to go live
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 5 — TEAM MEMBERS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Where it appears: /about page — founder profile and team section
+
+HOW TO ADD OR EDIT A TEAM MEMBER
+----------------------------------
+
+STEP 1 — NAME
+  Full Name : e.g. "Anthony Fernando"
+
+STEP 2 — PROFESSIONAL ROLE
+  Role / Title : e.g. "Founder & Licensed National Tourist Guide Lecturer"
+                 e.g. "Senior Wildlife & Nature Specialist"
+
+STEP 3 — SIDEBAR SETTINGS
+  Founder Profile  : Tick ONLY for the company founder
+                     The founder appears in a prominent featured section on /about
+  Status           : Published or Draft
+  Display Order    : Controls order of appearance (lower = first)
+                     Set Founder to 0, other team members to 1, 2, 3...
+
+STEP 4 — PROFILE PHOTO
+  Upload a professional portrait photo
+  Recommended: square or portrait orientation, high resolution
+
+STEP 5 — CREDENTIALS & LICENCES
+  Click "Add Credential" for each official licence or certification:
+  Examples:
+  - Licensed National Tourist Guide Lecturer (Sri Lanka Tourism Authority)
+  - Member, Tourist Guides Association of Sri Lanka
+  - First Aid Certified
+  - Wildlife Guide Specialist Certificate
+
+STEP 6 — BIOGRAPHY
+  Write the full professional bio in the rich text editor
+  For the founder, this is the main story that appears on the About page
+
+STEP 7 — SPECIALIST AREAS
+  Click "Add Area" for each expertise:
+  Examples:
+  - Cultural & Heritage Tourism
+  - Archaeological Sites
+  - Wildlife & Nature
+  - Birdwatching
+
+STEP 8 — LANGUAGES SPOKEN
+  Click "Add Language" for each language:
+  Examples: English, Sinhala, Tamil, German, French
+
+STEP 9 — SAVE
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 6 — TESTIMONIALS (REVIEWS)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Where it appears: /reviews page and homepage testimonials section
+
+IMPORTANT: All testimonials start as "Pending Moderation" by default.
+You must manually approve each review before it appears on the website.
+
+HOW TO ADD OR APPROVE A TESTIMONIAL
+-------------------------------------
+
+TO ADD A REVIEW MANUALLY (from email / WhatsApp / TripAdvisor feedback):
+
+STEP 1 — GUEST DETAILS
+  Guest Name      : First name or approved alias
+                    Example: "Sarah M." or "David from Australia"
+  Country         : Guest's home country (only if they approved sharing it)
+  Travel Date     : Month and year of their trip
+
+STEP 2 — SIDEBAR SETTINGS
+  Moderation Status  :
+    - Pending Moderation    = not visible on website (default for all new entries)
+    - Approved & Published  = visible on website
+    - Rejected              = hidden permanently, kept for records
+  Featured on Homepage: Tick to show this review in the homepage section
+
+STEP 3 — REVIEW CONTENT
+  Review Text : The guest's full testimonial
+  Rating      : Star rating out of 5 (only include if verified)
+
+STEP 4 — LINK TO TOUR (Optional)
+  Tour / Package Name : Type the tour name (for display)
+  Journey Taken       : Select the actual tour package from the dropdown
+
+STEP 5 — GUEST PHOTO (Optional)
+  Only upload a photo if the guest has explicitly approved it
+
+STEP 6 — SAVE
+  Remember to set Moderation Status to "Approved & Published" when ready
+
+TO APPROVE A PENDING REVIEW:
+  1. Click "Testimonials" in the sidebar
+  2. Find reviews with status "Pending Moderation"
+  3. Click the review to open it
+  4. Change Moderation Status to "Approved & Published"
+  5. Optionally tick "Featured on Homepage"
+  6. Click Save
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 7 — INQUIRIES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Where they come from: Contact forms on the website
+These are READ-ONLY records — guests submit them through the website.
+
+HOW TO MANAGE INQUIRIES
+-------------------------
+
+VIEWING INQUIRIES
+  Click "Inquiries" in the sidebar
+  The list shows: Name, Email, Arrival Date, Status, Date Submitted
+  Click any inquiry to see the full details
+
+INFORMATION YOU WILL SEE IN EACH INQUIRY
+  Guest Details      : Full name, email, country, phone, preferred contact method
+  Trip Dates         : Arrival date, departure date
+  Travellers         : Number of adults, children, total
+  Destinations       : Where they want to go
+  Travel Interests   : Culture, Wildlife, Beaches, Hill Country, etc.
+  Accommodation      : Their preference (luxury, eco, mid-range, etc.)
+  Budget             : Approximate budget per person with currency
+  Travel Pace        : Relaxed / Balanced / Active
+  Selected Tour      : If they enquired about a specific tour package
+  Selected Package   : If they enquired about a specific special package
+  Message            : Their written message
+  Special Requests   : Dietary, accessibility, or other needs
+
+MANAGING INQUIRY STATUS
+  Use the Status field (sidebar) to track each enquiry:
+    New        = Just received, not yet responded to
+    Contacted  = You have replied to the guest
+    Planning   = Actively building their itinerary
+    Confirmed  = Booking confirmed
+    Closed     = Enquiry resolved or cancelled
+
+INTERNAL NOTES
+  Use the "Internal Notes" field to record your follow-up notes
+  These are ONLY visible to the admin team — guests cannot see them
+
+IMPORTANT NOTES
+  - Never delete inquiries — change status to "Closed" instead
+  - Inquiries are private — only logged-in admin users can view them
+  - You will receive an email notification for each new inquiry
+    (set the notification email in Site Settings)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 8 — SITE SETTINGS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Location: Administration > Site Settings
+This is a single global settings page. There is only one record here
+and it controls information used across the entire website.
+
+WHAT YOU CAN CONFIGURE
+
+COMPANY INFORMATION
+  Company Name  : Anthony Holidays
+  Site Tagline  : e.g. "Authentic Sri Lanka, Expert-Led Journeys"
+  Logo          : Upload the company logo image
+  Logo Text     : Fallback text if no logo image is uploaded
+  Footer Text   : Short company description shown in the website footer
+
+CONTACT INFORMATION
+  Email                 : Main contact email address
+  Phone Number          : Main contact phone number (include country code)
+  WhatsApp Number       : Format: country code + number, no spaces or + sign
+                          Example: 94771234567
+  Business Address      : Full company address (shown on contact page)
+  Google Maps Embed URL : Paste the embed src URL from Google Maps
+                          (Go to Google Maps > Share > Embed a map > Copy src URL)
+
+SOCIAL MEDIA LINKS
+  Facebook    : Full URL to Facebook page
+  Instagram   : Full URL to Instagram profile
+  X / Twitter : Full URL to Twitter/X profile
+  YouTube     : Full URL to YouTube channel
+  TripAdvisor : Full URL to TripAdvisor listing
+
+ENQUIRY NOTIFICATION EMAIL
+  The email address that receives a notification whenever a guest
+  submits an enquiry through the website contact form
+
+DEFAULT SEO SETTINGS
+  Default Page Title    : Used on pages without a specific SEO title
+  Default Meta Desc     : Used on pages without a specific meta description
+  Default Social Image  : Fallback image for social media sharing
+  Google Site Verif.    : Paste verification code from Google Search Console
+  Google Analytics ID   : Format G-XXXXXXXXXX (enter when client provides access)
+
+REGISTRATION INFORMATION
+  Registration / Licence: Sri Lanka Tourism Authority registration number
+
+HOW TO UPDATE SITE SETTINGS
+  1. Click "Site Settings" under Administration in the sidebar
+  2. Make your changes
+  3. Click "Save" at the top right
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SECTION 9 — USERS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Location: Administration > Users
+Manage who has access to the admin panel.
+
+HOW TO ADD AN ADMIN USER
+  1. Click "Users" in the sidebar
+  2. Click "Create New"
+  3. Fill in:
+     First Name : Staff member's first name
+     Last Name  : Staff member's last name
+     Email      : Their login email address
+     Password   : Set a strong password
+     Role       : Administrator (full access) or Editor (content only)
+  4. Click Save
+
+HOW TO REMOVE ACCESS
+  Open the user record and delete it
+  NOTE: Never delete the primary admin account
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+QUICK REFERENCE — WHAT APPEARS WHERE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Admin Section          Website Page(s)
+--------------------------------------------------------------------
+Tour Packages       -> /tours  and  /tours/[slug]
+                       Homepage: Featured tours (if Featured = Yes)
+Special Packages    -> /special-packages  and  /special-packages/[slug]
+                       Homepage: Special packages (if Featured = Yes)
+Services            -> /services
+                       Homepage: Services section
+Blog Articles       -> /blog  and  /blog/[slug]
+Team Members        -> /about
+Testimonials        -> /reviews
+                       Homepage: Testimonials (if Featured = Yes)
+Inquiries           -> Admin only (not visible on public website)
+Site Settings       -> Entire website (contact info, logo, social, SEO)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PUBLISHING RULES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Only content with Status = "Published" is visible to website visitors.
+Content with Status = "Draft" is only visible when logged into the admin.
+
+Testimonials use a different status system:
+  "Pending Moderation"   = not visible on website (default)
+  "Approved & Published" = visible on website
+  "Rejected"             = hidden permanently
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TIPS & BEST PRACTICES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. ALWAYS write Alt Text for every image you upload
+   Important for Google SEO and accessibility
+
+2. ALWAYS fill in SEO Title and Meta Description for tours and blog posts
+   These are what appear in Google search results
+
+3. USE DRAFT status while building content
+   Only switch to Published when the content is complete and ready
+
+4. DO NOT delete inquiries — mark them as Closed instead
+   This preserves your guest history and business records
+
+5. KEEP slugs simple and readable
+   Good:  "8-day-cultural-tour"
+   Avoid: "8-Day-Cultural-Triangle-&-Hill-Country-(2024)"
+
+6. FOR WhatsApp number — use digits only, no spaces or + sign
+   Good:  94771234567
+   Wrong: +94 77 123 4567
+
+7. REVIEW pending testimonials regularly
+   Approve genuine reviews promptly to keep the reviews page fresh
+
+8. UPDATE Site Settings before going live
+   Fill in the real contact email, phone, WhatsApp, address, and social links
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+END OF DOCUMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

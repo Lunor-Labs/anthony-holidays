@@ -1,0 +1,176 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { getWhatsAppUrl } from "@/lib/utils";
+import {
+  JourneyHero,
+  JourneyOverview,
+  JourneyItinerary,
+  JourneyInclusions,
+  JourneySidebar,
+  JourneyFaq,
+} from "@/components/journeys";
+import { toursData } from "@/lib/tours-data";
+import { getJourneys } from "@/lib/payload-data";
+
+type Params = Promise<{ slug: string }>;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Params;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const journey = toursData[slug];
+
+  if (!journey) {
+    return { title: "Journey Not Found" };
+  }
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
+  return {
+    title: `${journey.title} - Anthony Holidays`,
+    description: journey.excerpt,
+    openGraph: {
+      title: `${journey.title} - Anthony Holidays`,
+      description: journey.excerpt,
+      images: [{ url: journey.coverImage, alt: journey.alt }],
+      type: "website",
+      url: `${siteUrl}/tours/${slug}`,
+    },
+    alternates: {
+      canonical: `${siteUrl}/tours/${slug}`,
+    },
+  };
+}
+
+export async function generateStaticParams() {
+  const journeys = await getJourneys();
+  const allSlugs = Array.from(
+    new Set([...Object.keys(toursData), ...journeys.map((j) => j.slug)])
+  );
+  return allSlugs.map((slug) => ({ slug }));
+}
+
+export default async function JourneyDetailPage({
+  params,
+}: {
+  params: Params;
+}) {
+  const { slug } = await params;
+  const journey = toursData[slug];
+
+  if (!journey) {
+    notFound();
+  }
+
+  const whatsappUrl = getWhatsAppUrl(
+    process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "94771234567",
+    `Hello, I'm interested in the "${journey.title}" journey. Could you provide more information?`
+  );
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "TouristTrip",
+    name: journey.title,
+    description: journey.excerpt,
+    touristType: "Culture",
+    itinerary: journey.itinerary.map((day) => ({
+      "@type": "Event",
+      name: `Day ${day.day}: ${day.title}`,
+      description: day.description,
+      location: {
+        "@type": "Place",
+        name: day.locations || "Sri Lanka",
+      },
+    })),
+    provider: {
+      "@type": "TravelAgency",
+      name: "Anthony Holidays",
+      url: siteUrl,
+    },
+    url: `${siteUrl}/tours/${slug}`,
+    image: journey.coverImage,
+    inLanguage: "en",
+    offers: {
+      "@type": "Offer",
+      availability: "https://schema.org/InStock",
+      itemOffered: {
+        "@type": "TouristTrip",
+        name: journey.title,
+      },
+    },
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
+      {/* Journey Hero */}
+      <JourneyHero
+        title={journey.title}
+        coverImage={journey.coverImage}
+        alt={journey.alt}
+        duration={journey.duration}
+        destinations={journey.destinations}
+      />
+
+      {/* Main Content & Sticky Booking Sidebar */}
+      <div className="section bg-offwhite">
+        <div className="container">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-start">
+            {/* Main Content (2 Columns) */}
+            <div className="lg:col-span-2">
+              <JourneyOverview
+                description={journey.description}
+                gallery={journey.gallery}
+              />
+
+              <JourneyItinerary itinerary={journey.itinerary} />
+
+              <JourneyInclusions
+                inclusions={journey.inclusions}
+                exclusions={journey.exclusions}
+                includedSites={(journey as any).includedSites}
+                optionalSites={(journey as any).optionalSites}
+                accommodationDetails={(journey as any).accommodationDetails}
+                transportDetails={(journey as any).transportDetails}
+                guideDetails={(journey as any).guideDetails}
+                insuranceInfo={(journey as any).insuranceInfo}
+                visaInfo={(journey as any).visaInfo}
+                airTicketInfo={(journey as any).airTicketInfo}
+              />
+
+              {journey.travelInfo && (
+                <div className="bg-cream p-8 mb-14 border border-sand/50">
+                  <h2 className="font-serif text-2xl text-charcoal mb-4 font-normal">
+                    Important Travel Information
+                  </h2>
+                  <p className="text-[15px] text-stone leading-relaxed">
+                    {journey.travelInfo}
+                  </p>
+                </div>
+              )}
+
+              <JourneyFaq faqs={journey.faqs} />
+            </div>
+
+            {/* Sidebar (1 Column) */}
+            <JourneySidebar
+              journeyTitle={journey.title}
+              journeySlug={journey.slug}
+              duration={journey.duration}
+              destinations={journey.destinations}
+              whatsappUrl={whatsappUrl}
+            />
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
