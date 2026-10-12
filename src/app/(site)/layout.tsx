@@ -4,6 +4,7 @@ import { Footer } from '@/components/layout/Footer'
 import { WhatsAppButton } from '@/components/layout/WhatsAppButton'
 import { ScrollToTop } from '@/components/layout/ScrollToTop'
 import { SmoothScrollProvider } from '@/components/ui/SmoothScrollProvider'
+import { CustomCursor } from '@/components/ui/CustomCursor'
 import { getSiteSettings } from '@/lib/payload-data'
 import '@/app/globals.css'
 
@@ -104,6 +105,7 @@ export default async function RootLayout({
         />
       </head>
       <body>
+        <CustomCursor />
         <SmoothScrollProvider>
           <Header />
           <main id="main-content" tabIndex={-1}>

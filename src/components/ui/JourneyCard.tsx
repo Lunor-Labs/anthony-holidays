@@ -29,7 +29,10 @@ export interface JourneyCardProps {
 
 export function JourneyCard({ journey }: JourneyCardProps) {
   return (
-    <article className="group flex flex-col h-full bg-white border border-sand/60 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+    <article
+      data-cursor="explore"
+      className="group flex flex-col h-full bg-white border border-sand/60 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 overflow-hidden"
+    >
       {/* Cover Image */}
       <div className="relative aspect-[4/3] overflow-hidden">
         <Image

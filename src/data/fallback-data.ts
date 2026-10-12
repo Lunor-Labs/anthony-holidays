@@ -592,3 +592,211 @@ Staying in a restored colonial planter's bungalow offers a glimpse into a bygone
   },
 ]
 
+export interface FallbackService {
+  id: string
+  slug: string
+  title: string
+  shortDescription: string
+  description?: string
+  image: string
+  iconName: string
+  displayOrder: number
+  highlights: string[]
+}
+
+export const FALLBACK_SERVICES: FallbackService[] = [
+  {
+    id: 'srv-1',
+    slug: 'hotel-reservations',
+    title: 'Hotel Reservations',
+    iconName: 'Building',
+    displayOrder: 1,
+    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=80',
+    shortDescription:
+      'Handpicked boutique hotels, colonial tea bungalows, and luxury beach resorts with exclusive partner rates across Sri Lanka.',
+    description:
+      'From cliffside villas overlooking the southern Indian Ocean to heritage planters bungalows nestled among high-grown tea estates, we personally inspect every partner property to guarantee pristine cleanliness, exceptional hospitality, and authentic Ceylon charm.',
+    highlights: [
+      'Curated heritage, boutique, and eco-luxury properties islandwide',
+      'Special contracted rates and room upgrade preferences',
+      'Direct relationships with boutique hotel owners and managers',
+      'Tailored family rooms, private villas, and honeymoon suites',
+    ],
+  },
+  {
+    id: 'srv-2',
+    slug: 'visa-assistance',
+    title: 'Visa Assistance',
+    iconName: 'FileCheck',
+    displayOrder: 2,
+    image: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1200&q=80',
+    shortDescription:
+      'Hassle-free Sri Lanka ETA tourist visa guidance, entry requirement advisories, and document verification.',
+    description:
+      'Our team assists you with the official Sri Lanka Electronic Travel Authorization (ETA) application process, ensuring your documentation complies with the latest Department of Immigration regulations for a smooth, stress-free arrival.',
+    highlights: [
+      'Official Sri Lanka ETA tourist visa application assistance',
+      'Up-to-date entry regulations for all nationalities',
+      'Electronic arrival card completion guidance',
+      'Dedicated support for transit, short-stay, and long-stay visitors',
+    ],
+  },
+  {
+    id: 'srv-3',
+    slug: 'air-ticketing',
+    title: 'Air Ticketing',
+    iconName: 'Plane',
+    displayOrder: 3,
+    image: 'https://images.unsplash.com/photo-1506015391300-4802dc74de2e?w=1200&q=80',
+    shortDescription:
+      'International airline itinerary coordination, domestic sea-plane transfers, and private helicopter charters.',
+    description:
+      'We provide flight advisory support to identify the most convenient international connections to Colombo (CMB), as well as coordinating scenic domestic amphibian flights and helicopter hops to cut transit times and witness Ceylon from the sky.',
+    highlights: [
+      'Optimal flight routing advisories to Colombo (CMB)',
+      'Domestic Cinnamon Air scheduled flights and charter bookings',
+      'Real-time flight tracking for synchronized airport meet-and-greet',
+      'Flexible flight amendments and travel concierge liaison',
+    ],
+  },
+  {
+    id: 'srv-4',
+    slug: 'travel-insurance',
+    title: 'Travel Insurance',
+    iconName: 'ShieldCheck',
+    displayOrder: 4,
+    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&q=80',
+    shortDescription:
+      'Comprehensive travel insurance advisory and safety coverage ensuring total peace of mind on the road.',
+    description:
+      'Your safety is our foremost priority. We advise on comprehensive travel insurance policies covering medical emergencies, journey interruption, safari activities, and luggage protection, backed by 24/7 on-the-ground concierge liaison.',
+    highlights: [
+      'Complimentary tour safety advisory and emergency protocols',
+      'Comprehensive medical and emergency evacuation coverage guidance',
+      'Safari, water sports, and trekking activity protection guidance',
+      'Direct 24/7 liaison with local medical assistance providers',
+    ],
+  },
+  {
+    id: 'srv-5',
+    slug: 'value-added-services',
+    title: 'Value Added Services',
+    iconName: 'Sparkles',
+    displayOrder: 5,
+    image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1200&q=80',
+    shortDescription:
+      'Premium complimentary amenities and personalized touches that make your Sri Lankan journey seamless.',
+    description:
+      'Every journey with Anthony Holidays includes value-added features that set us apart: 24/7 concierge support, specialized licensed guide lecturers, a free local tourist SIM card with high-speed 4G/5G data on arrival, and immaculately maintained private air-conditioned vehicles.',
+    highlights: [
+      '24x7 Dedicated trip concierge and emergency response hotline',
+      'Specialized Licensed National Tourist Guide Lecturers & professional chauffeur drivers',
+      'Free local tourist SIM card with high-speed data provided upon arrival',
+      'Private air-conditioned fleet matched to your group (Executive Sedan, Luxury Van, or Mini-Coach)',
+    ],
+  },
+]
+
+export interface FallbackTeamMember {
+  id: string
+  name: string
+  slug: string
+  role: string
+  isFounder: boolean
+  photo: string
+  credentials: string[]
+  bio: string
+  specialties: string[]
+  languages: string[]
+  displayOrder: number
+}
+
+export const FALLBACK_TEAM_MEMBERS: FallbackTeamMember[] = [
+  {
+    id: 'founder-anthony',
+    name: 'Anthony',
+    slug: 'anthony',
+    role: 'Founder & Licensed National Tourist Guide Lecturer',
+    isFounder: true,
+    photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80',
+    credentials: [
+      'Licensed National Tourist Guide Lecturer (SLTDA Reg.)',
+      'Ceylon Tourism Industry Veteran (Anthony Guesthouse)',
+      'Cultural Triangle & UNESCO Heritage Specialist',
+    ],
+    bio: `Born and raised in the vibrant coastal city of Hikkaduwa, I grew up immersed in the tourism industry while helping run our family-owned guesthouse, Anthony Guesthouse. As travelers completed their clockwise journeys around the island, they would inevitably arrive at our doorstep to relax before heading home.
+
+Spending evenings engaging with guests from all over the world, I listened closely to their experiences. A common theme emerged: while they had visited iconic landmarks, many felt they had missed the true soul of the country. They shared stories of rushed itineraries and, most importantly, a lack of knowledgeable guidance to bring the history and culture to life.
+
+These conversations sparked a realization: seeing a site is not the same as experiencing it. Determined to bridge this gap, I founded Anthony Holidays to offer depth over just sightseeing.
+
+Our defining specialty is our team. We are proud to be led by high-quality, Licensed National Tourist Guide Lecturers, myself included. We don’t just take you to a monument; we narrate its history, legends, and significance. With us, you won't just be a tourist looking at a view—you will be a guest who truly understands the wonder of the Pearl of the Indian Ocean.`,
+    specialties: [
+      'Ancient Hydraulic Civilizations & UNESCO Sites',
+      'Cultural & Spiritual Living Heritage',
+      'Hill Country Tea & Colonial History',
+      'Bespoke Island Routing & Wildlife Logistics',
+    ],
+    languages: ['English', 'Sinhala'],
+    displayOrder: 1,
+  },
+  {
+    id: 'faculty-wildlife',
+    name: 'Chaminda Silva',
+    slug: 'chaminda-silva',
+    role: 'Senior Naturalist & Wildlife Tracking Specialist',
+    isFounder: false,
+    photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80',
+    credentials: [
+      'SLTDA Licensed Tourist Guide Lecturer',
+      'Field Ornithology & Leopard Habitat Specialist',
+      'Marine Mammal Observation Certified (Mirissa & Trincomalee)',
+    ],
+    bio: `With over 14 years in the field, Chaminda is one of Sri Lanka’s most respected naturalist guide lecturers. His deep knowledge of leopard tracking in Yala and Wilpattu, combined with strict ethical observation protocols, ensures breathtaking wildlife encounters that prioritize animal welfare above all else.
+
+Chaminda also specializes in endemic avifauna in Sinharaja Rainforest and seasonal blue whale migrations off the southern continental shelf.`,
+    specialties: ['Wildlife Tracking', 'Birdwatching', 'Marine Safari', 'Sinharaja Endemics'],
+    languages: ['English', 'Sinhala', 'German'],
+    displayOrder: 2,
+  },
+  {
+    id: 'faculty-archaeology',
+    name: 'Dinesh Perera',
+    slug: 'dinesh-perera',
+    role: 'Cultural Heritage & Archaeological Lecturer',
+    isFounder: false,
+    photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&q=80',
+    credentials: [
+      'National Tourist Guide Lecturer License #NTGL-4482',
+      'Postgraduate Diploma in Archaeology (Univ. of Kelaniya)',
+      'Central Cultural Fund Accredited Lecturer',
+    ],
+    bio: `An academic lecturer and field archaeologist with over 16 years of guiding experience across Anuradhapura, Polonnaruwa, and Sigiriya. Dinesh brings ancient ruins vividly to life, explaining the sophisticated hydraulic engineering of 5th-century irrigation systems and the subtle iconography of Buddhist stone architecture.
+
+His scholarly yet engaging narratives have enlightened academic groups, documentary film crews, and curious independent travellers alike.`,
+    specialties: ['Ancient Citadels', 'Buddhist Art & Iconography', 'Hydraulic Engineering', 'Colonial Forts'],
+    languages: ['English', 'Sinhala', 'French'],
+    displayOrder: 3,
+  },
+  {
+    id: 'faculty-highlands',
+    name: 'Rohan Fernando',
+    slug: 'rohan-fernando',
+    role: 'Highland Trails & Tea Heritage Specialist',
+    isFounder: false,
+    photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&q=80',
+    credentials: [
+      'SLTDA Certified Highland Guide Lecturer',
+      'Knuckles Range Wilderness Navigation Certified',
+      'Ceylon Tea Board Certified Taster & Factory Specialist',
+    ],
+    bio: `Born in the central highlands, Rohan spent his youth traversing the mist-shrouded ridges of the Knuckles Wilderness and Hatton tea estates. He leads private hikes through primary cloud forests, reveals secret waterfall pools, and guides guests through private tea tastings in heritage planter bungalows.
+
+Rohan combines an encyclopedic knowledge of montane botany with an authentic passion for Sri Lanka’s hill country heritage.`,
+    specialties: ['Cloud Forest Trekking', 'Ceylon Tea Culture', 'Botanical Walks', 'Highland History'],
+    languages: ['English', 'Sinhala', 'Japanese'],
+    displayOrder: 4,
+  },
+]
+
+

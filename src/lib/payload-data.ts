@@ -7,6 +7,8 @@ import {
   FALLBACK_REVIEWS,
   FALLBACK_JOURNEYS,
   FALLBACK_BLOG_POSTS,
+  FALLBACK_SERVICES,
+  FALLBACK_TEAM_MEMBERS,
   getFallbackJourneyDetail,
 } from '@/data/fallback-data'
 
@@ -468,7 +470,7 @@ export async function getServices() {
     console.warn('Payload getServices error:', err)
   }
 
-  return []
+  return FALLBACK_SERVICES
 }
 
 /**
@@ -562,7 +564,7 @@ export async function getTeamMembers() {
     console.warn('Payload getTeamMembers error:', err)
   }
 
-  return []
+  return FALLBACK_TEAM_MEMBERS
 }
 
 /**
@@ -570,7 +572,9 @@ export async function getTeamMembers() {
  */
 export async function getTeamMemberBySlug(slug: string) {
   const members = await getTeamMembers()
-  return members.find((m) => m.slug === slug) || null
+  const found = members.find((m) => m.slug === slug || slugify(m.name) === slug)
+  if (found) return found
+  return FALLBACK_TEAM_MEMBERS.find((m) => m.slug === slug || slugify(m.name) === slug) || null
 }
 
 /**

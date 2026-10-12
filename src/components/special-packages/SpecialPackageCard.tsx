@@ -28,7 +28,10 @@ export function SpecialPackageCard({ packageItem }: SpecialPackageCardProps) {
     packageItem
 
   return (
-    <article className="group flex flex-col h-full bg-white border border-cream transition-all duration-300 hover:-translate-y-1 hover:shadow-lg overflow-hidden">
+    <article
+      data-cursor="explore"
+      className="group flex flex-col h-full bg-white border border-cream transition-all duration-300 hover:-translate-y-1 hover:shadow-lg overflow-hidden"
+    >
       <div className="relative aspect-[16/10] overflow-hidden bg-offwhite">
         <Image
           src={coverImage}

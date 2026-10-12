@@ -670,3 +670,23 @@ a {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* =============================================
+   CUSTOM LUXURY CURSOR
+   ============================================= */
+@media (pointer: fine) {
+  body.custom-cursor-active,
+  body.custom-cursor-active a,
+  body.custom-cursor-active button,
+  body.custom-cursor-active .cursor-pointer,
+  body.custom-cursor-active [role="button"] {
+    cursor: none !important;
+  }
+
+  body.custom-cursor-active input,
+  body.custom-cursor-active textarea,
+  body.custom-cursor-active select {
+    cursor: auto !important;
+  }
+}
+

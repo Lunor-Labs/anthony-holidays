@@ -569,6 +569,7 @@ interface GalleryCardProps {
 function GalleryCard({ item, isDimmed, onOpen }: GalleryCardProps) {
   return (
     <div
+      data-cursor="zoom"
       onClick={onOpen}
       className={`relative w-full aspect-[3/4] rounded-xs overflow-hidden border border-sand bg-white shadow-md cursor-pointer group transition-all duration-500 hover:border-gold hover:shadow-xl ${
         isDimmed ? "opacity-25 scale-95" : "opacity-100 scale-100"

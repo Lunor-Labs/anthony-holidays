@@ -1,6 +1,19 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Award, Car, Compass, Navigation, Eye, CheckCircle2, ArrowRight } from 'lucide-react'
+import {
+  Award,
+  Car,
+  Compass,
+  Navigation,
+  Eye,
+  CheckCircle2,
+  ArrowRight,
+  Building,
+  FileCheck,
+  Plane,
+  ShieldCheck,
+  Sparkles,
+} from 'lucide-react'
 
 export interface ServiceCardProps {
   service: {
@@ -16,11 +29,16 @@ export interface ServiceCardProps {
 }
 
 const iconMap: Record<string, any> = {
-  Award: Award,
-  Car: Car,
-  Compass: Compass,
-  Navigation: Navigation,
-  Eye: Eye,
+  Award,
+  Car,
+  Compass,
+  Navigation,
+  Eye,
+  Building,
+  FileCheck,
+  Plane,
+  ShieldCheck,
+  Sparkles,
 }
 
 export function ServiceCard({ service }: ServiceCardProps) {
