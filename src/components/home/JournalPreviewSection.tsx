@@ -6,13 +6,14 @@ import { SectionHeading } from '@/components/ui/SectionHeading'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
 import { formatDate } from '@/lib/utils'
 import { DEFAULT_MEDIA } from '@/lib/media-catalog'
+import { FALLBACK_BLOG_POSTS } from '@/data/fallback-data'
 
 export interface JournalPreviewSectionProps {
-  posts: any[]
+  posts?: any[]
 }
 
 export function JournalPreviewSection({ posts }: JournalPreviewSectionProps) {
-  const displayPosts = posts.slice(0, 3)
+  const displayPosts = (posts && posts.length > 0 ? posts : FALLBACK_BLOG_POSTS).slice(0, 3)
 
   return (
     <section className="section-padding bg-ivory" aria-labelledby="journal-heading">

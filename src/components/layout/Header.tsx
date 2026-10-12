@@ -93,6 +93,11 @@ export function Header() {
 
   const isTransparent = isTransparentPage && !isScrolled;
 
+  const isLinkActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname === href || pathname.startsWith(href + "/");
+  };
+
   return (
     <>
       <header
@@ -117,16 +122,16 @@ export function Header() {
               <div className="flex flex-col leading-tight">
                 <span
                   className={`font-serif text-xl lg:text-2xl font-semibold tracking-[0.08em] uppercase transition-colors duration-400 ${
-                    isMobileOpen || isTransparent ? "text-forest" : "text-forest"
+                    isMobileOpen || isTransparent
+                      ? "text-forest"
+                      : "text-forest"
                   }`}
                 >
                   Anthony
                 </span>
                 <span
                   className={`font-sans text-xs font-medium tracking-[0.22em] uppercase transition-colors duration-400 ${
-                    isMobileOpen || isTransparent
-                      ? "text-forest"
-                      : "text-stone"
+                    isMobileOpen || isTransparent ? "text-forest" : "text-stone"
                   }`}
                 >
                   Holidays
@@ -138,22 +143,27 @@ export function Header() {
               aria-label="Primary navigation"
               className="hidden xl:flex items-center gap-7 text-xs sm:text-sm"
             >
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`nav-link ${
-                    isTransparent
-                      ? "text-ivory/85 hover:text-ivory"
-                      : pathname === link.href
-                        ? "text-forest font-semibold"
-                        : "text-charcoal hover:text-forest"
-                  }`}
-                  aria-current={pathname === link.href ? "page" : undefined}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {navLinks.map((link) => {
+                const isActive = isLinkActive(link.href);
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`nav-link relative ${isActive ? "active" : ""} ${
+                      isTransparent
+                        ? isActive
+                          ? ""
+                          : "text-ivory/85 hover:text-ivory"
+                        : isActive
+                          ? "!text-gold"
+                          : "text-charcoal hover:text-forest"
+                    }`}
+                    aria-current={isActive ? "page" : undefined}
+                  >
+                    <span>{link.label}</span>
+                  </Link>
+                );
+              })}
 
               <Link
                 href="/start-planning"
@@ -253,7 +263,7 @@ export function Header() {
             <nav aria-label="Mobile primary navigation">
               <ul className="list-none flex flex-col gap-2.5 p-0 m-0">
                 {navLinks.map((link, idx) => {
-                  const isActive = pathname === link.href;
+                  const isActive = isLinkActive(link.href);
                   return (
                     <li
                       key={link.href}
