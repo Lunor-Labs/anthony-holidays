@@ -18,7 +18,7 @@ export function MarqueeTicker({
       className={`overflow-hidden whitespace-nowrap w-full [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)] ${className}`}
       aria-hidden="true"
     >
-      <div className="inline-flex gap-0 animate-[marquee_32s_linear_infinite] will-change-transform hover:[animation-play-state:paused]">
+      <div className="inline-flex gap-0 animate-[marquee_120s_linear_infinite] will-change-transform hover:[animation-play-state:paused]">
         {loopItems.map((item, i) => (
           <span
             key={i}

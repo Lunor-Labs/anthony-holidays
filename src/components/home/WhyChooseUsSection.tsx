@@ -200,6 +200,11 @@ export function WhyChooseUsSection() {
     };
 
     const renderLoop = () => {
+      if (window.innerWidth < 1024) {
+        rafId = requestAnimationFrame(renderLoop);
+        return;
+      }
+
       // Smooth lerp: currentProgress gently chases targetProgress with liquid damping
       const diff = targetProgressRef.current - currentProgressRef.current;
       if (Math.abs(diff) > 0.0001) {
@@ -289,8 +294,8 @@ export function WhyChooseUsSection() {
       className="relative bg-cream section-padding lg:py-0 lg:h-[350vh]"
       aria-label="Why Choose Anthony Holidays - The Difference Expertise Makes"
     >
-      <div className="lg:sticky lg:top-16 lg:h-[calc(100vh-4rem)] flex flex-col justify-center py-2 lg:py-3">
-        <div className="container flex flex-col justify-between h-full max-h-[720px]">
+      <div className="lg:sticky lg:top-16 lg:h-[calc(100vh-4rem)] flex flex-col lg:justify-center py-2 lg:py-3">
+        <div className="container flex flex-col lg:justify-between lg:h-full lg:max-h-[720px]">
           <SectionHeading
             label="Why Choose Us"
             title="The Difference"
@@ -304,7 +309,7 @@ export function WhyChooseUsSection() {
                       key={panel.id}
                       type="button"
                       onClick={() => scrollToPanel(idx)}
-                      className={`px-3 py-1.5 xl:px-3.5 xl:py-2 text-[11px] xl:text-xs font-sans uppercase tracking-wider transition-all duration-300 border cursor-pointer ${
+                      className={`px-3 py-1.5 xl:px-3.5 xl:py-2 text-xs font-sans uppercase tracking-wider transition-all duration-300 border cursor-pointer ${
                         activeIndex === idx
                           ? "bg-forest text-gold border-forest shadow-xs font-semibold"
                           : "bg-white/80 text-stone hover:text-forest border-sand/60 hover:border-forest/40"
@@ -325,7 +330,7 @@ export function WhyChooseUsSection() {
                       }}
                     />
                   </div>
-                  <span className="font-sans text-[11px] font-medium tracking-wider uppercase text-stone/80 whitespace-nowrap">
+                  <span className="font-sans text-xs font-medium tracking-wider uppercase text-stone/80 whitespace-nowrap">
                     Pillar 0{activeIndex + 1} / 04
                   </span>
                 </div>
@@ -414,7 +419,7 @@ export function WhyChooseUsSection() {
                             {panel.number}
                           </span>
                           <span className="w-3 h-[2px] bg-gold/50" />
-                          <span className="font-sans text-[11px] font-medium tracking-widest uppercase text-ivory/70">
+                          <span className="font-sans text-xs font-medium tracking-widest uppercase text-ivory/70">
                             {panel.tagline}
                           </span>
                         </div>
@@ -423,7 +428,7 @@ export function WhyChooseUsSection() {
                           {panel.heading}
                         </h3>
 
-                        <p className="font-sans text-xs lg:text-[13px] font-light text-ivory/80 leading-relaxed mb-3 line-clamp-3 xl:line-clamp-none">
+                        <p className="font-sans text-xs lg:text-sm font-light text-ivory/80 leading-relaxed mb-3 line-clamp-3 xl:line-clamp-none">
                           {panel.description}
                         </p>
 
@@ -471,7 +476,7 @@ export function WhyChooseUsSection() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-forest/90 via-transparent to-transparent pointer-events-none" />
                       <div className="absolute bottom-4 left-4 right-4">
-                        <span className="inline-flex items-center gap-2 bg-forest/90 backdrop-blur-sm border border-gold/40 px-3 py-1 font-serif text-[11px] text-gold uppercase tracking-wider">
+                        <span className="inline-flex items-center gap-2 bg-forest/90 backdrop-blur-sm border border-gold/40 px-3 py-1 font-serif text-xs text-gold uppercase tracking-wider">
                           <Award size={12} className="text-gold" />
                           Anthony Holidays Certified
                         </span>
@@ -484,7 +489,7 @@ export function WhyChooseUsSection() {
           </div>
 
           <div className="hidden lg:flex items-center justify-between text-xs text-stone pt-2">
-            <span className="font-sans text-[11px] tracking-wider uppercase text-stone/70">
+            <span className="font-sans text-xs tracking-wider uppercase text-stone/70">
               Scroll down to reveal each pillar · or click tabs to jump
             </span>
             <button
@@ -492,7 +497,7 @@ export function WhyChooseUsSection() {
               onClick={() =>
                 scrollToPanel(Math.min(panels.length - 1, activeIndex + 1))
               }
-              className="flex items-center gap-2 text-[11px] uppercase tracking-wider text-gold hover:text-gold-light transition-colors font-medium cursor-pointer"
+              className="flex items-center gap-2 text-xs uppercase tracking-wider text-gold hover:text-gold-light transition-colors font-medium cursor-pointer"
             >
               <span>Next Pillar</span>
               <ArrowRight size={12} />
@@ -520,7 +525,7 @@ export function WhyChooseUsSection() {
 
                 <div className="p-5 sm:p-6">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="font-sans text-[11px] font-medium tracking-widest uppercase text-gold">
+                    <span className="font-sans text-xs font-medium tracking-widest uppercase text-gold">
                       {panel.tagline}
                     </span>
                   </div>

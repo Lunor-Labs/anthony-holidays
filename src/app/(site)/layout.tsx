@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { WhatsAppButton } from '@/components/layout/WhatsAppButton'
+import { ScrollToTop } from '@/components/layout/ScrollToTop'
 import { SmoothScrollProvider } from '@/components/ui/SmoothScrollProvider'
 import { getSiteSettings } from '@/lib/payload-data'
 import '@/app/globals.css'
@@ -112,6 +113,7 @@ export default async function RootLayout({
           <WhatsAppButton
             whatsappNumber={siteSettings?.contact?.whatsappNumber}
           />
+          <ScrollToTop />
         </SmoothScrollProvider>
       </body>
     </html>

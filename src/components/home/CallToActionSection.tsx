@@ -12,8 +12,8 @@ export function CallToActionSection() {
       }}
       aria-label="Start planning your journey"
     >
-      <div className="absolute inset-0 bg-forest/80 backdrop-brightness-75 pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-b from-forest/80 via-forest/60 to-forest/80 pointer-events-none" />
+      <div className="absolute inset-0 bg-forest/40 backdrop-brightness-75 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-forest/60 via-forest/40 to-forest/60 pointer-events-none" />
 
       <div className="container relative z-10 text-center">
         <ScrollReveal direction="up">

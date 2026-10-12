@@ -22,18 +22,32 @@ export function HeroSection() {
       className="relative min-h-screen flex items-end overflow-hidden"
       aria-label="Hero"
     >
-      <div className="absolute inset-0 z-0">
-        <Image
-          src={HERO_MEDIA.homeHero.url}
-          alt={HERO_MEDIA.homeHero.alt}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-[center_30%] animate-[imageZoom_12s_ease-out_forwards] will-change-transform"
-        />
+      <div className="absolute inset-0 z-0 overflow-hidden bg-forest">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={HERO_MEDIA.homeHero.url}
+          className="w-full h-full object-cover object-center scale-105"
+        >
+          <source src="/videos/hero-ambuluwawa.mp4" type="video/mp4" />
+          <source
+            src="https://cdn.pixabay.com/video/2023/08/22/177127-856658451_medium.mp4"
+            type="video/mp4"
+          />
+          <Image
+            src={HERO_MEDIA.homeHero.url}
+            alt={HERO_MEDIA.homeHero.alt}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-[center_30%]"
+          />
+        </video>
       </div>
       <div
-        className="absolute inset-0 z-10 bg-gradient-to-b from-black/35 via-black/10 to-black/85 pointer-events-none"
+        className="absolute inset-0 z-10 bg-gradient-to-b from-black/45 via-black/20 to-black/85 pointer-events-none"
         aria-hidden="true"
       />
       <div className="relative z-20 pb-28 md:pb-36 lg:pb-40 container w-full">

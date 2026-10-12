@@ -170,6 +170,41 @@ export function GallerySection() {
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
   const [filter, setFilter] = useState<string>("All");
 
+  const filterScrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const checkFilterScroll = useCallback(() => {
+    const el = filterScrollRef.current;
+    if (!el) return;
+    const { scrollLeft, scrollWidth, clientWidth } = el;
+    setCanScrollLeft(scrollLeft > 2);
+    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 2);
+  }, []);
+
+  useEffect(() => {
+    checkFilterScroll();
+    const timer = setTimeout(checkFilterScroll, 60);
+    const handleResize = () => checkFilterScroll();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [checkFilterScroll]);
+
+  const handleFilterClick = (
+    cat: string,
+    e: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    setFilter(cat);
+    e.currentTarget.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "center",
+    });
+  };
+
   const sectionRef = useRef<HTMLDivElement>(null);
   const col1Ref = useRef<HTMLDivElement>(null);
   const col2Ref = useRef<HTMLDivElement>(null);
@@ -305,23 +340,46 @@ export function GallerySection() {
             theme="light"
             className="mb-2 lg:mb-4"
             action={
-              <div className="flex items-center gap-1.5 p-1 rounded-xs bg-white/90 border border-sand shadow-xs">
-                {["All", "Heritage", "Highlands", "Wildlife", "Coast"].map(
-                  (cat) => (
-                    <button
-                      key={cat}
-                      type="button"
-                      onClick={() => setFilter(cat)}
-                      className={`px-3 py-1 text-xs font-sans uppercase tracking-wider transition-all duration-300 rounded-xs cursor-pointer ${
-                        filter === cat
-                          ? "bg-forest text-gold font-medium shadow-xs"
-                          : "text-stone hover:text-forest hover:bg-sand/30"
-                      }`}
-                    >
-                      {cat}
-                    </button>
-                  ),
-                )}
+              <div className="relative w-full max-w-full min-w-0">
+                <div
+                  aria-hidden="true"
+                  className={`absolute left-0 top-0 bottom-0 w-8 z-10 pointer-events-none bg-gradient-to-r from-cream via-cream/80 to-transparent transition-opacity duration-300 sm:hidden ${
+                    canScrollLeft ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+
+                <div
+                  ref={filterScrollRef}
+                  onScroll={checkFilterScroll}
+                  className="w-full max-w-full min-w-0 overflow-x-auto no-scrollbar py-1 -my-1 overscroll-x-contain touch-pan-x"
+                  style={{ WebkitOverflowScrolling: "touch" }}
+                >
+                  <div className="inline-flex items-center gap-1 sm:gap-1.5 p-1 rounded-xs bg-white/90 border border-sand shadow-xs min-w-max">
+                    {["All", "Heritage", "Highlands", "Wildlife", "Coast"].map(
+                      (cat) => (
+                        <button
+                          key={cat}
+                          type="button"
+                          onClick={(e) => handleFilterClick(cat, e)}
+                          className={`px-3.5 py-1.5 sm:py-1 text-xs font-sans uppercase tracking-wider transition-all duration-300 rounded-xs cursor-pointer whitespace-nowrap shrink-0 ${
+                            filter === cat
+                              ? "bg-forest text-gold font-medium shadow-xs"
+                              : "text-stone hover:text-forest hover:bg-sand/30"
+                          }`}
+                        >
+                          {cat}
+                        </button>
+                      ),
+                    )}
+                  </div>
+                </div>
+
+                <div
+                  aria-hidden="true"
+                  className={`absolute right-0 top-0 bottom-0 w-10 z-10 pointer-events-none bg-gradient-to-l from-cream via-cream/90 to-transparent transition-opacity duration-300 sm:hidden ${
+                    canScrollRight ? "opacity-100" : "opacity-0"
+                  }`}
+                />
               </div>
             }
           />
@@ -387,7 +445,7 @@ export function GallerySection() {
             12 Handpicked Frames · Click any photo for details
           </span>
         </div>
-        <div className="lg:hidden container relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+        <div className="lg:hidden container relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
           {filteredItems.map((item) => (
             <div
               key={item.id}
@@ -423,7 +481,7 @@ export function GallerySection() {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-forest/80 backdrop-blur-md animate-fade-in"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-forest/80 backdrop-blur-md animate-fade-in"
           onClick={() => setSelectedItem(null)}
         >
           <div

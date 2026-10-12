@@ -75,7 +75,9 @@ export function SectionHeading({
         )}
       </div>
 
-      {action && !isCenter && <div className="shrink-0">{action}</div>}
+      {action && !isCenter && (
+        <div className="w-full sm:w-auto sm:shrink-0 min-w-0 max-w-full">{action}</div>
+      )}
     </div>
   )
 }

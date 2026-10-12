@@ -59,7 +59,7 @@ export function TestimonialCard({ testimonial }: TestimonialCardProps) {
             </p>
           )}
         </div>
-        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-forest bg-forest/5 px-2 py-0.5 rounded-full shrink-0">
+        <span className="inline-flex items-center gap-1 text-xs font-medium text-forest bg-forest/5 px-2 py-0.5 rounded-full shrink-0">
           <CheckCircle2 size={11} className="text-gold" />
           Verified
         </span>
