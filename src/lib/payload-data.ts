@@ -1,6 +1,14 @@
 import { getPayloadClient } from '@/lib/payload'
 import { DEFAULT_MEDIA } from './media-catalog'
 import { slugify } from './utils'
+import {
+  FALLBACK_SPECIAL_PACKAGES,
+  FALLBACK_TESTIMONIALS,
+  FALLBACK_REVIEWS,
+  FALLBACK_JOURNEYS,
+  FALLBACK_BLOG_POSTS,
+  getFallbackJourneyDetail,
+} from '@/data/fallback-data'
 
 /**
  * Helper to extract an image URL from Payload Media relation or fallback string
@@ -73,7 +81,7 @@ export async function getJourneys() {
     console.warn('Payload getJourneys error:', err)
   }
 
-  return []
+  return FALLBACK_JOURNEYS
 }
 
 /**
@@ -187,7 +195,7 @@ export async function getJourneyBySlug(slug: string) {
     console.warn(`Payload getJourneyBySlug(${slug}) error:`, err)
   }
 
-  return null
+  return getFallbackJourneyDetail(slug)
 }
 
 /**
@@ -224,7 +232,7 @@ export async function getJournalPosts() {
     console.warn('Payload getJournalPosts error:', err)
   }
 
-  return []
+  return FALLBACK_BLOG_POSTS
 }
 
 /**
@@ -255,7 +263,7 @@ export async function getTestimonials() {
     console.warn('Payload getTestimonials error:', err)
   }
 
-  return []
+  return FALLBACK_TESTIMONIALS
 }
 
 /**
@@ -348,7 +356,7 @@ export async function getSpecialPackages() {
     console.warn('Payload getSpecialPackages error:', err)
   }
 
-  return []
+  return FALLBACK_SPECIAL_PACKAGES
 }
 
 /**
@@ -409,6 +417,20 @@ export async function getSpecialPackageBySlug(slug: string) {
     }
   } catch (err) {
     console.warn(`Payload getSpecialPackageBySlug(${slug}) error:`, err)
+  }
+
+  const fallback = FALLBACK_SPECIAL_PACKAGES.find((p) => p.slug === slug)
+  if (fallback) {
+    return {
+      ...fallback,
+      itinerary: [],
+      pricing: {
+        showPrice: fallback.pricing.showPrice,
+        priceFrom: fallback.pricing.priceFrom,
+        currency: fallback.pricing.currency,
+        pricingNote: fallback.pricing.pricingNote,
+      },
+    }
   }
 
   return null
@@ -582,5 +604,5 @@ export async function getReviews() {
     console.warn('Payload getReviews error:', err)
   }
 
-  return []
+  return FALLBACK_REVIEWS
 }

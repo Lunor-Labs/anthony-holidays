@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SpecialPackageCard } from "@/components/special-packages/SpecialPackageCard";
+import { FALLBACK_SPECIAL_PACKAGES } from "@/data/fallback-data";
 
 export interface SpecialPackageItem {
   id: string;
@@ -27,14 +28,16 @@ export interface SpecialPackageItem {
 }
 
 export interface FeaturedSpecialPackagesSectionProps {
-  specialPackages: SpecialPackageItem[];
+  specialPackages?: SpecialPackageItem[];
 }
 
 export function FeaturedSpecialPackagesSection({
   specialPackages,
 }: FeaturedSpecialPackagesSectionProps) {
   const displayPackages =
-    specialPackages && specialPackages.length > 0 ? specialPackages : [];
+    specialPackages && specialPackages.length > 0
+      ? specialPackages
+      : FALLBACK_SPECIAL_PACKAGES;
 
   const sliderRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
