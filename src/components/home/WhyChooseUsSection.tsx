@@ -28,7 +28,7 @@ const panels: DifferentiatorPanel[] = [
     heading: "Led by National Tourist Guide Lecturers",
     tagline: "SLTDA Certified · Academic Scholars",
     description:
-      "Every journey is guided by licensed National Tourist Guide Lecturers — Sri Lanka's highest state qualification. Academic historians and certified naturalists who bring the island alive.",
+      "Every journey is guided by licensed National Tourist Guide Lecturers - Sri Lanka's highest state qualification. Academic historians and certified naturalists who bring the island alive.",
     highlights: [
       "100% SLTDA Certified National Tourist Guide Lecturers",
       "Academic depth in archaeology, history & biodiversity",
@@ -50,7 +50,7 @@ const panels: DifferentiatorPanel[] = [
       "No rigid group schedules or commercial checklists. Your private vehicle, chauffeur, and guide adapt in real time to your waking hours, interests, and spontaneous discoveries.",
     highlights: [
       "Custom day-by-day itineraries with private luxury vehicles",
-      "Flexible on-trip timing — explore at your own pace",
+      "Flexible on-trip timing - explore at your own pace",
       "Crafted for couples, families, and solo travellers",
     ],
     image:
@@ -192,7 +192,10 @@ export function WhyChooseUsSection() {
       if (totalScrollDistance <= 0) return;
 
       const scrolled = -rect.top + stickyOffset;
-      const rawProgress = Math.max(0, Math.min(1, scrolled / totalScrollDistance));
+      const rawProgress = Math.max(
+        0,
+        Math.min(1, scrolled / totalScrollDistance),
+      );
       targetProgressRef.current = rawProgress;
     };
 
@@ -216,7 +219,7 @@ export function WhyChooseUsSection() {
       // Sync activeIndex for top pills & progress bar
       let newActive = 0;
       if (p < 0.18) newActive = 0;
-      else if (p < 0.50) newActive = 1;
+      else if (p < 0.5) newActive = 1;
       else if (p < 0.83) newActive = 2;
       else newActive = 3;
 
@@ -237,7 +240,8 @@ export function WhyChooseUsSection() {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleScroll);
       cancelAnimationFrame(rafId);
-      if (manualClickTimerRef.current) clearTimeout(manualClickTimerRef.current);
+      if (manualClickTimerRef.current)
+        clearTimeout(manualClickTimerRef.current);
     };
   }, [applyPositions]);
 
@@ -368,7 +372,9 @@ export function WhyChooseUsSection() {
                   >
                     <span
                       className={`font-serif text-base transition-colors ${
-                        activeIndex === idx ? "text-gold font-medium" : "text-gold/70"
+                        activeIndex === idx
+                          ? "text-gold font-medium"
+                          : "text-gold/70"
                       }`}
                     >
                       {panel.number}
@@ -376,7 +382,9 @@ export function WhyChooseUsSection() {
 
                     <span
                       className={`font-serif text-xs tracking-[0.2em] uppercase whitespace-nowrap [writing-mode:vertical-rl] rotate-180 transition-colors ${
-                        activeIndex === idx ? "text-gold font-medium" : "text-ivory/80"
+                        activeIndex === idx
+                          ? "text-gold font-medium"
+                          : "text-ivory/80"
                       }`}
                     >
                       {panel.tabTitle}

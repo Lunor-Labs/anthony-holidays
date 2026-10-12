@@ -33,6 +33,14 @@ export interface DiscoverSriLankaSectionProps {
   journeys?: DiscoverJourneyItem[];
 }
 
+export const CURATED_JOURNEY_IMAGES = [
+  "/images/journeys/curated-journey-1.jpg",
+  "/images/journeys/curated-journey-2.jpg",
+  "/images/journeys/curated-journey-3.jpg",
+  "/images/journeys/curated-journey-4.jpg",
+  "/images/journeys/curated-journey-5.jpg",
+];
+
 const FALLBACK_JOURNEYS: DiscoverJourneyItem[] = [
   {
     id: "essence-of-ceylon",
@@ -43,9 +51,8 @@ const FALLBACK_JOURNEYS: DiscoverJourneyItem[] = [
       "Experience the iconic Lion Rock, the ancient cave sanctuaries of Dambulla, and the spiritual citadel of Kandy. A curated journey designed for travellers who refuse to compromise on intellectual depth or private comfort.",
     duration: { days: 3, nights: 4 },
     pricing: { priceFrom: 1250, currency: "USD" },
-    coverImage:
-      "https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?w=1600&q=85",
-    alt: "5th-century Sigiriya Rock Fortress rising above forest canopy",
+    coverImage: "/images/journeys/curated-journey-1.jpg",
+    alt: "Curated private journey travellers exploring Sri Lanka",
     destinations: ["Sigiriya", "Dambulla", "Kandy", "Peradeniya"],
     categories: ["Culture & Heritage", "Citadels"],
   },
@@ -58,9 +65,8 @@ const FALLBACK_JOURNEYS: DiscoverJourneyItem[] = [
       "Journey from the Cultural Triangle's ancient citadels into the cool, emerald tea estates of Nuwara Eliya and Hatton. Colonial bungalow living, scenic high-altitude railways, and centuries of tea-making heritage.",
     duration: { days: 7, nights: 6 },
     pricing: { priceFrom: 2180, currency: "USD" },
-    coverImage:
-      "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=1600&q=85",
-    alt: "Misty tea plantations and highlands in Nuwara Eliya",
+    coverImage: "/images/journeys/curated-journey-2.jpg",
+    alt: "Luxury tropical pool sanctuary with ocean pavilion",
     destinations: [
       "Sigiriya",
       "Polonnaruwa",
@@ -79,9 +85,8 @@ const FALLBACK_JOURNEYS: DiscoverJourneyItem[] = [
       "Track wild Asian leopards across Yala's scrub wilderness, witness massive elephant gatherings at dusk, and scale the granite heights of Sigiriya. A masterclass in wildlife and royal archaeological history.",
     duration: { days: 10, nights: 9 },
     pricing: { priceFrom: 2950, currency: "USD" },
-    coverImage:
-      "https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1600&q=85",
-    alt: "Wild Sri Lankan leopard resting in Yala National Park",
+    coverImage: "/images/journeys/curated-journey-3.jpg",
+    alt: "Secluded lagoon overwater bungalows surrounded by lush hills",
     destinations: [
       "Colombo",
       "Sigiriya",
@@ -101,9 +106,8 @@ const FALLBACK_JOURNEYS: DiscoverJourneyItem[] = [
       "Descend from the misty central highlands into the sun-drenched southern rim. Explore the UNESCO-listed 17th-century Galle Dutch Fort, cruise offshore for blue whales, and unwind along secluded golden arcs.",
     duration: { days: 8, nights: 7 },
     pricing: { priceFrom: 2450, currency: "USD" },
-    coverImage:
-      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=1600&q=85",
-    alt: "Historic Galle Dutch Fort ramparts overlooking the Indian Ocean",
+    coverImage: "/images/journeys/curated-journey-4.jpg",
+    alt: "Tropical island wooden overwater villas along turquoise sea",
     destinations: [
       "Kandy",
       "Ella",
@@ -122,9 +126,8 @@ const FALLBACK_JOURNEYS: DiscoverJourneyItem[] = [
       "The definitive Sri Lankan grand tour. Traverse the ancient northern capitals, cloud-capped tea trails, untamed safari territories, and colonial spice ports with expert private guide lecturing throughout.",
     duration: { days: 14, nights: 13 },
     pricing: { priceFrom: 4200, currency: "USD" },
-    coverImage:
-      "https://images.unsplash.com/photo-1512100356356-de1b84283e18?w=1600&q=85",
-    alt: "Coastal palm fringed waters and southern Ceylon shoreline",
+    coverImage: "/images/journeys/curated-journey-5.jpg",
+    alt: "Joyful adventurer jumping through historic stone citadel archway overlooking coastline",
     destinations: [
       "Anuradhapura",
       "Sigiriya",
@@ -146,11 +149,10 @@ export function DiscoverSriLankaSection({
       ? journeys.slice(0, 5).map((j, idx) => ({
           ...j,
           coverImage:
-            j.coverImage && j.coverImage.trim() !== ""
-              ? j.coverImage
-              : FALLBACK_JOURNEYS[idx % FALLBACK_JOURNEYS.length].coverImage,
+            CURATED_JOURNEY_IMAGES[idx % CURATED_JOURNEY_IMAGES.length],
         }))
       : FALLBACK_JOURNEYS;
+
 
   const [activeIndex, setActiveIndex] = useState(0);
   const journeyRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -429,7 +431,7 @@ export function DiscoverSriLankaSection({
                         fill
                         priority={idx === 0 || idx === 1}
                         sizes="(min-width: 1024px) 45vw, 100vw"
-                        className="object-cover"
+                        className="object-contain"
                       />
                     </div>
                   );

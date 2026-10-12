@@ -13,6 +13,7 @@ import {
   ExperiencesSection,
   WhyChooseUsSection,
   TestimonialsSection,
+  GallerySection,
   JournalPreviewSection,
   CallToActionSection,
 } from '@/components/home'
@@ -53,6 +54,7 @@ export default async function HomePage() {
       <ExperiencesSection />
       <WhyChooseUsSection />
       <TestimonialsSection testimonials={testimonials} />
+      <GallerySection />
       <JournalPreviewSection posts={posts} />
       <CallToActionSection />
     </>

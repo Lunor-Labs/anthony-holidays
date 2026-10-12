@@ -21,7 +21,6 @@ export function Header() {
   const pathname = usePathname();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
-  // Pages where the hero is at the top (transparent header)
   const isTransparentPage =
     pathname === "/" ||
     pathname === "/about" ||
@@ -48,7 +47,6 @@ export function Header() {
       >
         <div className="container">
           <div className="flex items-center justify-between">
-            {/* Logo */}
             <Link href="/" aria-label="Anthony Holidays - Home">
               <div className="flex flex-col leading-tight">
                 <span
@@ -68,7 +66,6 @@ export function Header() {
               </div>
             </Link>
 
-            {/* Desktop Nav */}
             <nav
               aria-label="Primary navigation"
               className="hidden xl:flex items-center gap-7 text-xs sm:text-sm"
@@ -102,7 +99,6 @@ export function Header() {
               </Link>
             </nav>
 
-            {/* Mobile / Tablet toggle */}
             <button
               aria-label={
                 isMobileOpen ? "Close navigation menu" : "Open navigation menu"
@@ -120,7 +116,6 @@ export function Header() {
         </div>
       </header>
 
-      {/* Mobile Menu */}
       <div
         id="mobile-menu"
         ref={mobileMenuRef}
