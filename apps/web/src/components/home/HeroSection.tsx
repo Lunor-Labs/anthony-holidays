@@ -1,8 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import { HERO_MEDIA } from "@/lib/media-catalog";
 import { MarqueeTicker } from "@/components/ui/MarqueeTicker";
 
 const marqueeWords = [
@@ -28,7 +26,6 @@ export function HeroSection() {
           muted
           loop
           playsInline
-          poster={HERO_MEDIA.homeHero.url}
           className="relative w-full h-full object-cover object-center scale-105"
         >
           <source src="/videos/hero-ambuluwawa.mp4" type="video/mp4" />
