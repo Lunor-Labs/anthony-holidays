@@ -8,8 +8,8 @@
   "scripts": {
     "dev": "concurrently -n \"cms,web\" -c \"magenta,cyan\" \"npm run dev:cms\" \"npm run dev:web\"",
     "dev:web": "npm run dev --workspace=apps/web",
-    "dev:cms": "npm run dev --workspace=apps/cms",
-    "build": "npm run build --workspaces --if-present",
+    "build": "npm run build:web",
+    "build:all": "npm run build --workspaces --if-present",
     "build:web": "npm run build --workspace=apps/web",
     "build:cms": "npm run build --workspace=apps/cms",
     "start:web": "npm run start --workspace=apps/web",
