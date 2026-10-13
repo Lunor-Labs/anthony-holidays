@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   MapPin,
   Maximize2,
@@ -9,6 +10,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Sparkles,
+  ArrowRight,
 } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
@@ -529,10 +531,22 @@ export function GallerySection() {
                 </p>
               </div>
 
-              <div className="pt-6 border-t border-sand flex items-center justify-between">
-                <span className="text-xs font-sans text-stone uppercase tracking-wider">
-                  Anthony Holidays Archive
-                </span>
+              <div className="pt-6 border-t border-sand flex items-center justify-between gap-3 flex-wrap">
+                <Link
+                  href={
+                    selectedItem.category === 'Heritage'
+                      ? '/tours?category=cultural-heritage'
+                      : selectedItem.category === 'Wildlife'
+                      ? '/tours?category=wildlife-adventure'
+                      : selectedItem.category === 'Highlands'
+                      ? '/tours?category=hill-country'
+                      : '/tours?category=beach'
+                  }
+                  className="inline-flex items-center gap-1.5 text-xs font-medium text-forest hover:text-gold uppercase tracking-wider transition-colors group"
+                >
+                  <span>Explore Matching Tours</span>
+                  <ArrowRight size={13} className="transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
                 <div className="flex items-center gap-2">
                   <button
                     type="button"

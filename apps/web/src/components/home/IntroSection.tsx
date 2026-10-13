@@ -42,8 +42,7 @@ export function IntroSection() {
                     Authentic Ceylon
                   </p>
                   <p className="text-xs text-ivory/75 leading-relaxed font-light">
-                    Private expeditions led by Licensed National Tourist Guide
-                    Lecturers.
+                    Private journeys crafted with deep heritage mastery and personal care.
                   </p>
                 </div>
               </div>
@@ -53,38 +52,35 @@ export function IntroSection() {
             <ScrollReveal direction="right" delay={250}>
               <p className="font-sans text-base font-light leading-[1.88] text-stone mb-6">
                 At Anthony Holidays, we believe true exploration cannot be
-                scripted in a distant office or rushed through standard tour
-                trails. Sri Lanka is a living mosaic of intimate wonders:
+                scripted in a distant office or rushed through generic group bus
+                trails. Sri Lanka is a living sanctuary of intimate wonders:
                 mist-shrouded tea mountains rising above cloud forests, untamed
                 wildlife corridors guarded by ancient traditions, and dramatic
                 ocean headlands where turquoise waters kiss golden sands.
               </p>
 
               <p className="font-sans text-base font-light leading-[1.88] text-stone mb-8">
-                Led by Licensed National Tourist Guide Lecturers and trusted
-                private chauffeurs, our journeys are handcrafted to immerse you
-                in the genuine rhythm of our island. We unlock sacred heritage
-                sites before the crowds arrive, introduce you to local artisans
-                and village kitchens, and calibrate every day to your personal
-                cadence - ensuring you experience Ceylon not merely as a
-                visitor, but as an invited guest welcomed into our ancestral
-                home.
+                Founded on the timeless spirit of authentic Ceylon hospitality, every
+                itinerary is curated as a deeply personal journey. We connect you
+                with master tea planters, temple historians, and warm village kitchens,
+                ensuring you experience our island not merely as a spectator, but
+                as a welcomed guest welcomed into our ancestral home.
               </p>
               <div className="grid grid-cols-2 gap-6 pt-6 pb-2 border-t border-sand/60 mb-6">
                 <div>
                   <span className="block font-serif text-2xl text-forest font-normal mb-1">
-                    100% Bespoke
+                    15+ Years
                   </span>
                   <span className="text-xs text-stone tracking-wide leading-relaxed block">
-                    Privately calibrated around your pace and passions
+                    Curating intimate private journeys across Sri Lanka
                   </span>
                 </div>
                 <div>
                   <span className="block font-serif text-2xl text-forest font-normal mb-1">
-                    SLTDA Certified
+                    Authentic Ceylon
                   </span>
                   <span className="text-xs text-stone tracking-wide leading-relaxed block">
-                    Licensed National Tourist Guide Lecturers &amp; Naturalists
+                    Rooted in local heritage, community care &amp; slow travel
                   </span>
                 </div>
               </div>

@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useSearchParams } from 'next/navigation'
 import { Search, Clock, MapPin, ChevronRight, X, SlidersHorizontal } from 'lucide-react'
 
 interface Journey {
@@ -45,10 +46,19 @@ const durationRanges = [
 ]
 
 export function JourneysFilter({ journeys }: JourneysFilterProps) {
+  const searchParams = useSearchParams()
+  const categoryParam = searchParams ? searchParams.get('category') || '' : ''
+
   const [search, setSearch] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState<string>('')
+  const [selectedCategory, setSelectedCategory] = useState<string>(categoryParam)
   const [selectedDuration, setSelectedDuration] = useState<string>('')
   const [showFilters, setShowFilters] = useState(false)
+
+  useEffect(() => {
+    if (categoryParam) {
+      setSelectedCategory(categoryParam)
+    }
+  }, [categoryParam])
 
   // Get unique categories from journeys
   const categories = useMemo(() => {

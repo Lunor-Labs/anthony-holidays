@@ -4,14 +4,15 @@ import {
   getSpecialPackages,
   getTestimonials,
   getJournalPosts,
+  getServices,
 } from '@/lib/payload-data'
 import {
   HeroSection,
   IntroSection,
   DiscoverSriLankaSection,
   FeaturedSpecialPackagesSection,
-  ExperiencesSection,
   WhyChooseUsSection,
+  ServicesSection,
   TestimonialsSection,
   GallerySection,
   JournalPreviewSection,
@@ -38,12 +39,14 @@ export const metadata: Metadata = {
 }
 
 export default async function HomePage() {
-  const [journeys, specialPackages, testimonials, posts] = await Promise.all([
-    getJourneys(),
-    getSpecialPackages(),
-    getTestimonials(),
-    getJournalPosts(),
-  ])
+  const [journeys, specialPackages, testimonials, posts, services] =
+    await Promise.all([
+      getJourneys(),
+      getSpecialPackages(),
+      getTestimonials(),
+      getJournalPosts(),
+      getServices(),
+    ])
 
   return (
     <>
@@ -51,8 +54,8 @@ export default async function HomePage() {
       <IntroSection />
       <DiscoverSriLankaSection journeys={journeys} />
       <FeaturedSpecialPackagesSection specialPackages={specialPackages} />
-      <ExperiencesSection />
       <WhyChooseUsSection />
+      <ServicesSection services={services} />
       <TestimonialsSection testimonials={testimonials} />
       <GallerySection />
       <JournalPreviewSection posts={posts} />
