@@ -452,7 +452,7 @@ export const FALLBACK_JOURNEYS: FallbackJourney[] = [
   },
 ]
 
-import { toursData } from '@/scripts/seed-tours'
+import { toursData } from '@/data/tours-data'
 
 export function getFallbackJourneyDetail(slug: string) {
   const t = toursData[slug]

@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
-import { getPayloadClient } from "@/lib/payload";
 import { checkRateLimit } from "@/lib/rate-limit";
+
+const PAYLOAD_URL =
+  process.env.PAYLOAD_API_URL ||
+  process.env.NEXT_PUBLIC_PAYLOAD_URL ||
+  "http://localhost:3001";
 
 export async function POST(req: Request) {
   try {
@@ -55,27 +59,36 @@ export async function POST(req: Request) {
       );
     }
 
-    // 4. Save to Payload CMS with status 'pending' (Awaiting Admin Moderation)
-    const payload = await getPayloadClient();
+    // 4. Save to Payload CMS with status 'pending' (Awaiting Admin Moderation) via REST API
+    let reviewId: string | number | null = null;
+    try {
+      const response = await fetch(`${PAYLOAD_URL}/api/testimonials`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          guestName: guestName.trim(),
+          country: country ? country.trim() : undefined,
+          rating: Math.round(numericRating),
+          reviewText: reviewText.trim(),
+          tourName: tourName ? tourName.trim() : undefined,
+          status: "pending", // CRITICAL: Never publish immediately; requires admin review
+          submittedAt: new Date().toISOString(),
+        }),
+      });
 
-    const created = await payload.create({
-      collection: "testimonials",
-      data: {
-        guestName: guestName.trim(),
-        country: country ? country.trim() : undefined,
-        rating: Math.round(numericRating),
-        reviewText: reviewText.trim(),
-        tourName: tourName ? tourName.trim() : undefined,
-        status: "pending", // CRITICAL: Never publish immediately; requires admin review
-        submittedAt: new Date().toISOString(),
-      },
-    });
+      if (response.ok) {
+        const json = await response.json();
+        reviewId = json.doc?.id || json.id || null;
+      }
+    } catch (err) {
+      console.warn("Failed to forward review to Payload backend:", err);
+    }
 
     return NextResponse.json({
       success: true,
       message:
         "Thank you! Your review has been submitted for moderation and will appear on the site once approved by our team.",
-      reviewId: created.id,
+      reviewId,
     });
   } catch (error) {
     console.error("Review submission error:", error);

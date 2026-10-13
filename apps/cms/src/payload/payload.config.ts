@@ -47,6 +47,10 @@ export default buildConfig({
     Testimonials,
     Inquiries,
   ],
+  serverURL:
+    process.env.PAYLOAD_PUBLIC_SERVER_URL ||
+    process.env.NEXT_PUBLIC_SERVER_URL ||
+    "http://localhost:3001",
   globals: [SiteSettings],
   editor: lexicalEditor({}),
   sharp,
@@ -66,10 +70,16 @@ export default buildConfig({
       fileSize: 10000000, // 10MB
     },
   },
-  cors: [process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"].filter(
-    Boolean,
-  ),
-  csrf: [process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"].filter(
-    Boolean,
-  ),
+  cors: [
+    process.env.NEXT_PUBLIC_SITE_URL,
+    process.env.FRONTEND_URL,
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+  ].filter(Boolean) as string[],
+  csrf: [
+    process.env.NEXT_PUBLIC_SITE_URL,
+    process.env.FRONTEND_URL,
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+  ].filter(Boolean) as string[],
 });

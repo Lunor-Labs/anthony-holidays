@@ -1,8 +1,11 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import { getPayloadClient } from "@/lib/payload";
 import { checkRateLimit } from "@/lib/rate-limit";
 
+const PAYLOAD_URL =
+  process.env.PAYLOAD_API_URL ||
+  process.env.NEXT_PUBLIC_PAYLOAD_URL ||
+  "http://localhost:3001";
 const resendApiKey = process.env.RESEND_API_KEY;
 const resend = resendApiKey ? new Resend(resendApiKey) : null;
 const COMPANY_EMAIL =
@@ -99,14 +102,13 @@ export async function POST(req: Request) {
     const adultsCount = Number(numberOfAdults || travellerCount || 2);
     const kidsCount = Number(numberOfChildren || 0);
 
-    // 4. Save to PostgreSQL via Payload CMS
+    // 4. Save to Payload CMS via REST API
     let savedInquiryId: string | number | null = null;
     try {
-      const payload = await getPayloadClient();
-
-      const created = await payload.create({
-        collection: "inquiries",
-        data: {
+      const response = await fetch(`${PAYLOAD_URL}/api/inquiries`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
           fullName: fullName.trim(),
           email: email.trim().toLowerCase(),
           phone: phone.trim(),
@@ -126,12 +128,15 @@ export async function POST(req: Request) {
           privacyConsent: true,
           status: "new",
           submittedAt: new Date().toISOString(),
-        },
+        }),
       });
 
-      savedInquiryId = created.id;
+      if (response.ok) {
+        const result = await response.json();
+        savedInquiryId = result.doc?.id || result.id || null;
+      }
     } catch (dbErr) {
-      console.error("Payload CMS inquiry persistence error:", dbErr);
+      console.warn("Payload CMS REST inquiry persistence error:", dbErr);
     }
 
     // 5. Format notification summaries

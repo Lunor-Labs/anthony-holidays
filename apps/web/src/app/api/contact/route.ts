@@ -1,7 +1,10 @@
 import { NextResponse } from 'next/server'
 import { Resend } from 'resend'
-import { getPayloadClient } from '@/lib/payload'
 
+const PAYLOAD_URL =
+  process.env.PAYLOAD_API_URL ||
+  process.env.NEXT_PUBLIC_PAYLOAD_URL ||
+  'http://localhost:3001'
 const resendApiKey = process.env.RESEND_API_KEY
 const resend = resendApiKey ? new Resend(resendApiKey) : null
 const COMPANY_EMAIL = process.env.COMPANY_EMAIL || 'inquiries@anthonyholidays.com'
@@ -32,12 +35,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing required contact fields' }, { status: 400 })
     }
 
-    // Save into Payload CMS Inquiries collection
+    // Save into Payload CMS Inquiries collection via REST API
     try {
-      const payload = await getPayloadClient()
-      await payload.create({
-        collection: 'inquiries',
-        data: {
+      await fetch(`${PAYLOAD_URL}/api/inquiries`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           fullName: name,
           email,
           country: 'Not provided',
@@ -46,10 +49,10 @@ export async function POST(req: Request) {
           privacyConsent: true,
           status: 'new',
           internalNotes: 'Received via Contact Page form',
-        },
+        }),
       })
     } catch (dbErr) {
-      console.error('Failed to save contact message to database:', dbErr)
+      console.warn('Failed to forward contact message to Payload backend:', dbErr)
     }
 
     if (resend) {

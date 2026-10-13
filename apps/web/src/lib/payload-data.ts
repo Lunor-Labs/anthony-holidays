@@ -1,4 +1,3 @@
-import { getPayloadClient } from '@/lib/payload'
 import { DEFAULT_MEDIA } from './media-catalog'
 import { slugify } from './utils'
 import {
@@ -12,14 +11,52 @@ import {
   getFallbackJourneyDetail,
 } from '@/data/fallback-data'
 
+export const PAYLOAD_API_URL =
+  process.env.PAYLOAD_API_URL ||
+  process.env.NEXT_PUBLIC_PAYLOAD_URL ||
+  'http://localhost:3001'
+
+/**
+ * Universal helper to execute cached REST requests against Payload CMS backend.
+ * Falls back silently on network timeout or connection refused.
+ */
+async function fetchFromPayload<T>(endpoint: string, revalidate: number = 60): Promise<T | null> {
+  try {
+    const url = `${PAYLOAD_API_URL}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`
+    const res = await fetch(url, {
+      next: { revalidate },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+
+    if (!res.ok) {
+      return null
+    }
+
+    return (await res.json()) as T
+  } catch {
+    return null
+  }
+}
+
 /**
  * Helper to extract an image URL from Payload Media relation or fallback string
  */
 export function getMediaUrl(media: any, fallback: string = DEFAULT_MEDIA.url): string {
   if (!media) return fallback
-  if (typeof media === 'string') return media
-  if (typeof media === 'object' && media.url) return media.url
-  return fallback
+  let rawUrl = ''
+  if (typeof media === 'string') rawUrl = media
+  else if (typeof media === 'object' && media.url) rawUrl = media.url
+  else return fallback
+
+  if (rawUrl.startsWith('http://') || rawUrl.startsWith('https://')) {
+    return rawUrl
+  }
+  if (rawUrl.startsWith('/')) {
+    return `${PAYLOAD_API_URL}${rawUrl}`
+  }
+  return rawUrl
 }
 
 /**
@@ -39,22 +76,16 @@ export function extractTextFromLexical(node: any): string {
 }
 
 /**
- * Fetch published Journeys from Payload CMS (PostgreSQL database)
+ * Fetch published Journeys from Payload CMS (REST API)
  */
 export async function getJourneys() {
   try {
-    const payload = await getPayloadClient()
-    const { docs } = await payload.find({
-      collection: 'journeys',
-      where: {
-        status: { equals: 'published' },
-      },
-      sort: '-createdAt',
-      limit: 100,
-    })
+    const data = await fetchFromPayload<{ docs: any[] }>(
+      '/api/journeys?where[status][equals]=published&sort=-createdAt&limit=100'
+    )
 
-    if (docs && docs.length > 0) {
-      return docs.map((doc: any) => ({
+    if (data?.docs && data.docs.length > 0) {
+      return data.docs.map((doc: any) => ({
         id: String(doc.id),
         slug: doc.slug,
         title: doc.title,
@@ -87,10 +118,11 @@ export async function getJourneys() {
 }
 
 /**
- * Fetch Tour Media directly from the PostgreSQL database via Payload CMS.
- * Dynamically resolves cover images and gallery images for all journeys.
+ * Fetch Tour Media map dynamically from Payload CMS Journeys
  */
-export async function getTourMediaFromDatabase(): Promise<Record<string, { url: string; alt: string; title: string; gallery: { src: string; alt: string }[] }>> {
+export async function getTourMediaFromDatabase(): Promise<
+  Record<string, { url: string; alt: string; title: string; gallery: { src: string; alt: string }[] }>
+> {
   const journeys = await getJourneys()
   const mediaMap: Record<string, { url: string; alt: string; title: string; gallery: { src: string; alt: string }[] }> = {}
 
@@ -107,22 +139,16 @@ export async function getTourMediaFromDatabase(): Promise<Record<string, { url: 
 }
 
 /**
- * Fetch a single Journey by its slug directly from PostgreSQL
+ * Fetch a single Journey by its slug from Payload CMS (REST API)
  */
 export async function getJourneyBySlug(slug: string) {
   try {
-    const payload = await getPayloadClient()
-    const { docs } = await payload.find({
-      collection: 'journeys',
-      where: {
-        slug: { equals: slug },
-        status: { equals: 'published' },
-      },
-      limit: 1,
-    })
+    const data = await fetchFromPayload<{ docs: any[] }>(
+      `/api/journeys?where[slug][equals]=${encodeURIComponent(slug)}&where[status][equals]=published&limit=1`
+    )
 
-    if (docs && docs.length > 0) {
-      const doc = docs[0] as any
+    if (data?.docs && data.docs.length > 0) {
+      const doc = data.docs[0] as any
       return {
         id: String(doc.id),
         slug: doc.slug,
@@ -191,6 +217,7 @@ export async function getJourneyBySlug(slug: string) {
           : [],
         relatedSlugs: [],
         featured: Boolean(doc.featured),
+        status: doc.status || 'published',
       }
     }
   } catch (err) {
@@ -201,22 +228,16 @@ export async function getJourneyBySlug(slug: string) {
 }
 
 /**
- * Fetch published Journal Posts directly from PostgreSQL
+ * Fetch published Journal Posts from Payload CMS (REST API)
  */
 export async function getJournalPosts() {
   try {
-    const payload = await getPayloadClient()
-    const { docs } = await payload.find({
-      collection: 'journal-posts',
-      where: {
-        status: { equals: 'published' },
-      },
-      sort: '-publishedAt',
-      limit: 50,
-    })
+    const data = await fetchFromPayload<{ docs: any[] }>(
+      '/api/journal-posts?where[status][equals]=published&sort=-publishedAt&limit=50'
+    )
 
-    if (docs && docs.length > 0) {
-      return docs.map((doc: any) => ({
+    if (data?.docs && data.docs.length > 0) {
+      return data.docs.map((doc: any) => ({
         id: String(doc.id),
         slug: doc.slug,
         title: doc.title,
@@ -238,21 +259,16 @@ export async function getJournalPosts() {
 }
 
 /**
- * Fetch Testimonials directly from PostgreSQL
+ * Fetch Testimonials from Payload CMS (REST API)
  */
 export async function getTestimonials() {
   try {
-    const payload = await getPayloadClient()
-    const { docs } = await payload.find({
-      collection: 'testimonials',
-      where: {
-        status: { equals: 'published' },
-      },
-      limit: 10,
-    })
+    const data = await fetchFromPayload<{ docs: any[] }>(
+      '/api/testimonials?where[status][equals]=published&limit=10'
+    )
 
-    if (docs && docs.length > 0) {
-      return docs.map((doc: any) => ({
+    if (data?.docs && data.docs.length > 0) {
+      return data.docs.map((doc: any) => ({
         id: String(doc.id),
         quote: doc.quote || doc.reviewText || '',
         travellerName: doc.guestName || '',
@@ -269,15 +285,12 @@ export async function getTestimonials() {
 }
 
 /**
- * Fetch Global Site Settings directly from PostgreSQL
+ * Fetch Global Site Settings from Payload CMS (REST API)
  */
 export async function getSiteSettings() {
   try {
-    const payload = await getPayloadClient()
-    const settings = await payload.findGlobal({
-      slug: 'site-settings',
-    })
-    if (settings) return settings
+    const settings = await fetchFromPayload<any>('/api/globals/site-settings')
+    if (settings && settings.companyName) return settings
   } catch (err) {
     console.warn('Payload getSiteSettings error:', err)
   }
@@ -300,22 +313,16 @@ export async function getSiteSettings() {
 }
 
 /**
- * Fetch published Special Packages directly from PostgreSQL
+ * Fetch published Special Packages from Payload CMS (REST API)
  */
 export async function getSpecialPackages() {
   try {
-    const payload = await getPayloadClient()
-    const { docs } = await payload.find({
-      collection: 'special-packages',
-      where: {
-        status: { equals: 'published' },
-      },
-      sort: '-createdAt',
-      limit: 100,
-    })
+    const data = await fetchFromPayload<{ docs: any[] }>(
+      '/api/special-packages?where[status][equals]=published&sort=-createdAt&limit=100'
+    )
 
-    if (docs && docs.length > 0) {
-      return docs.map((doc: any) => ({
+    if (data?.docs && data.docs.length > 0) {
+      return data.docs.map((doc: any) => ({
         id: String(doc.id),
         slug: doc.slug,
         title: doc.title,
@@ -333,7 +340,6 @@ export async function getSpecialPackages() {
             ? 'Adventure Tour'
             : 'Special Package',
         excerpt: doc.excerpt || '',
-        description: doc.description,
         duration: {
           days: doc.duration?.days || 1,
           nights: doc.duration?.nights || 0,
@@ -347,10 +353,6 @@ export async function getSpecialPackages() {
         coverImage: getMediaUrl(doc.coverImage),
         alt: doc.title,
         activities: Array.isArray(doc.activities) ? doc.activities : [],
-        itinerary: Array.isArray(doc.itinerary) ? doc.itinerary : [],
-        conditions: doc.conditions,
-        inclusions: Array.isArray(doc.inclusions) ? doc.inclusions.map((i: any) => i.item || String(i)) : [],
-        exclusions: Array.isArray(doc.exclusions) ? doc.exclusions.map((e: any) => e.item || String(e)) : [],
         featured: Boolean(doc.featured),
       }))
     }
@@ -362,22 +364,16 @@ export async function getSpecialPackages() {
 }
 
 /**
- * Fetch a single Special Package by slug directly from PostgreSQL
+ * Fetch a single Special Package by slug from Payload CMS (REST API)
  */
 export async function getSpecialPackageBySlug(slug: string) {
   try {
-    const payload = await getPayloadClient()
-    const { docs } = await payload.find({
-      collection: 'special-packages',
-      where: {
-        slug: { equals: slug },
-        status: { equals: 'published' },
-      },
-      limit: 1,
-    })
+    const data = await fetchFromPayload<{ docs: any[] }>(
+      `/api/special-packages?where[slug][equals]=${encodeURIComponent(slug)}&where[status][equals]=published&limit=1`
+    )
 
-    if (docs && docs.length > 0) {
-      const doc = docs[0] as any
+    if (data?.docs && data.docs.length > 0) {
+      const doc = data.docs[0] as any
       return {
         id: String(doc.id),
         slug: doc.slug,
@@ -439,22 +435,16 @@ export async function getSpecialPackageBySlug(slug: string) {
 }
 
 /**
- * Fetch published Services directly from PostgreSQL
+ * Fetch published Services from Payload CMS (REST API)
  */
 export async function getServices() {
   try {
-    const payload = await getPayloadClient()
-    const { docs } = await payload.find({
-      collection: 'services',
-      where: {
-        status: { equals: 'published' },
-      },
-      sort: 'displayOrder',
-      limit: 50,
-    })
+    const data = await fetchFromPayload<{ docs: any[] }>(
+      '/api/services?where[status][equals]=published&sort=displayOrder&limit=50'
+    )
 
-    if (docs && docs.length > 0) {
-      return docs.map((doc: any) => ({
+    if (data?.docs && data.docs.length > 0) {
+      return data.docs.map((doc: any) => ({
         id: String(doc.id),
         slug: doc.slug,
         title: doc.title,
@@ -474,22 +464,16 @@ export async function getServices() {
 }
 
 /**
- * Fetch published Team Members directly from PostgreSQL
+ * Fetch published Team Members from Payload CMS (REST API)
  */
 export async function getTeamMembers() {
   try {
-    const payload = await getPayloadClient()
-    const { docs } = await payload.find({
-      collection: 'team-members',
-      where: {
-        status: { equals: 'published' },
-      },
-      sort: 'displayOrder',
-      limit: 50,
-    })
+    const data = await fetchFromPayload<{ docs: any[] }>(
+      '/api/team-members?where[status][equals]=published&sort=displayOrder&limit=50'
+    )
 
-    if (docs && docs.length > 0) {
-      const items = docs.map((doc: any) => ({
+    if (data?.docs && data.docs.length > 0) {
+      const items = data.docs.map((doc: any) => ({
         id: String(doc.id),
         name: doc.name,
         slug: doc.slug || slugify(doc.name),
@@ -578,22 +562,16 @@ export async function getTeamMemberBySlug(slug: string) {
 }
 
 /**
- * Fetch Approved & Published Reviews directly from PostgreSQL
+ * Fetch Approved & Published Reviews from Payload CMS (REST API)
  */
 export async function getReviews() {
   try {
-    const payload = await getPayloadClient()
-    const { docs } = await payload.find({
-      collection: 'testimonials',
-      where: {
-        status: { equals: 'published' },
-      },
-      sort: '-createdAt',
-      limit: 50,
-    })
+    const data = await fetchFromPayload<{ docs: any[] }>(
+      '/api/testimonials?where[status][equals]=published&sort=-createdAt&limit=50'
+    )
 
-    if (docs && docs.length > 0) {
-      return docs.map((doc: any) => ({
+    if (data?.docs && data.docs.length > 0) {
+      return data.docs.map((doc: any) => ({
         id: String(doc.id),
         guestName: doc.guestName || 'Valued Guest',
         country: doc.country || '',

@@ -29,20 +29,12 @@ export function HeroSection() {
           loop
           playsInline
           poster={HERO_MEDIA.homeHero.url}
-          className="w-full h-full object-cover object-center scale-105"
+          className="relative w-full h-full object-cover object-center scale-105"
         >
           <source src="/videos/hero-ambuluwawa.mp4" type="video/mp4" />
           <source
             src="https://cdn.pixabay.com/video/2023/08/22/177127-856658451_medium.mp4"
             type="video/mp4"
-          />
-          <Image
-            src={HERO_MEDIA.homeHero.url}
-            alt={HERO_MEDIA.homeHero.alt}
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-[center_30%]"
           />
         </video>
       </div>
