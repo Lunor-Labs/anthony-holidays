@@ -32,7 +32,11 @@ export function SpecialPackageCard({ packageItem }: SpecialPackageCardProps) {
       data-cursor="explore"
       className="group flex flex-col h-full bg-white border border-cream transition-all duration-300 hover:-translate-y-1 hover:shadow-lg overflow-hidden"
     >
-      <div className="relative aspect-[16/10] overflow-hidden bg-offwhite">
+      <Link
+        href={`/special-packages/${slug}`}
+        className="relative aspect-[16/10] overflow-hidden bg-offwhite block"
+        aria-label={`Explore ${title} package`}
+      >
         <Image
           src={coverImage}
           alt={alt || title}
@@ -42,23 +46,25 @@ export function SpecialPackageCard({ packageItem }: SpecialPackageCardProps) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none" aria-hidden="true" />
 
-        <div className="absolute top-4 right-4 bg-ivory/95 px-3 py-1 flex items-center gap-1.5 shadow-sm">
+        <div className="absolute top-4 right-4 bg-ivory/95 px-3 py-1 flex items-center gap-1.5 shadow-sm pointer-events-none">
           <Clock size={12} className="text-gold" />
           <span className="text-xs font-medium text-charcoal tracking-wide">
             {duration.days} Days{duration.nights ? ` / ${duration.nights} Nights` : ''}
           </span>
         </div>
 
-        <div className="absolute bottom-4 left-4">
+        <div className="absolute bottom-4 left-4 pointer-events-none">
           <span className="bg-forest/90 text-gold text-xs font-semibold tracking-wider uppercase px-2.5 py-1">
             {categoryLabel}
           </span>
         </div>
-      </div>
+      </Link>
 
       <div className="p-5 flex flex-col flex-1">
-        <h2 className="font-serif text-2xl font-normal text-charcoal mb-3 leading-snug">
-          {title}
+        <h2 className="font-serif text-2xl font-normal text-charcoal mb-3 leading-snug group-hover:text-forest transition-colors">
+          <Link href={`/special-packages/${slug}`}>
+            {title}
+          </Link>
         </h2>
 
         <p className="text-sm text-stone leading-relaxed mb-6 line-clamp-3">

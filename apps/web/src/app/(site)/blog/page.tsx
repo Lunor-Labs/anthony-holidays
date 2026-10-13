@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { getJournalPosts } from '@/lib/payload-data'
-import { JournalHero, JournalCard } from '@/components/journal'
+import { JournalCard } from '@/components/journal'
+import { PageHero } from '@/components/ui/PageHero'
 import { CallToActionSection } from '@/components/home/CallToActionSection'
 
 export const metadata: Metadata = {
@@ -14,7 +15,12 @@ export default async function BlogPage() {
 
   return (
     <>
-      <JournalHero />
+      <PageHero
+        breadcrumbCurrent="Journal"
+        badge="Anthony Holidays Journal"
+        title="Ceylon Chronicles & Field Notes"
+        description="Curated essays, archaeological insights, and seasonal guidance authored by Sri Lanka’s Licensed National Tourist Guide Lecturers and destination specialists."
+      />
 
       {/* Articles Grid */}
       <section className="section-padding bg-offwhite">

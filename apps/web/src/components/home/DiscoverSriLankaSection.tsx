@@ -325,7 +325,11 @@ export function DiscoverSriLankaSection({
                           </span>
                         </div>
                       )}
-                    <div className="lg:hidden relative w-full overflow-hidden my-6 border border-gold/30 shadow-md">
+                    <Link
+                      href={`/tours/${journey.slug}`}
+                      className="lg:hidden relative w-full overflow-hidden my-6 border border-gold/30 shadow-md block cursor-pointer group/img"
+                      aria-label={`View ${journey.title} itinerary`}
+                    >
                       <ParallaxImage
                         src={journey.coverImage}
                         alt={journey.alt || journey.title}
@@ -351,7 +355,7 @@ export function DiscoverSriLankaSection({
                           </span>
                         )}
                       </div>
-                    </div>
+                    </Link>
 
                     <p className="font-sans text-sm font-light leading-[1.8] text-forest/80 max-w-[580px] mb-6">
                       {journey.excerpt || journey.tagline}
@@ -438,6 +442,12 @@ export function DiscoverSriLankaSection({
                 })}
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-forest/95 via-forest/30 to-transparent pointer-events-none z-10" />
+
+              <Link
+                href={`/tours/${activeJourney.slug}`}
+                className="absolute inset-0 z-10 cursor-pointer"
+                aria-label={`View ${activeJourney.title} itinerary`}
+              />
 
               <div className="absolute top-7 left-7 z-20 flex items-center gap-2 pointer-events-none">
                 <span className="inline-flex items-center gap-1.5 font-sans text-xs font-semibold tracking-widest uppercase text-white bg-forest/90 backdrop-blur-md px-3 py-1.5 border border-gold/40">

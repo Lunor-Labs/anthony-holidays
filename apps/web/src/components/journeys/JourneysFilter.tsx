@@ -213,7 +213,11 @@ export function JourneysFilter({ journeys }: JourneysFilterProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filtered.map((journey) => (
             <article key={journey.id} className="group flex flex-col h-full bg-white border border-sand/60 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 overflow-hidden">
-              <div className="relative aspect-[4/3] overflow-hidden">
+              <Link
+                href={`/tours/${journey.slug}`}
+                className="relative aspect-[4/3] overflow-hidden block"
+                aria-label={`View ${journey.title} itinerary`}
+              >
                 <Image
                   src={journey.coverImage}
                   alt={journey.alt}
@@ -224,13 +228,13 @@ export function JourneysFilter({ journeys }: JourneysFilterProps) {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none" aria-hidden="true" />
 
                 {/* Duration badge */}
-                <div className="absolute top-4 right-4 bg-ivory/95 px-3 py-1.5 flex items-center gap-1.5">
+                <div className="absolute top-4 right-4 bg-ivory/95 px-3 py-1.5 flex items-center gap-1.5 pointer-events-none shadow-sm">
                   <Clock size={11} className="text-gold" />
                   <span className="text-xs font-medium text-charcoal tracking-wide">
                     {journey.duration.days}D / {journey.duration.nights}N
                   </span>
                 </div>
-              </div>
+              </Link>
 
               <div className="p-7">
                 <div className="flex items-center gap-1.5 mb-3">
@@ -241,8 +245,10 @@ export function JourneysFilter({ journeys }: JourneysFilterProps) {
                   </span>
                 </div>
 
-                <h2 className="font-serif text-2xl font-normal text-charcoal mb-3 leading-snug">
-                  {journey.title}
+                <h2 className="font-serif text-2xl font-normal text-charcoal mb-3 leading-snug group-hover:text-forest transition-colors">
+                  <Link href={`/tours/${journey.slug}`}>
+                    {journey.title}
+                  </Link>
                 </h2>
 
                 <p className="text-sm text-stone leading-relaxed mb-6">

@@ -41,7 +41,11 @@ export function JournalPreviewSection({ posts }: JournalPreviewSectionProps) {
               delay={(i * 200) as any}
             >
               <article className="bg-white border border-sand/60 shadow-sm flex flex-col group overflow-hidden h-full transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_24px_64px_rgba(28,58,46,0.15)]">
-                <div className="relative aspect-[16/10] overflow-hidden">
+                <Link
+                  href={`/blog/${post.slug}`}
+                  className="relative aspect-[16/10] overflow-hidden block"
+                  aria-label={`Read ${post.title}`}
+                >
                   <Image
                     src={post.coverImage || DEFAULT_MEDIA.url}
                     alt={post.alt || post.title}
@@ -49,7 +53,7 @@ export function JournalPreviewSection({ posts }: JournalPreviewSectionProps) {
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />
-                </div>
+                </Link>
 
                 <div className="p-7 flex flex-col flex-1 justify-between">
                   <div>

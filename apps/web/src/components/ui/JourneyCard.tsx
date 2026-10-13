@@ -34,7 +34,11 @@ export function JourneyCard({ journey }: JourneyCardProps) {
       className="group flex flex-col h-full bg-white border border-sand/60 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 overflow-hidden"
     >
       {/* Cover Image */}
-      <div className="relative aspect-[4/3] overflow-hidden">
+      <Link
+        href={`/tours/${journey.slug}`}
+        className="relative aspect-[4/3] overflow-hidden block"
+        aria-label={`View ${journey.title} itinerary`}
+      >
         <Image
           src={journey.coverImage}
           alt={journey.alt || journey.title}
@@ -45,13 +49,13 @@ export function JourneyCard({ journey }: JourneyCardProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none" aria-hidden="true" />
 
         {/* Duration badge */}
-        <div className="absolute top-4 right-4 bg-ivory/95 px-3 py-1.5 flex items-center gap-1.5 shadow-sm">
+        <div className="absolute top-4 right-4 bg-ivory/95 px-3 py-1.5 flex items-center gap-1.5 shadow-sm pointer-events-none">
           <Clock size={11} className="text-gold" />
           <span className="text-xs font-medium text-charcoal tracking-wide">
             {journey.duration.days}D / {journey.duration.nights}N
           </span>
         </div>
-      </div>
+      </Link>
 
       {/* Card Content */}
       <div className="p-7 flex flex-col flex-1 justify-between">
@@ -69,7 +73,9 @@ export function JourneyCard({ journey }: JourneyCardProps) {
           )}
 
           <h3 className="font-serif text-2xl font-normal text-charcoal mb-3 leading-snug group-hover:text-forest transition-colors">
-            {journey.title}
+            <Link href={`/tours/${journey.slug}`}>
+              {journey.title}
+            </Link>
           </h3>
 
           {journey.excerpt && (

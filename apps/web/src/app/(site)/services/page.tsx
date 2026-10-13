@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { getServices } from '@/lib/payload-data'
-import { ServicesHero, ServiceCard } from '@/components/services'
+import { ServiceCard } from '@/components/services'
+import { PageHero } from '@/components/ui/PageHero'
 import { CallToActionSection } from '@/components/home/CallToActionSection'
 
 export const metadata: Metadata = {
@@ -14,7 +15,12 @@ export default async function ServicesPage() {
 
   return (
     <>
-      <ServicesHero />
+      <PageHero
+        breadcrumbCurrent="Our Services"
+        badge="Expert Destination Management"
+        title="Professional Guiding & Islandwide Travel Services"
+        description="Delivered exclusively by Licensed National Tourist Guide Lecturers and certified chauffeurs. Every service is personal, fully insured, and tailored to your high standards."
+      />
 
       <section className="section-padding bg-offwhite">
         <div className="container space-y-8">

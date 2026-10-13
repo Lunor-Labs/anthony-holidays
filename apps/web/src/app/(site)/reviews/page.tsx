@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { getReviews } from '@/lib/payload-data'
-import { ReviewsHero, ReviewItemCard, ReviewSubmissionForm } from '@/components/reviews'
+import { ReviewItemCard, ReviewSubmissionForm } from '@/components/reviews'
+import { PageHero } from '@/components/ui/PageHero'
 import { CallToActionSection } from '@/components/home/CallToActionSection'
 
 export const metadata: Metadata = {
@@ -14,7 +15,13 @@ export default async function ReviewsPage() {
 
   return (
     <>
-      <ReviewsHero />
+      <PageHero
+        breadcrumbCurrent="Reviews"
+        badge="Verified Guest Reflections"
+        title="Traveller Reviews & Firsthand Stories"
+        description="Real feedback from discerning travellers who explored Sri Lanka with Anthony and our licensed guiding team. Every published review is independently verified and moderated for authenticity."
+        maxWidth="3xl"
+      />
 
       <section className="section-padding bg-offwhite">
         <div className="container space-y-16">

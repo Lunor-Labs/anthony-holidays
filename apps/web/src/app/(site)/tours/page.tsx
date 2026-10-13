@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { getJourneys } from "@/lib/payload-data";
-import { JourneysFilter } from "@/components/journeys/JourneysFilter";
+import { JourneysFilter } from "@/components/journeys";
+import { PageHero } from "@/components/ui/PageHero";
 
 export const metadata: Metadata = {
   title: "Tour Packages - Curated Private Sri Lanka Itineraries",
@@ -36,34 +37,12 @@ export default async function ToursPage() {
       />
 
       {/* Page Header */}
-      <div className="bg-forest pt-32 pb-16 md:pt-40 md:pb-20">
-        <div className="container">
-          <nav
-            aria-label="Breadcrumb"
-            className="flex items-center gap-2 text-xs sm:text-sm mb-8 text-ivory/50"
-          >
-            <Link
-              href="/"
-              className="text-ivory/50 hover:text-ivory transition-colors"
-            >
-              Home
-            </Link>
-            <span aria-hidden="true" className="text-ivory/40">
-              ·
-            </span>
-            <span className="text-gold">Tour Packages</span>
-          </nav>
-
-          <p className="section-label text-gold">Expert-Led Tours</p>
-          <h1 className="text-heading-1 text-ivory mb-4">
-            Sri Lanka Tour Packages
-          </h1>
-          <p className="text-ivory/75 text-base md:text-lg max-w-[600px] leading-relaxed">
-            From ancient kingdoms to tropical coastlines - discover our curated
-            tour packages or let us craft something entirely personal for you.
-          </p>
-        </div>
-      </div>
+      <PageHero
+        breadcrumbCurrent="Tour Packages"
+        badge="Expert-Led Private Tours"
+        title="Curated Sri Lanka Tour Packages & Itineraries"
+        description="From ancient kingdoms and sacred heritage citadels to misty tea estates and tropical coastlines — discover our curated private tour packages or let us craft something entirely personal for you."
+      />
 
       {/* Filter + Grid Section */}
       <section className="section-padding bg-offwhite" aria-label="Journey listings">

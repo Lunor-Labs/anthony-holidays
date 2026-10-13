@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { getSpecialPackages } from '@/lib/payload-data'
-import { SpecialPackagesHero, SpecialPackagesFilter } from '@/components/special-packages'
+import { SpecialPackagesFilter } from '@/components/special-packages'
+import { PageHero } from '@/components/ui/PageHero'
 import { CallToActionSection } from '@/components/home/CallToActionSection'
 
 export const metadata: Metadata = {
@@ -14,7 +15,12 @@ export default async function SpecialPackagesPage() {
 
   return (
     <>
-      <SpecialPackagesHero />
+      <PageHero
+        breadcrumbCurrent="Special Packages"
+        badge="Unique & Bespoke Themes"
+        title="Specialised Journeys & Meaningful Experiences"
+        description="From hands-on marine turtle volunteering and Hikkaduwa surf immersions to smart budget trails and rugged wilderness treks, discover focused journeys tailored to individual passions."
+      />
 
       <section className="section-padding bg-offwhite">
         <div className="container">

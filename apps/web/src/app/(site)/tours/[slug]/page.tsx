@@ -119,7 +119,7 @@ export default async function JourneyDetailPage({
       {/* Main Content & Sticky Booking Sidebar */}
       <div className="section-padding bg-offwhite">
         <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
             {/* Main Content (2 Columns) */}
             <div className="lg:col-span-2">
               <JourneyOverview
@@ -163,6 +163,7 @@ export default async function JourneyDetailPage({
               duration={journey.duration}
               destinations={journey.destinations}
               whatsappUrl={whatsappUrl}
+              pricing={journey.pricing}
             />
           </div>
         </div>
