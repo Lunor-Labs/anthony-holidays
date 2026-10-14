@@ -28,8 +28,8 @@ export function IntroSection() {
             <ScrollReveal direction="left" delay={150}>
               <div className="relative shadow-[0_20px_50px_rgba(0,0,0,0.08)]">
                 <ParallaxImage
-                  src="/images/travel-beyond-ordinary.jpg"
-                  alt="Traveller exploring dramatic coastal landscapes in Sri Lanka with Anthony Holidays"
+                  src="/images/sri-lanka-highland-tea-trails.jpg"
+                  alt="Traveller overlooking scenic highland tea trails and lush rolling hills in Sri Lanka with Anthony Holidays"
                   aspectRatio="4/5"
                   speed={0.42}
                   maxTranslate={180}

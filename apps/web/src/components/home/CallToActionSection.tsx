@@ -8,7 +8,7 @@ export function CallToActionSection() {
     <section
       className="section-padding relative overflow-hidden bg-forest/50 bg-fixed bg-cover bg-center"
       style={{
-        backgroundImage: `url('/images/cta-background.jpg')`,
+        backgroundImage: `url('/images/sri-lanka-warm-authentic-welcome.jpg')`,
       }}
       aria-label="Start planning your journey"
     >

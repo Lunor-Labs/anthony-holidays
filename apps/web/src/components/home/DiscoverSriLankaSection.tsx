@@ -34,11 +34,14 @@ export interface DiscoverSriLankaSectionProps {
 }
 
 export const CURATED_JOURNEY_IMAGES = [
-  "/images/journeys/curated-journey-1.jpg",
-  "/images/journeys/curated-journey-2.jpg",
-  "/images/journeys/curated-journey-3.jpg",
-  "/images/journeys/curated-journey-4.jpg",
-  "/images/journeys/curated-journey-5.jpg",
+  "/images/journeys/sri-lanka-essence-of-ceylon-sigiriya.jpg",
+  "/images/journeys/sri-lanka-tea-trails-ancient-temples-highlands.jpg",
+  "/images/journeys/sri-lanka-classic-triangle-wildlife-yala.jpg",
+  "/images/journeys/sri-lanka-heritage-southern-coast-galle.jpg",
+  "/images/journeys/sri-lanka-grand-loop-anuradhapura-stupa.jpg",
+  "/images/journeys/sri-lanka-deep-dive-culture-nature-horton-plains.jpg",
+  "/images/journeys/sri-lanka-ramayana-trail-seetha-amman-kovil.jpg",
+  "/images/journeys/sri-lanka-ultimate-pearl-experience-wilpattu.jpg",
 ];
 
 const FALLBACK_JOURNEYS: DiscoverJourneyItem[] = [
@@ -50,9 +53,10 @@ const FALLBACK_JOURNEYS: DiscoverJourneyItem[] = [
     excerpt:
       "Experience the iconic Lion Rock, the ancient cave sanctuaries of Dambulla, and the spiritual citadel of Kandy. A curated journey designed for travellers who refuse to compromise on intellectual depth or private comfort.",
     duration: { days: 3, nights: 4 },
-    pricing: { priceFrom: 1250, currency: "USD" },
-    coverImage: "/images/journeys/curated-journey-1.jpg",
-    alt: "Curated private journey travellers exploring Sri Lanka",
+    pricing: { priceFrom: 790, currency: "USD" },
+    coverImage:
+      "/images/journeys/sri-lanka-essence-of-ceylon-sigiriya.jpg",
+    alt: "Sigiriya Lion Rock citadel illuminated by morning golden light over lush jungle canopy",
     destinations: ["Sigiriya", "Dambulla", "Kandy", "Peradeniya"],
     categories: ["Culture & Heritage", "Citadels"],
   },
@@ -63,16 +67,17 @@ const FALLBACK_JOURNEYS: DiscoverJourneyItem[] = [
     tagline: "From misty highland peaks to sacred ruins",
     excerpt:
       "Journey from the Cultural Triangle's ancient citadels into the cool, emerald tea estates of Nuwara Eliya and Hatton. Colonial bungalow living, scenic high-altitude railways, and centuries of tea-making heritage.",
-    duration: { days: 7, nights: 6 },
-    pricing: { priceFrom: 2180, currency: "USD" },
-    coverImage: "/images/journeys/curated-journey-2.jpg",
-    alt: "Luxury tropical pool sanctuary with ocean pavilion",
+    duration: { days: 5, nights: 4 },
+    pricing: { priceFrom: 1250, currency: "USD" },
+    coverImage:
+      "/images/journeys/sri-lanka-tea-trails-ancient-temples-highlands.jpg",
+    alt: "Lush emerald tea terraces and historic colonial bungalow in Nuwara Eliya and Hatton highlands",
     destinations: [
       "Sigiriya",
       "Polonnaruwa",
       "Kandy",
       "Nuwara Eliya",
-      "Hatton",
+      "Ramboda",
     ],
     categories: ["Highlands", "Tea Heritage"],
   },
@@ -83,17 +88,18 @@ const FALLBACK_JOURNEYS: DiscoverJourneyItem[] = [
     tagline: "The quintessential Ceylon expedition",
     excerpt:
       "Track wild Asian leopards across Yala's scrub wilderness, witness massive elephant gatherings at dusk, and scale the granite heights of Sigiriya. A masterclass in wildlife and royal archaeological history.",
-    duration: { days: 10, nights: 9 },
-    pricing: { priceFrom: 2950, currency: "USD" },
-    coverImage: "/images/journeys/curated-journey-3.jpg",
-    alt: "Secluded lagoon overwater bungalows surrounded by lush hills",
+    duration: { days: 6, nights: 5 },
+    pricing: { priceFrom: 1580, currency: "USD" },
+    coverImage:
+      "/images/journeys/sri-lanka-classic-triangle-wildlife-yala.jpg",
+    alt: "Solitary wild Ceylon leopard perched on a granite rock in Yala National Park at golden hour",
     destinations: [
-      "Colombo",
       "Sigiriya",
+      "Hiriwadunna",
+      "Dambulla",
       "Kandy",
       "Ella",
-      "Yala Safari",
-      "Galle Fort",
+      "Yala",
     ],
     categories: ["Wildlife Safari", "Archaeology"],
   },
@@ -104,16 +110,20 @@ const FALLBACK_JOURNEYS: DiscoverJourneyItem[] = [
     tagline: "Colonial ramparts, blue whales, and ocean breeze",
     excerpt:
       "Descend from the misty central highlands into the sun-drenched southern rim. Explore the UNESCO-listed 17th-century Galle Dutch Fort, cruise offshore for blue whales, and unwind along secluded golden arcs.",
-    duration: { days: 8, nights: 7 },
-    pricing: { priceFrom: 2450, currency: "USD" },
-    coverImage: "/images/journeys/curated-journey-4.jpg",
-    alt: "Tropical island wooden overwater villas along turquoise sea",
+    duration: { days: 7, nights: 6 },
+    pricing: { priceFrom: 1790, currency: "USD" },
+    coverImage:
+      "/images/journeys/sri-lanka-heritage-southern-coast-galle.jpg",
+    alt: "Historic white lighthouse and 17th-century ramparts of Galle Dutch Fort along the Indian Ocean",
     destinations: [
+      "Anuradhapura",
+      "Aukana",
+      "Sigiriya",
       "Kandy",
-      "Ella",
-      "Yala",
-      "Mirissa Coast",
-      "Galle Dutch Fort",
+      "Nuwara Eliya",
+      "Udawalawe",
+      "Galle",
+      "Hikkaduwa",
     ],
     categories: ["Southern Coast", "Colonial History"],
   },
@@ -124,34 +134,188 @@ const FALLBACK_JOURNEYS: DiscoverJourneyItem[] = [
     tagline: "The complete, immersive island odyssey",
     excerpt:
       "The definitive Sri Lankan grand tour. Traverse the ancient northern capitals, cloud-capped tea trails, untamed safari territories, and colonial spice ports with expert private guide lecturing throughout.",
-    duration: { days: 14, nights: 13 },
-    pricing: { priceFrom: 4200, currency: "USD" },
-    coverImage: "/images/journeys/curated-journey-5.jpg",
-    alt: "Joyful adventurer jumping through historic stone citadel archway overlooking coastline",
+    duration: { days: 8, nights: 7 },
+    pricing: { priceFrom: 2150, currency: "USD" },
+    coverImage:
+      "/images/journeys/sri-lanka-grand-loop-anuradhapura-stupa.jpg",
+    alt: "Ancient sacred Ruwanwelisaya stupa in Anuradhapura glowing under tranquil dawn skies",
     destinations: [
-      "Anuradhapura",
       "Sigiriya",
+      "Polonnaruwa",
+      "Minneriya",
+      "Dambulla",
       "Kandy",
-      "Hatton",
+      "Ella",
       "Yala",
       "Mirissa",
-      "Colombo",
+      "Galle",
     ],
     categories: ["Grand Tour", "Total Immersion"],
   },
+  {
+    id: "deep-dive-culture-and-nature",
+    slug: "deep-dive-culture-and-nature",
+    title: "Deep Dive: Culture & Nature",
+    tagline: "Slow down and see it all",
+    excerpt:
+      "A leisurely-paced journey exploring the cultural north, the misty central cloud forests of Horton Plains World's End, and secluded southern beach sanctuaries.",
+    duration: { days: 9, nights: 8 },
+    pricing: { priceFrom: 2450, currency: "USD" },
+    coverImage:
+      "/images/journeys/sri-lanka-deep-dive-culture-nature-horton-plains.jpg",
+    alt: "Dramatic World's End sheer cliff precipice and misty cloud forest in Horton Plains",
+    destinations: [
+      "Negombo",
+      "Anuradhapura",
+      "Sigiriya",
+      "Polonnaruwa",
+      "Kandy",
+      "Horton Plains",
+      "Ella",
+      "Yala",
+      "Tangalle",
+      "Galle",
+    ],
+    categories: ["Culture & Nature", "Cloud Forest"],
+  },
+  {
+    id: "ramayana-trail-special",
+    slug: "ramayana-trail-special",
+    title: "The Ramayana Trail Special",
+    tagline: "Walk the path of the Ramayana epic",
+    excerpt:
+      "A sacred mythological pilgrimage tracing Rama, Sita, and Hanuman across Sri Lanka. Discover sacred mountain shrines, Ravana caves, and ancient legend-steeped kovils.",
+    duration: { days: 10, nights: 9 },
+    pricing: { priceFrom: 2680, currency: "USD" },
+    coverImage:
+      "/images/journeys/sri-lanka-ramayana-trail-seetha-amman-kovil.jpg",
+    alt: "Sacred ornate Seetha Amman Kovil temple nestled in the misty green mountains of Nuwara Eliya",
+    destinations: [
+      "Chilaw",
+      "Anuradhapura",
+      "Mihintale",
+      "Sigiriya",
+      "Dambulla",
+      "Kandy",
+      "Ramboda",
+      "Nuwara Eliya",
+      "Ella",
+      "Kataragama",
+      "Ussangoda",
+      "Galle",
+    ],
+    categories: ["Spiritual Pilgrimage", "Mythology"],
+  },
+  {
+    id: "ultimate-pearl-experience",
+    slug: "ultimate-pearl-experience",
+    title: "The Ultimate Pearl Experience",
+    tagline: "The definitive two-week island epic",
+    excerpt:
+      "The masterwork Ceylon expedition. From Wilpattu's leopard-filled jungle lakes to the ancient royal citadels, high-altitude tea trails, and colonial oceanfront ramparts.",
+    duration: { days: 14, nights: 13 },
+    pricing: { priceFrom: 3850, currency: "USD" },
+    coverImage:
+      "/images/journeys/sri-lanka-ultimate-pearl-experience-wilpattu.jpg",
+    alt: "Untamed Wilpattu National Park natural sand-rimmed lake villu with wild Asian elephants and banyans",
+    destinations: [
+      "Negombo",
+      "Wilpattu",
+      "Anuradhapura",
+      "Sigiriya",
+      "Minneriya",
+      "Polonnaruwa",
+      "Kandy",
+      "Nuwara Eliya",
+      "Horton Plains",
+      "Ella",
+      "Yala",
+      "Mirissa",
+      "Galle",
+      "Colombo",
+    ],
+    categories: ["Grand Expedition", "Luxury Wildlife"],
+  },
 ];
+
+const CURATED_JOURNEY_SLUGS = [
+  "essence-of-ceylon",
+  "tea-trails-ancient-temples",
+  "classic-triangle-and-wildlife",
+  "heritage-and-southern-coast",
+  "grand-sri-lankan-loop",
+  "deep-dive-culture-and-nature",
+  "ramayana-trail-special",
+  "ultimate-pearl-experience",
+];
+
+const CURATED_JOURNEY_CONFIG: Record<
+  string,
+  { image: string; alt: string; fallbackIndex: number }
+> = {
+  "essence-of-ceylon": {
+    image: "/images/journeys/sri-lanka-essence-of-ceylon-sigiriya.jpg",
+    alt: "Sigiriya Lion Rock citadel illuminated by morning golden light over lush jungle canopy",
+    fallbackIndex: 0,
+  },
+  "tea-trails-ancient-temples": {
+    image:
+      "/images/journeys/sri-lanka-tea-trails-ancient-temples-highlands.jpg",
+    alt: "Lush emerald tea terraces and historic colonial bungalow in Nuwara Eliya and Hatton highlands",
+    fallbackIndex: 1,
+  },
+  "classic-triangle-and-wildlife": {
+    image: "/images/journeys/sri-lanka-classic-triangle-wildlife-yala.jpg",
+    alt: "Solitary wild Ceylon leopard perched on a granite rock in Yala National Park at golden hour",
+    fallbackIndex: 2,
+  },
+  "heritage-and-southern-coast": {
+    image: "/images/journeys/sri-lanka-heritage-southern-coast-galle.jpg",
+    alt: "Historic white lighthouse and 17th-century ramparts of Galle Dutch Fort along the Indian Ocean",
+    fallbackIndex: 3,
+  },
+  "grand-sri-lankan-loop": {
+    image: "/images/journeys/sri-lanka-grand-loop-anuradhapura-stupa.jpg",
+    alt: "Ancient sacred Ruwanwelisaya stupa in Anuradhapura glowing under tranquil dawn skies",
+    fallbackIndex: 4,
+  },
+  "deep-dive-culture-and-nature": {
+    image:
+      "/images/journeys/sri-lanka-deep-dive-culture-nature-horton-plains.jpg",
+    alt: "Dramatic World's End sheer cliff precipice and misty cloud forest in Horton Plains",
+    fallbackIndex: 5,
+  },
+  "ramayana-trail-special": {
+    image:
+      "/images/journeys/sri-lanka-ramayana-trail-seetha-amman-kovil.jpg",
+    alt: "Sacred ornate Seetha Amman Kovil temple nestled in the misty green mountains of Nuwara Eliya",
+    fallbackIndex: 6,
+  },
+  "ultimate-pearl-experience": {
+    image:
+      "/images/journeys/sri-lanka-ultimate-pearl-experience-wilpattu.jpg",
+    alt: "Untamed Wilpattu National Park natural sand-rimmed lake villu with wild Asian elephants and banyans",
+    fallbackIndex: 7,
+  },
+};
 
 export function DiscoverSriLankaSection({
   journeys,
 }: DiscoverSriLankaSectionProps) {
-  const displayJourneys: DiscoverJourneyItem[] =
-    journeys && journeys.length > 0
-      ? journeys.slice(0, 5).map((j, idx) => ({
-          ...j,
-          coverImage:
-            CURATED_JOURNEY_IMAGES[idx % CURATED_JOURNEY_IMAGES.length],
-        }))
-      : FALLBACK_JOURNEYS;
+  const displayJourneys: DiscoverJourneyItem[] = CURATED_JOURNEY_SLUGS.map(
+    (slug, idx) => {
+      const config = CURATED_JOURNEY_CONFIG[slug];
+      const match = journeys?.find((j) => j.slug === slug);
+      const fallback =
+        FALLBACK_JOURNEYS[config.fallbackIndex] || FALLBACK_JOURNEYS[idx];
+      return {
+        ...fallback,
+        ...(match || {}),
+        coverImage: config.image,
+        alt: config.alt,
+      };
+    },
+  );
 
 
   const [activeIndex, setActiveIndex] = useState(0);

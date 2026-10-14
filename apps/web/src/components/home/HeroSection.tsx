@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { MarqueeTicker } from "@/components/ui/MarqueeTicker";
@@ -14,26 +16,117 @@ const marqueeWords = [
   "Rainforest",
 ];
 
+interface HeroVideo {
+  id: string;
+  name: string;
+  localSrc: string;
+  onlineSrc: string;
+}
+
+const HERO_VIDEOS: HeroVideo[] = [
+  {
+    id: "ambuluwawa",
+    name: "Ambuluwawa Biodiversity Complex",
+    localSrc: "/videos/hero-ambuluwawa.mp4",
+    onlineSrc: "https://cdn.pixabay.com/video/2023/08/22/177127-856658451_medium.mp4",
+  },
+  {
+    id: "sigiriya",
+    name: "Sigiriya Lion Rock Citadel",
+    localSrc: "/videos/sigiriya.mp4",
+    onlineSrc: "https://pixabay.com/videos/download/video-191283_medium.mp4",
+  },
+  {
+    id: "elephant",
+    name: "Wild Elephants Gathering",
+    localSrc: "/videos/elephant.mp4",
+    onlineSrc: "https://pixabay.com/videos/download/video-242272_medium.mp4",
+  },
+];
+
 export function HeroSection() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+
+  const advanceToNext = useCallback(() => {
+    setCurrentIndex((prev) => (prev + 1) % HERO_VIDEOS.length);
+  }, []);
+
+  useEffect(() => {
+    const currentVid = videoRefs.current[currentIndex];
+    if (currentVid) {
+      try {
+        currentVid.currentTime = 0;
+        const playPromise = currentVid.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {});
+        }
+      } catch {
+      }
+    }
+
+    const nextIndex = (currentIndex + 1) % HERO_VIDEOS.length;
+    const nextVid = videoRefs.current[nextIndex];
+    if (nextVid && nextVid.preload !== "auto") {
+      nextVid.preload = "auto";
+    }
+
+    const pauseTimer = setTimeout(() => {
+      videoRefs.current.forEach((vid, idx) => {
+        if (idx !== currentIndex && vid) {
+          try {
+            vid.pause();
+          } catch {}
+        }
+      });
+    }, 1200);
+
+    const sceneTimer = setTimeout(() => {
+      advanceToNext();
+    }, 12000);
+
+    return () => {
+      clearTimeout(pauseTimer);
+      clearTimeout(sceneTimer);
+    };
+  }, [currentIndex, advanceToNext]);
+
   return (
     <section
       className="relative min-h-screen flex items-end overflow-hidden"
       aria-label="Hero"
     >
       <div className="absolute inset-0 z-0 overflow-hidden bg-forest">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="relative w-full h-full object-cover object-center scale-105"
-        >
-          <source src="/videos/hero-ambuluwawa.mp4" type="video/mp4" />
-          <source
-            src="https://cdn.pixabay.com/video/2023/08/22/177127-856658451_medium.mp4"
-            type="video/mp4"
-          />
-        </video>
+        {HERO_VIDEOS.map((video, index) => {
+          const isActive = index === currentIndex;
+          return (
+            <video
+              key={video.id}
+              ref={(el) => {
+                videoRefs.current[index] = el;
+              }}
+              muted
+              playsInline
+              preload={index === 0 ? "auto" : "metadata"}
+              onEnded={() => {
+                if (index === currentIndex) {
+                  advanceToNext();
+                }
+              }}
+              onError={() => {
+                if (index === currentIndex) {
+                  advanceToNext();
+                }
+              }}
+              className={`absolute inset-0 w-full h-full object-cover object-center scale-105 transition-opacity duration-1000 ease-in-out ${
+                isActive ? "opacity-100 z-1" : "opacity-0 z-0 pointer-events-none"
+              }`}
+            >
+              <source src={video.localSrc} type="video/mp4" />
+              <source src={video.onlineSrc} type="video/mp4" />
+            </video>
+          );
+        })}
       </div>
       <div
         className="absolute inset-0 z-10 bg-gradient-to-b from-black/45 via-black/20 to-black/85 pointer-events-none"
@@ -81,7 +174,7 @@ export function HeroSection() {
           </div>
         </div>
       </div>
-      <div className="absolute bottom-0 inset-x-0 z-20 py-4 md:py-5 overflow-hidden bg-gradient-to-t from-black/90 via-black/40 to-transparent border-t border-white/10 backdrop-blur-[2px]">
+      <div className="absolute bottom-0 inset-x-0 z-20 py-4 md:py-5 overflow-hidden bg-gradient-to-t from-black/90 via-black/40 to-transparent backdrop-blur-[2px]">
         <MarqueeTicker items={marqueeWords} theme="light" />
       </div>
     </section>

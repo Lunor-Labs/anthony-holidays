@@ -12,6 +12,7 @@ interface Journey {
   title: string
   excerpt: string
   duration: { days: number; nights: number }
+  pricing?: { priceFrom: number; currency: string }
   coverImage: string
   alt: string
   destinations: string[]
@@ -266,14 +267,25 @@ export function JourneysFilter({ journeys }: JourneysFilterProps) {
                   ))}
                 </div>
 
-                <Link
-                  href={`/tours/${journey.slug}`}
-                  className="btn-link"
-                  aria-label={`View ${journey.title} journey details`}
-                >
-                  Explore Journey
-                  <ChevronRight size={14} />
-                </Link>
+                <div className="flex items-center justify-between mt-auto pt-5 border-t border-cream">
+                  {journey.pricing && journey.pricing.priceFrom > 0 ? (
+                    <div>
+                      <span className="text-xs text-stone tracking-wide block leading-none mb-1">From</span>
+                      <span className="font-serif text-xl font-normal text-forest">
+                        ${journey.pricing.priceFrom.toLocaleString()}
+                      </span>
+                      <span className="text-xs text-stone font-light"> / person</span>
+                    </div>
+                  ) : <div />}
+                  <Link
+                    href={`/tours/${journey.slug}`}
+                    className="btn-link"
+                    aria-label={`View ${journey.title} journey details`}
+                  >
+                    Explore Journey
+                    <ChevronRight size={14} />
+                  </Link>
+                </div>
               </div>
             </article>
           ))}

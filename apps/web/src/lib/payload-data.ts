@@ -85,30 +85,33 @@ export async function getJourneys() {
     )
 
     if (data?.docs && data.docs.length > 0) {
-      return data.docs.map((doc: any) => ({
-        id: String(doc.id),
-        slug: doc.slug,
-        title: doc.title,
-        tagline: doc.tagline || '',
-        excerpt: doc.excerpt || doc.overview || '',
-        duration: {
-          days: doc.duration?.days || 1,
-          nights: doc.duration?.nights || 0,
-        },
-        pricing: {
-          priceFrom: doc.pricing?.priceFrom || 0,
-          currency: doc.pricing?.currency || 'USD',
-        },
-        coverImage: getMediaUrl(doc.coverImage),
-        alt: doc.title,
-        destinations: Array.isArray(doc.destinations)
-          ? doc.destinations.map((d: any) => (typeof d === 'object' ? d.name || d.title : String(d)))
-          : [],
-        categories: Array.isArray(doc.categories)
-          ? doc.categories.map((c: any) => (typeof c === 'object' ? c.slug || c.title : String(c)))
-          : ['culture-heritage'],
-        featured: Boolean(doc.featured),
-      }))
+      return data.docs.map((doc: any) => {
+        const localJourney = FALLBACK_JOURNEYS.find((f) => f.slug === doc.slug)
+        return {
+          id: String(doc.id),
+          slug: doc.slug,
+          title: doc.title,
+          tagline: doc.tagline || localJourney?.tagline || '',
+          excerpt: doc.excerpt || doc.overview || localJourney?.excerpt || '',
+          duration: {
+            days: doc.duration?.days || localJourney?.duration.days || 1,
+            nights: doc.duration?.nights || localJourney?.duration.nights || 0,
+          },
+          pricing: {
+            priceFrom: doc.pricing?.priceFrom || localJourney?.pricing.priceFrom || 0,
+            currency: doc.pricing?.currency || localJourney?.pricing.currency || 'USD',
+          },
+          coverImage: localJourney?.coverImage || getMediaUrl(doc.coverImage),
+          alt: localJourney?.alt || doc.title,
+          destinations: Array.isArray(doc.destinations) && doc.destinations.length > 0
+            ? doc.destinations.map((d: any) => (typeof d === 'object' ? d.name || d.title : String(d)))
+            : localJourney?.destinations || [],
+          categories: Array.isArray(doc.categories) && doc.categories.length > 0
+            ? doc.categories.map((c: any) => (typeof c === 'object' ? c.slug || c.title : String(c)))
+            : localJourney?.categories || ['cultural-heritage'],
+          featured: Boolean(doc.featured),
+        }
+      })
     }
   } catch (err) {
     console.warn('Payload getJourneys error:', err)
@@ -149,32 +152,44 @@ export async function getJourneyBySlug(slug: string) {
 
     if (data?.docs && data.docs.length > 0) {
       const doc = data.docs[0] as any
+      const fallbackDetail = getFallbackJourneyDetail(slug)
+      const localJourney = FALLBACK_JOURNEYS.find((f) => f.slug === doc.slug)
+
+      // Curated cover image (local SEO asset takes precedence over outdated DB seed)
+      const coverImage = localJourney?.coverImage || fallbackDetail?.coverImage || getMediaUrl(doc.coverImage)
+      const alt = localJourney?.alt || fallbackDetail?.alt || doc.title
+
+      // Curated gallery (local authentic gallery takes precedence if available)
+      const gallery = fallbackDetail?.gallery && fallbackDetail.gallery.length > 0
+        ? fallbackDetail.gallery
+        : Array.isArray(doc.gallery) && doc.gallery.length > 0
+        ? doc.gallery.map((g: any) => ({
+            src: getMediaUrl(g.image || g),
+            alt: doc.title,
+          }))
+        : []
+
       return {
         id: String(doc.id),
         slug: doc.slug,
         title: doc.title,
-        tagline: doc.tagline || '',
-        excerpt: doc.excerpt || '',
-        description: extractTextFromLexical(doc.description),
+        tagline: doc.tagline || fallbackDetail?.tagline || '',
+        excerpt: doc.excerpt || fallbackDetail?.excerpt || '',
+        description: extractTextFromLexical(doc.description) || fallbackDetail?.description || '',
         duration: {
-          days: doc.duration?.days || 1,
-          nights: doc.duration?.nights || 0,
+          days: doc.duration?.days || fallbackDetail?.duration.days || 1,
+          nights: doc.duration?.nights || fallbackDetail?.duration.nights || 0,
         },
-        destinations: Array.isArray(doc.destinations)
+        destinations: Array.isArray(doc.destinations) && doc.destinations.length > 0
           ? doc.destinations.map((d: any) => (typeof d === 'object' ? d.name || d.title : String(d)))
-          : [],
-        categories: Array.isArray(doc.categories)
+          : fallbackDetail?.destinations || [],
+        categories: Array.isArray(doc.categories) && doc.categories.length > 0
           ? doc.categories.map((c: any) => (typeof c === 'object' ? c.slug || c.title : String(c)))
-          : [],
-        coverImage: getMediaUrl(doc.coverImage),
-        alt: doc.title,
-        gallery: Array.isArray(doc.gallery)
-          ? doc.gallery.map((g: any) => ({
-              src: getMediaUrl(g.image || g),
-              alt: doc.title,
-            }))
-          : [],
-        itinerary: Array.isArray(doc.itinerary)
+          : fallbackDetail?.categories || [],
+        coverImage,
+        alt,
+        gallery,
+        itinerary: Array.isArray(doc.itinerary) && doc.itinerary.length > 0
           ? doc.itinerary.map((d: any) => ({
               day: d.day,
               title: d.title,
@@ -183,40 +198,40 @@ export async function getJourneyBySlug(slug: string) {
               accommodation: d.accommodation || '',
               meals: d.meals || '',
             }))
-          : [],
-        inclusions: Array.isArray(doc.inclusions)
+          : fallbackDetail?.itinerary || [],
+        inclusions: Array.isArray(doc.inclusions) && doc.inclusions.length > 0
           ? doc.inclusions.map((i: any) => (typeof i === 'string' ? i : i.item || ''))
-          : [],
-        exclusions: Array.isArray(doc.exclusions)
+          : fallbackDetail?.inclusions || [],
+        exclusions: Array.isArray(doc.exclusions) && doc.exclusions.length > 0
           ? doc.exclusions.map((e: any) => (typeof e === 'string' ? e : e.item || ''))
-          : [],
-        includedSites: Array.isArray(doc.includedSites)
+          : fallbackDetail?.exclusions || [],
+        includedSites: Array.isArray(doc.includedSites) && doc.includedSites.length > 0
           ? doc.includedSites.map((s: any) => (typeof s === 'string' ? s : s.item || ''))
-          : [],
-        optionalSites: Array.isArray(doc.optionalSites)
+          : fallbackDetail?.includedSites || [],
+        optionalSites: Array.isArray(doc.optionalSites) && doc.optionalSites.length > 0
           ? doc.optionalSites.map((s: any) => (typeof s === 'string' ? s : s.item || ''))
-          : [],
-        accommodationDetails: doc.accommodationDetails || '',
-        transportDetails: doc.transportDetails || '',
-        guideDetails: doc.guideDetails || '',
-        insuranceInfo: doc.insuranceInfo || '',
-        visaInfo: doc.visaInfo || '',
-        airTicketInfo: doc.airTicketInfo || '',
-        travelInfo: extractTextFromLexical(doc.travelInfo),
+          : fallbackDetail?.optionalSites || [],
+        accommodationDetails: doc.accommodationDetails || fallbackDetail?.accommodationDetails || '',
+        transportDetails: doc.transportDetails || fallbackDetail?.transportDetails || '',
+        guideDetails: doc.guideDetails || fallbackDetail?.guideDetails || '',
+        insuranceInfo: doc.insuranceInfo || fallbackDetail?.insuranceInfo || '',
+        visaInfo: doc.visaInfo || fallbackDetail?.visaInfo || '',
+        airTicketInfo: doc.airTicketInfo || fallbackDetail?.airTicketInfo || '',
+        travelInfo: extractTextFromLexical(doc.travelInfo) || fallbackDetail?.travelInfo || '',
         pricing: {
-          showPrice: Boolean(doc.pricing?.showPrice),
-          priceFrom: doc.pricing?.priceFrom || 0,
-          currency: doc.pricing?.currency || 'USD',
-          pricingNote: doc.pricing?.pricingNote || '',
+          showPrice: true,
+          priceFrom: doc.pricing?.priceFrom || fallbackDetail?.pricing.priceFrom || localJourney?.pricing.priceFrom || 790,
+          currency: doc.pricing?.currency || localJourney?.pricing.currency || 'USD',
+          pricingNote: doc.pricing?.pricingNote || 'per person',
         },
-        faqs: Array.isArray(doc.faqs)
+        faqs: Array.isArray(doc.faqs) && doc.faqs.length > 0
           ? doc.faqs.map((f: any) => ({
               question: f.question,
               answer: extractTextFromLexical(f.answer),
             }))
-          : [],
-        relatedSlugs: [],
-        featured: Boolean(doc.featured),
+          : fallbackDetail?.faqs || [],
+        relatedSlugs: fallbackDetail?.relatedSlugs || [],
+        featured: Boolean(doc.featured ?? fallbackDetail?.featured),
         status: doc.status || 'published',
       }
     }
@@ -357,39 +372,42 @@ export async function getSpecialPackages() {
     )
 
     if (data?.docs && data.docs.length > 0) {
-      return data.docs.map((doc: any) => ({
-        id: String(doc.id),
-        slug: doc.slug,
-        title: doc.title,
-        category: doc.category || 'other',
-        categoryLabel:
-          doc.category === 'volunteering'
-            ? 'Volunteering Experience'
-            : doc.category === 'hikkaduwa'
-            ? 'Hikkaduwa-Based Tourism'
-            : doc.category === 'customised'
-            ? 'Customised Tour'
-            : doc.category === 'budget'
-            ? 'Budget-Based Tour'
-            : doc.category === 'adventure'
-            ? 'Adventure Tour'
-            : 'Special Package',
-        excerpt: doc.excerpt || '',
-        duration: {
-          days: doc.duration?.days || 1,
-          nights: doc.duration?.nights || 0,
-        },
-        pricing: {
-          showPrice: Boolean(doc.pricing?.showPrice),
-          priceFrom: doc.pricing?.priceFrom || 0,
-          currency: doc.pricing?.currency || 'USD',
-          pricingNote: doc.pricing?.pricingNote || '',
-        },
-        coverImage: getMediaUrl(doc.coverImage),
-        alt: doc.title,
-        activities: Array.isArray(doc.activities) ? doc.activities : [],
-        featured: Boolean(doc.featured),
-      }))
+      return data.docs.map((doc: any) => {
+        const localPackage = FALLBACK_SPECIAL_PACKAGES.find((f) => f.slug === doc.slug)
+        return {
+          id: String(doc.id),
+          slug: doc.slug,
+          title: doc.title,
+          category: doc.category || localPackage?.category || 'other',
+          categoryLabel:
+            doc.category === 'volunteering'
+              ? 'Volunteering Experience'
+              : doc.category === 'hikkaduwa'
+              ? 'Hikkaduwa-Based Tourism'
+              : doc.category === 'customised'
+              ? 'Customised Tour'
+              : doc.category === 'budget'
+              ? 'Budget-Based Tour'
+              : doc.category === 'adventure'
+              ? 'Adventure Tour'
+              : localPackage?.categoryLabel || 'Special Package',
+          excerpt: doc.excerpt || localPackage?.excerpt || '',
+          duration: {
+            days: doc.duration?.days || localPackage?.duration.days || 1,
+            nights: doc.duration?.nights || localPackage?.duration.nights || 0,
+          },
+          pricing: {
+            showPrice: Boolean(doc.pricing?.showPrice),
+            priceFrom: doc.pricing?.priceFrom || localPackage?.pricing.priceFrom || 0,
+            currency: doc.pricing?.currency || localPackage?.pricing.currency || 'USD',
+            pricingNote: doc.pricing?.pricingNote || localPackage?.pricing.pricingNote || '',
+          },
+          coverImage: localPackage?.coverImage || getMediaUrl(doc.coverImage),
+          alt: localPackage?.alt || doc.title,
+          activities: Array.isArray(doc.activities) && doc.activities.length > 0 ? doc.activities : localPackage?.activities || [],
+          featured: Boolean(doc.featured),
+        }
+      })
     }
   } catch (err) {
     console.warn('Payload getSpecialPackages error:', err)
@@ -409,11 +427,12 @@ export async function getSpecialPackageBySlug(slug: string) {
 
     if (data?.docs && data.docs.length > 0) {
       const doc = data.docs[0] as any
+      const localPackage = FALLBACK_SPECIAL_PACKAGES.find((f) => f.slug === doc.slug)
       return {
         id: String(doc.id),
         slug: doc.slug,
         title: doc.title,
-        category: doc.category || 'other',
+        category: doc.category || localPackage?.category || 'other',
         categoryLabel:
           doc.category === 'volunteering'
             ? 'Volunteering Experience'
@@ -425,26 +444,30 @@ export async function getSpecialPackageBySlug(slug: string) {
             ? 'Budget-Based Tour'
             : doc.category === 'adventure'
             ? 'Adventure Tour'
-            : 'Special Package',
-        excerpt: doc.excerpt || '',
-        description: doc.description,
+            : localPackage?.categoryLabel || 'Special Package',
+        excerpt: doc.excerpt || localPackage?.excerpt || '',
+        description: doc.description || localPackage?.description,
         duration: {
-          days: doc.duration?.days || 1,
-          nights: doc.duration?.nights || 0,
+          days: doc.duration?.days || localPackage?.duration.days || 1,
+          nights: doc.duration?.nights || localPackage?.duration.nights || 0,
         },
         pricing: {
           showPrice: Boolean(doc.pricing?.showPrice),
-          priceFrom: doc.pricing?.priceFrom || 0,
-          currency: doc.pricing?.currency || 'USD',
-          pricingNote: doc.pricing?.pricingNote || '',
+          priceFrom: doc.pricing?.priceFrom || localPackage?.pricing.priceFrom || 0,
+          currency: doc.pricing?.currency || localPackage?.pricing.currency || 'USD',
+          pricingNote: doc.pricing?.pricingNote || localPackage?.pricing.pricingNote || '',
         },
-        coverImage: getMediaUrl(doc.coverImage),
-        alt: doc.title,
-        activities: Array.isArray(doc.activities) ? doc.activities : [],
+        coverImage: localPackage?.coverImage || getMediaUrl(doc.coverImage),
+        alt: localPackage?.alt || doc.title,
+        activities: Array.isArray(doc.activities) && doc.activities.length > 0 ? doc.activities : localPackage?.activities || [],
         itinerary: Array.isArray(doc.itinerary) ? doc.itinerary : [],
-        conditions: doc.conditions,
-        inclusions: Array.isArray(doc.inclusions) ? doc.inclusions.map((i: any) => i.item || String(i)) : [],
-        exclusions: Array.isArray(doc.exclusions) ? doc.exclusions.map((e: any) => e.item || String(e)) : [],
+        conditions: doc.conditions || localPackage?.conditions,
+        inclusions: Array.isArray(doc.inclusions) && doc.inclusions.length > 0
+          ? doc.inclusions.map((i: any) => (typeof i === 'string' ? i : i.item || ''))
+          : localPackage?.inclusions || [],
+        exclusions: Array.isArray(doc.exclusions) && doc.exclusions.length > 0
+          ? doc.exclusions.map((e: any) => (typeof e === 'string' ? e : e.item || ''))
+          : localPackage?.exclusions || [],
         featured: Boolean(doc.featured),
       }
     }
@@ -479,17 +502,22 @@ export async function getServices() {
     )
 
     if (data?.docs && data.docs.length > 0) {
-      return data.docs.map((doc: any) => ({
-        id: String(doc.id),
-        slug: doc.slug,
-        title: doc.title,
-        shortDescription: doc.shortDescription || '',
-        description: doc.description,
-        image: getMediaUrl(doc.image),
-        iconName: doc.iconName || 'Compass',
-        displayOrder: doc.displayOrder || 0,
-        highlights: Array.isArray(doc.highlights) ? doc.highlights.map((h: any) => h.item || String(h)) : [],
-      }))
+      return data.docs.map((doc: any) => {
+        const localService = FALLBACK_SERVICES.find((f) => f.slug === doc.slug)
+        return {
+          id: String(doc.id),
+          slug: doc.slug,
+          title: doc.title,
+          shortDescription: doc.shortDescription || localService?.shortDescription || '',
+          description: doc.description || localService?.description,
+          image: localService?.image || getMediaUrl(doc.image),
+          iconName: doc.iconName || localService?.iconName || 'Compass',
+          displayOrder: doc.displayOrder ?? localService?.displayOrder ?? 0,
+          highlights: Array.isArray(doc.highlights) && doc.highlights.length > 0
+            ? doc.highlights.map((h: any) => h.item || String(h))
+            : localService?.highlights || [],
+        }
+      })
     }
   } catch (err) {
     console.warn('Payload getServices error:', err)
@@ -508,76 +536,38 @@ export async function getTeamMembers() {
     )
 
     if (data?.docs && data.docs.length > 0) {
-      const items = data.docs.map((doc: any) => ({
-        id: String(doc.id),
-        name: doc.name,
-        slug: doc.slug || slugify(doc.name),
-        role: doc.role,
-        isFounder: Boolean(doc.isFounder),
-        photo: getMediaUrl(doc.photo),
-        credentials: Array.isArray(doc.credentials) ? doc.credentials.map((c: any) => c.badge || String(c)) : [],
-        bio: extractTextFromLexical(doc.bio) || (typeof doc.bio === 'string' ? doc.bio : ''),
-        specialties: Array.isArray(doc.specialties) ? doc.specialties.map((s: any) => s.area || String(s)) : [],
-        languages: Array.isArray(doc.languages) ? doc.languages.map((l: any) => l.language || String(l)) : [],
-        displayOrder: doc.displayOrder || 0,
-      }))
+      const items = data.docs.map((doc: any) => {
+        const localMember = FALLBACK_TEAM_MEMBERS.find((f) => f.slug === (doc.slug || slugify(doc.name)))
+        return {
+          id: String(doc.id),
+          name: doc.name,
+          slug: doc.slug || slugify(doc.name),
+          role: doc.role,
+          isFounder: Boolean(doc.isFounder),
+          photo: localMember?.photo || getMediaUrl(doc.photo),
+          credentials: Array.isArray(doc.credentials) && doc.credentials.length > 0
+            ? doc.credentials.map((c: any) => c.badge || String(c))
+            : localMember?.credentials || [],
+          bio: extractTextFromLexical(doc.bio) || (typeof doc.bio === 'string' ? doc.bio : '') || localMember?.bio || '',
+          specialties: Array.isArray(doc.specialties) && doc.specialties.length > 0
+            ? doc.specialties.map((s: any) => s.area || String(s))
+            : localMember?.specialties || [],
+          languages: Array.isArray(doc.languages) && doc.languages.length > 0
+            ? doc.languages.map((l: any) => l.language || String(l))
+            : localMember?.languages || [],
+          displayOrder: doc.displayOrder ?? localMember?.displayOrder ?? 0,
+        }
+      })
 
       if (items.length > 1) {
         return items
       }
 
-      // If only founder is present, include the licensed faculty specialist guides
-      return [
-        ...items,
-        {
-          id: 'faculty-wildlife',
-          name: 'Chaminda Silva',
-          slug: 'chaminda-silva',
-          role: 'Senior Naturalist & Wildlife Tracking Specialist',
-          isFounder: false,
-          photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80',
-          credentials: [
-            'SLTDA Licensed Tourist Guide Lecturer',
-            'Field Ornithology & Leopard Habitat Specialist',
-          ],
-          bio: 'Over 14 years tracking leopards, sloth bears, and blue whales across Yala, Wilpattu, and Mirissa with ethical wildlife observation protocols.',
-          specialties: ['Wildlife Tracking', 'Birdwatching', 'Marine Safari'],
-          languages: ['English', 'Sinhala', 'German'],
-          displayOrder: 2,
-        },
-        {
-          id: 'faculty-archaeology',
-          name: 'Dinesh Perera',
-          slug: 'dinesh-perera',
-          role: 'Cultural Heritage & Archaeological Lecturer',
-          isFounder: false,
-          photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&q=80',
-          credentials: [
-            'National Tourist Guide Lecturer License #NTGL-4482',
-            'Postgraduate Diploma in Archaeology (Univ. of Kelaniya)',
-          ],
-          bio: 'Specialist in Sigiriya hydraulics, Anuradhapura monastic architecture, and sacred Buddhist iconography with over 16 years lecturing.',
-          specialties: ['Ancient Citadels', 'Buddhist Art', 'Colonial Forts'],
-          languages: ['English', 'Sinhala', 'French'],
-          displayOrder: 3,
-        },
-        {
-          id: 'faculty-highlands',
-          name: 'Rohan Fernando',
-          slug: 'rohan-fernando',
-          role: 'Highland Trails & Tea Heritage Specialist',
-          isFounder: false,
-          photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=80',
-          credentials: [
-            'SLTDA Certified Highland Guide Lecturer',
-            'Knuckles Range Wilderness Navigation Certified',
-          ],
-          bio: 'Born in the central highlands, Rohan leads private treks through cloud forests, secret waterfall chasms, and 19th-century colonial tea estates.',
-          specialties: ['Cloud Forest Trekking', 'Ceylon Tea Culture', 'Botanical Walks'],
-          languages: ['English', 'Sinhala'],
-          displayOrder: 4,
-        },
-      ]
+      // If only founder is present in CMS, merge the rest of the specialist faculty guides from fallback data
+      const otherFallbackMembers = FALLBACK_TEAM_MEMBERS.filter(
+        (m) => !items.some((i) => i.slug === m.slug)
+      )
+      return [...items, ...otherFallbackMembers]
     }
   } catch (err) {
     console.warn('Payload getTeamMembers error:', err)

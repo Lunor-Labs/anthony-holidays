@@ -5,8 +5,17 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.join(__dirname, '../..'),
   },
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'framer-motion'],
+  },
+  compress: true,
+  poweredByHeader: false,
   images: {
     dangerouslyAllowLocalIP: true,
+    formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 60 * 60 * 24 * 30,
+    deviceSizes: [390, 640, 828, 1080, 1280, 1440, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     remotePatterns: [
       {
         protocol: 'https',
@@ -31,7 +40,6 @@ const nextConfig: NextConfig = {
         hostname: '127.0.0.1',
       },
     ],
-    formats: ['image/avif', 'image/webp'],
   },
   async redirects() {
     const payloadUrl =

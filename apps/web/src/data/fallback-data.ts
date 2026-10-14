@@ -36,8 +36,8 @@ export const FALLBACK_SPECIAL_PACKAGES: FallbackSpecialPackage[] = [
 Guided by marine biologists and SLTDA licensed guides, explore the living coral ecosystems, support local community sea turtle protection, and enjoy private wave riding on world-class breaks suited to your skill level.`,
     duration: { days: 7, nights: 6 },
     pricing: { showPrice: true, priceFrom: 980, currency: 'USD', pricingNote: 'per person' },
-    coverImage: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=1200&q=80',
-    alt: 'Vibrant coral reef and coastal surf in Hikkaduwa Marine Park',
+    coverImage: '/images/packages/sri-lanka-hikkaduwa-marine-conservation-coral.jpg',
+    alt: 'Vibrant coral reef restoration and coastal surfing in Hikkaduwa Marine National Park',
     activities: [
       { title: 'Coral Nursery Regeneration', description: 'Assist marine conservationists in attaching coral fragments to offshore nursery structures.' },
       { title: 'Coached Coastal Surfing', description: 'Daily surf instruction with certified ISA instructors at reef and beach breaks.' },
@@ -72,8 +72,8 @@ Guided by marine biologists and SLTDA licensed guides, explore the living coral 
 Work side-by-side with marine conservation researchers on the southwest coastline, helping protect endangered olive ridley, loggerhead, and green sea turtles.`,
     duration: { days: 10, nights: 9 },
     pricing: { showPrice: true, priceFrom: 1150, currency: 'USD', pricingNote: 'per volunteer' },
-    coverImage: 'https://images.unsplash.com/photo-1518467166778-b88f373ffec7?w=1200&q=80',
-    alt: 'Endangered green sea turtle swimming in protected southern waters',
+    coverImage: '/images/packages/sri-lanka-sea-turtle-sanctuary-hatchling-release.jpg',
+    alt: 'Endangered baby sea turtle hatchling release at southern Sri Lanka marine sanctuary',
     activities: [
       { title: 'Sanctuary Care & Rehabilitation', description: 'Assist wildlife veterinarians in feeding, tank cleaning, and medication for recovering turtles.' },
       { title: 'Night Beach Patrols', description: 'Walk designated coastal stretches to identify new egg nests and protect them from predators.' },
@@ -107,8 +107,8 @@ Work side-by-side with marine conservation researchers on the southwest coastlin
 Experience maximum experiential richness without luxury markup: ride the iconic blue highland train, ascend Sigiriya at dawn, and explore local village life.`,
     duration: { days: 8, nights: 7 },
     pricing: { showPrice: true, priceFrom: 820, currency: 'USD', pricingNote: 'per person, twin sharing' },
-    coverImage: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200&q=80',
-    alt: 'Scenic mountain railway journey curving through Ceylon hill country',
+    coverImage: '/images/packages/sri-lanka-essential-island-explorer-blue-train.jpg',
+    alt: 'Iconic blue passenger train winding through lush Sri Lankan hill country and tea estates',
     activities: [
       { title: 'Reserved Scenic Mountain Train', description: 'Observation car journey from Kandy through misty tea plantations to Ella.' },
       { title: 'Sigiriya Lion Rock Sunrise Ascent', description: 'Climb the 5th-century fortress in the cool morning with expert historical commentary.' },
@@ -141,8 +141,8 @@ Experience maximum experiential richness without luxury markup: ride the iconic 
 Trek through mist-shrouded peaks, swim in natural stone plunge pools, and learn ancient foraging traditions in the legendary isolated village of Meemure.`,
     duration: { days: 6, nights: 5 },
     pricing: { showPrice: true, priceFrom: 1290, currency: 'USD', pricingNote: 'per hiker' },
-    coverImage: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&q=80',
-    alt: 'Knuckles mountain range misty ridge and cloud forest peaks',
+    coverImage: '/images/packages/sri-lanka-knuckles-mountain-wilderness-trek.jpg',
+    alt: 'Hikers trekking across mist-shrouded peaks and cloud forests in Knuckles Mountain Range',
     activities: [
       { title: 'High-Elevation Ridge Trekking', description: 'Navigate panoramic ridges looking out across the Dumbara valley.' },
       { title: 'Secret Waterfall Canyoneering', description: 'Swim in crystal-clear mountain pools fed by pristine mountain springs.' },
@@ -174,8 +174,8 @@ Trek through mist-shrouded peaks, swim in natural stone plunge pools, and learn 
 Crafted around your schedule and interests: whether architectural heritage, Michelin-standard private dining, wildlife tracking, or private beach retreats.`,
     duration: { days: 12, nights: 11 },
     pricing: { showPrice: false, priceFrom: 2950, currency: 'USD', pricingNote: 'custom quote upon consultation' },
-    coverImage: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80',
-    alt: 'Secluded golden sandy tropical beach and coconut palms',
+    coverImage: '/images/packages/sri-lanka-bespoke-private-island-luxury-beach.jpg',
+    alt: 'Luxury private beach cabana and pristine turquoise ocean in southern Sri Lanka',
     activities: [
       { title: 'Private Consultation & Dynamic Itinerary', description: 'Direct planning call with Anthony to calibrate every day to your wishes.' },
       { title: 'Exclusive Archaeological Sites', description: 'Private after-hours commentary at World Heritage citadels.' },
@@ -346,8 +346,8 @@ export const FALLBACK_JOURNEYS: FallbackJourney[] = [
       'Experience the iconic Lion Rock, the last kingdom of Kandy, and the spiritual heart of the island in just three unforgettable days.',
     duration: { days: 3, nights: 4 },
     pricing: { priceFrom: 790, currency: 'USD' },
-    coverImage: 'https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?w=1600&q=85',
-    alt: '5th-century Sigiriya Rock Fortress rising above forest canopy',
+    coverImage: '/images/journeys/sri-lanka-essence-of-ceylon-sigiriya.jpg',
+    alt: 'Sigiriya Lion Rock citadel illuminated by morning golden light over lush jungle canopy',
     destinations: ['Sigiriya', 'Dambulla', 'Kandy', 'Peradeniya'],
     categories: ['cultural-heritage', 'leisure'],
     featured: true,
@@ -360,8 +360,8 @@ export const FALLBACK_JOURNEYS: FallbackJourney[] = [
     excerpt: 'Taste the world’s finest tea and walk in the footsteps of kings.',
     duration: { days: 5, nights: 4 },
     pricing: { priceFrom: 1250, currency: 'USD' },
-    coverImage: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=1600&q=85',
-    alt: 'Misty tea plantations and highlands in Nuwara Eliya',
+    coverImage: '/images/journeys/sri-lanka-tea-trails-ancient-temples-highlands.jpg',
+    alt: 'Lush emerald tea terraces and historic colonial bungalow in Nuwara Eliya and Hatton highlands',
     destinations: ['Sigiriya', 'Polonnaruwa', 'Kandy', 'Nuwara Eliya', 'Ramboda'],
     categories: ['cultural-heritage', 'hill-country', 'luxury'],
     featured: true,
@@ -374,8 +374,8 @@ export const FALLBACK_JOURNEYS: FallbackJourney[] = [
     excerpt: 'Explore the Cultural Triangle, relax in the hills, and finish with a thrilling safari in Yala.',
     duration: { days: 6, nights: 5 },
     pricing: { priceFrom: 1580, currency: 'USD' },
-    coverImage: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1600&q=85',
-    alt: 'Wild Sri Lankan leopard resting in Yala National Park',
+    coverImage: '/images/journeys/sri-lanka-classic-triangle-wildlife-yala.jpg',
+    alt: 'Solitary wild Ceylon leopard perched on a granite rock in Yala National Park at golden hour',
     destinations: ['Sigiriya', 'Hiriwadunna', 'Dambulla', 'Kandy', 'Ella', 'Yala'],
     categories: ['wildlife-adventure', 'cultural-heritage', 'hill-country'],
     featured: true,
@@ -388,8 +388,8 @@ export const FALLBACK_JOURNEYS: FallbackJourney[] = [
     excerpt: 'Immerse yourself in culture, then unwind by the Indian Ocean.',
     duration: { days: 7, nights: 6 },
     pricing: { priceFrom: 1790, currency: 'USD' },
-    coverImage: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=1600&q=85',
-    alt: 'Historic Galle Dutch Fort ramparts overlooking the Indian Ocean',
+    coverImage: '/images/journeys/sri-lanka-heritage-southern-coast-galle.jpg',
+    alt: 'Historic white lighthouse and 17th-century ramparts of Galle Dutch Fort along the Indian Ocean',
     destinations: ['Anuradhapura', 'Aukana', 'Sigiriya', 'Kandy', 'Nuwara Eliya', 'Udawalawe', 'Galle', 'Hikkaduwa'],
     categories: ['cultural-heritage', 'beach', 'leisure'],
     featured: true,
@@ -402,8 +402,8 @@ export const FALLBACK_JOURNEYS: FallbackJourney[] = [
     excerpt: 'Ancient ruins, hill country tea, wildlife safaris, and Dutch colonial history, all curated for the discerning traveler.',
     duration: { days: 8, nights: 7 },
     pricing: { priceFrom: 2150, currency: 'USD' },
-    coverImage: 'https://images.unsplash.com/photo-1512100356356-de1b84283e18?w=1600&q=85',
-    alt: 'Coastal palm fringed waters and southern Ceylon shoreline',
+    coverImage: '/images/journeys/sri-lanka-grand-loop-anuradhapura-stupa.jpg',
+    alt: 'Ancient sacred Ruwanwelisaya stupa in Anuradhapura glowing under tranquil dawn skies',
     destinations: ['Sigiriya', 'Polonnaruwa', 'Minneriya', 'Dambulla', 'Kandy', 'Ella', 'Yala', 'Mirissa', 'Galle'],
     categories: ['cultural-heritage', 'wildlife-adventure', 'hill-country', 'beach'],
     featured: false,
@@ -416,8 +416,8 @@ export const FALLBACK_JOURNEYS: FallbackJourney[] = [
     excerpt: 'This leisurely-paced tour includes the cultural north, the misty central hills, and a deep south beach retreat.',
     duration: { days: 9, nights: 8 },
     pricing: { priceFrom: 2450, currency: 'USD' },
-    coverImage: 'https://images.unsplash.com/photo-1588598198321-9735fd52455b?w=1600&q=85',
-    alt: 'Horton Plains World End sheer mountain cliff and cloud forest',
+    coverImage: '/images/journeys/sri-lanka-deep-dive-culture-nature-horton-plains.jpg',
+    alt: "Dramatic World's End sheer cliff precipice and misty cloud forest in Horton Plains",
     destinations: ['Negombo', 'Anuradhapura', 'Sigiriya', 'Polonnaruwa', 'Kandy', 'Nuwara Eliya', 'Horton Plains', 'Ella', 'Yala', 'Tangalle', 'Galle'],
     categories: ['cultural-heritage', 'wildlife-adventure', 'leisure'],
     featured: false,
@@ -430,8 +430,8 @@ export const FALLBACK_JOURNEYS: FallbackJourney[] = [
     excerpt: 'Discover the spiritual sites connected to Rama, Sita, and Hanuman, blended with Sri Lanka’s natural beauty.',
     duration: { days: 10, nights: 9 },
     pricing: { priceFrom: 2680, currency: 'USD' },
-    coverImage: 'https://images.unsplash.com/photo-1586861635167-e5223aadc9fe?w=1600&q=85',
-    alt: 'Sacred Temple of the Tooth Relic in historic Kandy',
+    coverImage: '/images/journeys/sri-lanka-ramayana-trail-seetha-amman-kovil.jpg',
+    alt: 'Sacred ornate Seetha Amman Kovil temple nestled in the misty green mountains of Nuwara Eliya',
     destinations: ['Chilaw', 'Anuradhapura', 'Mihintale', 'Sigiriya', 'Dambulla', 'Kandy', 'Ramboda', 'Nuwara Eliya', 'Ella', 'Kataragama', 'Ussangoda', 'Galle'],
     categories: ['pilgrimage', 'cultural-heritage'],
     featured: false,
@@ -444,8 +444,8 @@ export const FALLBACK_JOURNEYS: FallbackJourney[] = [
     excerpt: 'Luxury, adventure, wildlife, and history combined into a two-week epic that covers every corner of the island.',
     duration: { days: 14, nights: 13 },
     pricing: { priceFrom: 3850, currency: 'USD' },
-    coverImage: 'https://images.unsplash.com/photo-1546708973-b339540b5162?w=1600&q=85',
-    alt: 'Colonial Nine Arch Bridge Demodara with scenic mountain railway',
+    coverImage: '/images/journeys/sri-lanka-ultimate-pearl-experience-wilpattu.jpg',
+    alt: 'Untamed Wilpattu National Park natural sand-rimmed lake villu with wild Asian elephants and banyans',
     destinations: ['Negombo', 'Wilpattu', 'Anuradhapura', 'Sigiriya', 'Minneriya', 'Polonnaruwa', 'Habarana', 'Kandy', 'Nuwara Eliya', 'Horton Plains', 'Ella', 'Yala', 'Mirissa', 'Galle', 'Colombo'],
     categories: ['luxury', 'cultural-heritage', 'wildlife-adventure', 'beach', 'hill-country'],
     featured: false,
@@ -457,16 +457,17 @@ import { toursData } from '@/data/tours-data'
 export function getFallbackJourneyDetail(slug: string) {
   const t = toursData[slug]
   if (!t) return null
+  const fallbackSummary = FALLBACK_JOURNEYS.find((f) => f.slug === slug)
   return {
     id: slug,
     slug: t.slug,
     title: t.title,
-    tagline: t.tagline || '',
-    excerpt: t.excerpt || '',
+    tagline: t.tagline || fallbackSummary?.tagline || '',
+    excerpt: t.excerpt || fallbackSummary?.excerpt || '',
     description: t.description,
     duration: t.duration,
     destinations: t.destinations,
-    categories: ['cultural-heritage'],
+    categories: fallbackSummary?.categories || ['cultural-heritage'],
     coverImage: t.coverImage,
     alt: t.alt,
     gallery: t.gallery,
@@ -484,13 +485,13 @@ export function getFallbackJourneyDetail(slug: string) {
     travelInfo: t.travelInfo,
     pricing: {
       showPrice: true,
-      priceFrom: 790,
-      currency: 'USD',
+      priceFrom: fallbackSummary?.pricing.priceFrom || 790,
+      currency: fallbackSummary?.pricing.currency || 'USD',
       pricingNote: 'per person',
     },
     faqs: t.faqs,
     relatedSlugs: t.relatedSlugs,
-    featured: true,
+    featured: fallbackSummary?.featured ?? true,
   }
 }
 
@@ -611,7 +612,7 @@ export const FALLBACK_SERVICES: FallbackService[] = [
     title: 'Hotel Reservations',
     iconName: 'Building',
     displayOrder: 1,
-    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=80',
+    image: '/images/services/sri-lanka-service-hotel-reservations.jpg',
     shortDescription:
       'Handpicked boutique hotels, colonial tea bungalows, and luxury beach resorts with exclusive partner rates across Sri Lanka.',
     description:
@@ -629,7 +630,7 @@ export const FALLBACK_SERVICES: FallbackService[] = [
     title: 'Visa Assistance',
     iconName: 'FileCheck',
     displayOrder: 2,
-    image: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1200&q=80',
+    image: '/images/services/sri-lanka-service-visa-assistance.jpg',
     shortDescription:
       'Hassle-free Sri Lanka ETA tourist visa guidance, entry requirement advisories, and document verification.',
     description:
@@ -647,7 +648,7 @@ export const FALLBACK_SERVICES: FallbackService[] = [
     title: 'Air Ticketing',
     iconName: 'Plane',
     displayOrder: 3,
-    image: 'https://images.unsplash.com/photo-1506015391300-4802dc74de2e?w=1200&q=80',
+    image: '/images/services/sri-lanka-service-air-ticketing.jpg',
     shortDescription:
       'International airline itinerary coordination, domestic sea-plane transfers, and private helicopter charters.',
     description:
@@ -665,7 +666,7 @@ export const FALLBACK_SERVICES: FallbackService[] = [
     title: 'Travel Insurance',
     iconName: 'ShieldCheck',
     displayOrder: 4,
-    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&q=80',
+    image: '/images/services/sri-lanka-service-travel-insurance.jpg',
     shortDescription:
       'Comprehensive travel insurance advisory and safety coverage ensuring total peace of mind on the road.',
     description:
@@ -683,7 +684,7 @@ export const FALLBACK_SERVICES: FallbackService[] = [
     title: 'Value Added Services',
     iconName: 'Sparkles',
     displayOrder: 5,
-    image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1200&q=80',
+    image: '/images/services/sri-lanka-service-value-added-services.jpg',
     shortDescription:
       'Premium complimentary amenities and personalized touches that make your Sri Lankan journey seamless.',
     description:
@@ -718,7 +719,7 @@ export const FALLBACK_TEAM_MEMBERS: FallbackTeamMember[] = [
     slug: 'anthony',
     role: 'Founder & Licensed National Tourist Guide Lecturer',
     isFounder: true,
-    photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80',
+    photo: '/images/about/sri-lanka-anthony-founder-portrait.jpg',
     credentials: [
       'Licensed National Tourist Guide Lecturer (SLTDA Reg.)',
       'Ceylon Tourism Industry Veteran (Anthony Guesthouse)',
@@ -746,7 +747,7 @@ Our defining specialty is our team. We are proud to be led by high-quality, Lice
     slug: 'chaminda-silva',
     role: 'Senior Naturalist & Wildlife Tracking Specialist',
     isFounder: false,
-    photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80',
+    photo: '/images/about/sri-lanka-chaminda-silva-wildlife-naturalist.jpg',
     credentials: [
       'SLTDA Licensed Tourist Guide Lecturer',
       'Field Ornithology & Leopard Habitat Specialist',
@@ -765,7 +766,7 @@ Chaminda also specializes in endemic avifauna in Sinharaja Rainforest and season
     slug: 'dinesh-perera',
     role: 'Cultural Heritage & Archaeological Lecturer',
     isFounder: false,
-    photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&q=80',
+    photo: '/images/about/sri-lanka-dinesh-perera-archaeological-lecturer.jpg',
     credentials: [
       'National Tourist Guide Lecturer License #NTGL-4482',
       'Postgraduate Diploma in Archaeology (Univ. of Kelaniya)',
@@ -784,7 +785,7 @@ His scholarly yet engaging narratives have enlightened academic groups, document
     slug: 'rohan-fernando',
     role: 'Highland Trails & Tea Heritage Specialist',
     isFounder: false,
-    photo: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&q=80',
+    photo: '/images/about/sri-lanka-rohan-fernando-highland-specialist.jpg',
     credentials: [
       'SLTDA Certified Highland Guide Lecturer',
       'Knuckles Range Wilderness Navigation Certified',

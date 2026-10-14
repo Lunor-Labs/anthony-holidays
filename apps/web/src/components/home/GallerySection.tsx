@@ -31,8 +31,7 @@ const galleryItems: GalleryItem[] = [
     title: "Highland Morning Express",
     location: "Demodara & Ella Highlands",
     category: "Highlands",
-    image:
-      "https://images.unsplash.com/photo-1546708973-b339540b5162?w=1200&q=85",
+    image: "/images/gallery/highland-morning-express.jpg",
     alt: "Nine Arch Bridge in Ella surrounded by lush green tea hills",
     story:
       "The blue highland train winding across the colonial stone viaduct through misty morning tea plantations.",
@@ -42,8 +41,7 @@ const galleryItems: GalleryItem[] = [
     title: "Dawn over the Citadel",
     location: "Sigiriya Citadel Sanctuary",
     category: "Heritage",
-    image:
-      "https://images.unsplash.com/photo-1588598198321-9735fd52455b?w=1200&q=85",
+    image: "/images/gallery/dawn-over-the-citadel.jpg",
     alt: "Sigiriya Lion Rock Fortress rising dramatically above forest canopy",
     story:
       "Fifth-century palace in the sky glowing under first sunrise, viewed from an exclusive jungle clearing.",
@@ -53,8 +51,7 @@ const galleryItems: GalleryItem[] = [
     title: "Echoes of the Southern Shore",
     location: "Galle & Weligama Bay",
     category: "Coast",
-    image:
-      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=1200&q=85",
+    image: "/images/gallery/echoes-of-the-southern-shore.jpg",
     alt: "Traditional stilt fishermen silhouette against sunset waters",
     story:
       "Centuries-old fishing traditions meeting the golden glow of the Indian Ocean twilight.",
@@ -64,8 +61,7 @@ const galleryItems: GalleryItem[] = [
     title: "Gaze of the Apex Hunter",
     location: "Yala National Park · Block 1",
     category: "Wildlife",
-    image:
-      "https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=1200&q=85",
+    image: "/images/gallery/gaze-of-the-apex-hunter.jpg",
     alt: "Ceylon leopard resting on granite boulder in Yala wilderness",
     story:
       "A solitary Ceylon leopard peering through the thorn canopy at dawn on a private naturalist safari.",
@@ -77,8 +73,7 @@ const galleryItems: GalleryItem[] = [
     title: "Chants in the Forest Hermitage",
     location: "Sacred Valley · Kandy",
     category: "Heritage",
-    image:
-      "https://images.unsplash.com/photo-1586861635167-e5223aadc9fe?w=1200&q=85",
+    image: "/images/gallery/chants-in-the-forest-hermitage.jpg",
     alt: "Buddhist monk offering lotus blooms in ancient stone temple",
     story:
       "Private dawn blessing in a mountain hermitage away from commercial crowds, guided by our scholar lecturer.",
@@ -88,8 +83,7 @@ const galleryItems: GalleryItem[] = [
     title: "Two Leaves and a Bud",
     location: "Pedro & Nuwara Eliya Valleys",
     category: "Highlands",
-    image:
-      "https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=1200&q=85",
+    image: "/images/gallery/pedro-nuwara-eliya-valleys.jpg",
     alt: "Lush terraced tea estate worker plucking delicate tea leaves",
     story:
       "Artisan plucking of world-renowned Ceylon Pekoe tea on an exclusive heirloom estate.",
@@ -99,8 +93,7 @@ const galleryItems: GalleryItem[] = [
     title: "Sanctuary by the Ocean",
     location: "Tangalle & Mirissa Escapes",
     category: "Coast",
-    image:
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=85",
+    image: "/images/gallery/sanctuary-by-the-ocean.jpg",
     alt: "Luxury private boutique pavilion pool overlooking the sea",
     story:
       "Unwinding in private oceanfront luxury after days traversing cultural citadels and high mountain trails.",
@@ -110,8 +103,7 @@ const galleryItems: GalleryItem[] = [
     title: "The Great Gathering",
     location: "Minneriya Water Reservoir",
     category: "Wildlife",
-    image:
-      "https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?w=1200&q=85",
+    image: "/images/gallery/the-great-gathering.jpg",
     alt: "Elephant herd gathered at water edge during golden hour",
     story:
       "Asia's greatest wildlife spectacle as hundreds of wild elephants congregate around ancient reservoir shores.",
@@ -123,8 +115,7 @@ const galleryItems: GalleryItem[] = [
     title: "Whispers of the Palms",
     location: "Mirissa Secret Cove",
     category: "Coast",
-    image:
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=85",
+    image: "/images/gallery/whispers-of-the-palms.jpg",
     alt: "Secluded tropical beach with gentle turquoise waves and palms",
     story:
       "Pristine white sand coves hidden beneath towering coconut groves along the southern coastline.",
@@ -134,8 +125,7 @@ const galleryItems: GalleryItem[] = [
     title: "Granite Serenity of Gal Vihara",
     location: "Polonnaruwa Ancient Kingdom",
     category: "Heritage",
-    image:
-      "https://images.unsplash.com/photo-1588598198321-9735fd52455b?w=1200&q=85",
+    image: "/images/gallery/granite-serenity-of-gal-vihara.jpg",
     alt: "Monumental ancient stone carved Buddhist sanctuary",
     story:
       "Twelfth-century stone masters carving transcendent poise out of raw granite boulders.",
@@ -145,8 +135,7 @@ const galleryItems: GalleryItem[] = [
     title: "Fragrance of True Cinnamon",
     location: "Koggala Lake Island Haven",
     category: "Highlands",
-    image:
-      "https://images.unsplash.com/photo-1512100356356-de1b84283e18?w=1200&q=85",
+    image: "/images/gallery/fragrance-of-true-cinnamon.jpg",
     alt: "Traditional spice estate artisan peeling heirloom cinnamon",
     story:
       "Handcrafted quills of genuine Ceylon cinnamon dried in tropical breezes on a private lagoon isle.",
@@ -156,8 +145,7 @@ const galleryItems: GalleryItem[] = [
     title: "Where Clouds Touch the Ridge",
     location: "Knuckles Conservation Range",
     category: "Wildlife",
-    image:
-      "https://images.unsplash.com/photo-1518467166778-b88f373ffec7?w=1200&q=85",
+    image: "/images/gallery/where-clouds-touch-the-ridge.jpg",
     alt: "Spectacular misty mountain ridge overlooking emerald rainforest valley",
     story:
       "UNESCO-protected cloud forests sheltering endemic lizards, orchids, and breathtaking precipices.",
