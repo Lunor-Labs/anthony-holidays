@@ -1,0 +1,85 @@
+name: Deploy Web (Vercel)
+
+on:
+  push:
+    branches: [dev, main]
+    paths:
+      - "apps/web/**"
+      - "package.json"
+      - "package-lock.json"
+      - "vercel.json"
+      - ".github/workflows/deploy-web.yml"
+  workflow_dispatch: {}
+
+concurrency:
+  group: deploy-web-${{ github.ref_name }}
+  cancel-in-progress: true
+
+env:
+  VERCEL_PROJECT_NAME: anthony-holidays
+
+jobs:
+  # dev  → Vercel Preview
+  # main → Vercel Production
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name == 'main' && 'prod' || 'dev' }}
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Set Vercel target
+        id: target
+        run: |
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            echo "environment=production" >> "$GITHUB_OUTPUT"
+            echo "prod_flag=--prod" >> "$GITHUB_OUTPUT"
+          else
+            echo "environment=preview" >> "$GITHUB_OUTPUT"
+            echo "prod_flag=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create .env file
+        run: |
+          {
+            echo "NEXT_PUBLIC_PAYLOAD_URL=${{ vars.NEXT_PUBLIC_PAYLOAD_URL }}"
+            echo "PAYLOAD_API_URL=${{ vars.NEXT_PUBLIC_PAYLOAD_URL }}"
+            echo "NEXT_PUBLIC_SITE_URL=${{ vars.NEXT_PUBLIC_SITE_URL }}"
+            echo "NEXT_PUBLIC_WHATSAPP_NUMBER=${{ vars.NEXT_PUBLIC_WHATSAPP_NUMBER }}"
+          } > apps/web/.env.production
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Link Vercel project
+        run: |
+          vercel link \
+            --yes \
+            --project=${{ env.VERCEL_PROJECT_NAME }} \
+            --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Pull Vercel environment info
+        run: |
+          vercel pull \
+            --yes \
+            --environment=${{ steps.target.outputs.environment }} \
+            --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build project
+        run: vercel build ${{ steps.target.outputs.prod_flag }} --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy to Vercel
+        run: |
+          vercel deploy \
+            --prebuilt \
+            ${{ steps.target.outputs.prod_flag }} \
+            --token=${{ secrets.VERCEL_TOKEN }}

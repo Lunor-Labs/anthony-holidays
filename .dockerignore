@@ -1,0 +1,11 @@
+**/node_modules
+**/.next
+**/.env
+**/.env*.local
+.git
+.github
+.vercel
+apps/web/public
+apps/web/src
+*.md
+*.txt
