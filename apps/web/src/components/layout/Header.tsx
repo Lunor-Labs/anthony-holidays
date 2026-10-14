@@ -123,7 +123,7 @@ export function Header() {
                 <span
                   className={`font-serif text-xl lg:text-2xl font-semibold tracking-[0.08em] uppercase transition-colors duration-400 ${
                     isMobileOpen || isTransparent
-                      ? "text-forest"
+                      ? "text-ivory"
                       : "text-forest"
                   }`}
                 >
@@ -131,7 +131,7 @@ export function Header() {
                 </span>
                 <span
                   className={`font-sans text-xs font-medium tracking-[0.22em] uppercase transition-colors duration-400 ${
-                    isMobileOpen || isTransparent ? "text-forest" : "text-stone"
+                    isMobileOpen || isTransparent ? "text-gold" : "text-stone"
                   }`}
                 >
                   Holidays

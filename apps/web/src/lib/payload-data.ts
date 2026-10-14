@@ -242,6 +242,7 @@ export async function getJournalPosts() {
         slug: doc.slug,
         title: doc.title,
         excerpt: doc.excerpt || '',
+        content: doc.content,
         publishedAt: doc.publishedAt ? new Date(doc.publishedAt).toISOString().split('T')[0] : '2025-01-01',
         date: doc.publishedAt ? new Date(doc.publishedAt).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' }) : 'Recent',
         author: doc.author || 'Anthony Holidays',
@@ -256,6 +257,40 @@ export async function getJournalPosts() {
   }
 
   return FALLBACK_BLOG_POSTS
+}
+
+/**
+ * Fetch a single Journal Post by Slug from Payload CMS (REST API)
+ */
+export async function getJournalPostBySlug(slug: string) {
+  try {
+    const data = await fetchFromPayload<{ docs: any[] }>(
+      `/api/journal-posts?where[slug][equals]=${encodeURIComponent(slug)}&where[status][equals]=published&limit=1`
+    )
+
+    if (data?.docs && data.docs.length > 0) {
+      const doc = data.docs[0]
+      return {
+        id: String(doc.id),
+        slug: doc.slug,
+        title: doc.title,
+        excerpt: doc.excerpt || '',
+        content: doc.content,
+        publishedAt: doc.publishedAt ? new Date(doc.publishedAt).toISOString().split('T')[0] : '2025-01-01',
+        date: doc.publishedAt ? new Date(doc.publishedAt).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' }) : 'Recent',
+        author: doc.author || 'Anthony Holidays',
+        category: Array.isArray(doc.categories) && doc.categories[0]?.category ? doc.categories[0].category : 'Heritage & Culture',
+        readTime: '6 min read',
+        coverImage: getMediaUrl(doc.coverImage),
+        image: getMediaUrl(doc.coverImage),
+      }
+    }
+  } catch (err) {
+    console.warn(`Payload getJournalPostBySlug(${slug}) error:`, err)
+  }
+
+  const fallback = FALLBACK_BLOG_POSTS.find((p) => p.slug === slug)
+  return fallback || null
 }
 
 /**
