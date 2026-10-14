@@ -18,8 +18,16 @@ export interface TeamMemberCardProps {
 }
 
 export function TeamMemberCard({ member }: TeamMemberCardProps) {
-  const { name, role, photo, credentials, bio, specialties, languages } = member
-  const memberSlug = member.slug || slugify(name)
+  const {
+    name = '',
+    role = 'Licensed Guide Lecturer',
+    photo = '',
+    credentials = [],
+    bio = '',
+    specialties = [],
+    languages = [],
+  } = member || {}
+  const memberSlug = member?.slug || slugify(name)
 
   return (
     <article className="bg-white border border-cream p-7 flex flex-col justify-between transition-all duration-300 hover:shadow-md group">
@@ -70,10 +78,17 @@ export function TeamMemberCard({ member }: TeamMemberCardProps) {
       </div>
 
       <div className="pt-4 border-t border-cream flex items-center justify-between text-xs text-stone">
-        <div>
-          <span className="font-semibold block text-charcoal/70">Focus:</span>
-          <span className="line-clamp-1">{specialties[0]}</span>
-        </div>
+        {specialties.length > 0 ? (
+          <div>
+            <span className="font-semibold block text-charcoal/70">Focus:</span>
+            <span className="line-clamp-1">{specialties[0]}</span>
+          </div>
+        ) : (
+          <div>
+            <span className="font-semibold block text-charcoal/70">Focus:</span>
+            <span>National Guiding</span>
+          </div>
+        )}
         <Link
           href={`/team/${memberSlug}`}
           className="btn-link"

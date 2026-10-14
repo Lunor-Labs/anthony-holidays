@@ -118,10 +118,6 @@ export function TestimonialsSection({ testimonials = [] }: TestimonialsSectionPr
     el.scrollTo({ left: index * step, behavior: 'smooth' })
   }
 
-  if (displayReviews.length === 0) {
-    return null
-  }
-
   return (
     <section
       className="section-padding bg-cream/35 border-y border-sand/40 overflow-hidden"
@@ -169,76 +165,95 @@ export function TestimonialsSection({ testimonials = [] }: TestimonialsSectionPr
             </div>
           </div>
 
-          <div
-            className="flex-1 min-w-0 w-full flex flex-col justify-between"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            onTouchStart={() => setIsHovered(true)}
-            onTouchEnd={() => setIsHovered(false)}
-          >
-            <div className="flex items-center justify-between mb-6 pb-3 border-b border-sand/40">
-              <span className="font-sans text-xs tracking-widest text-stone uppercase font-medium">
-                Story {String(activeIdx + 1).padStart(2, '0')} /{' '}
-                {String(displayReviews.length).padStart(2, '0')}
-              </span>
+          {displayReviews.length > 0 ? (
+            <div
+              className="flex-1 min-w-0 w-full flex flex-col justify-between"
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+              onTouchStart={() => setIsHovered(true)}
+              onTouchEnd={() => setIsHovered(false)}
+            >
+              <div className="flex items-center justify-between mb-6 pb-3 border-b border-sand/40">
+                <span className="font-sans text-xs tracking-widest text-stone uppercase font-medium">
+                  Story {String(activeIdx + 1).padStart(2, '0')} /{' '}
+                  {String(displayReviews.length).padStart(2, '0')}
+                </span>
 
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={scrollPrev}
-                  disabled={displayReviews.length <= 1}
-                  className="w-10 h-10 rounded-full border border-sand/80 hover:border-gold hover:text-gold flex items-center justify-center transition-all bg-white shadow-xs disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer text-charcoal"
-                  aria-label="Previous review"
-                >
-                  <ChevronLeft size={18} />
-                </button>
-                <button
-                  type="button"
-                  onClick={scrollNext}
-                  disabled={displayReviews.length <= 1}
-                  className="w-10 h-10 rounded-full border border-sand/80 hover:border-gold hover:text-gold flex items-center justify-center transition-all bg-white shadow-xs disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer text-charcoal"
-                  aria-label="Next review"
-                >
-                  <ChevronRight size={18} />
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={scrollPrev}
+                    disabled={displayReviews.length <= 1}
+                    className="w-10 h-10 rounded-full border border-sand/80 hover:border-gold hover:text-gold flex items-center justify-center transition-all bg-white shadow-xs disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer text-charcoal"
+                    aria-label="Previous review"
+                  >
+                    <ChevronLeft size={18} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={scrollNext}
+                    disabled={displayReviews.length <= 1}
+                    className="w-10 h-10 rounded-full border border-sand/80 hover:border-gold hover:text-gold flex items-center justify-center transition-all bg-white shadow-xs disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer text-charcoal"
+                    aria-label="Next review"
+                  >
+                    <ChevronRight size={18} />
+                  </button>
+                </div>
+              </div>
+              <div
+                ref={sliderRef}
+                className="grid grid-flow-col auto-cols-[100%] md:auto-cols-[calc(50%-0.625rem)] lg:auto-cols-[calc(50%-0.75rem)] gap-4 lg:gap-6 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth pb-3 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0"
+                tabIndex={0}
+                aria-label="Guest stories carousel"
+              >
+                {displayReviews.map((item) => (
+                  <div
+                    key={item.id}
+                    className="snap-start flex flex-col h-full min-w-0"
+                  >
+                    <TestimonialCard testimonial={item} />
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex items-center justify-center sm:justify-start gap-1 mt-6 pt-2">
+                {displayReviews.map((item, idx) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => scrollToIndex(idx)}
+                    className="h-8 min-w-8 p-1 flex items-center justify-center cursor-pointer"
+                    aria-label={`Go to slide ${idx + 1}`}
+                  >
+                    <span
+                      className={`h-1.5 transition-all duration-300 rounded-full block ${
+                        activeIdx === idx
+                          ? 'w-6 bg-gold'
+                          : 'w-1.5 bg-sand/80 hover:bg-gold/50'
+                      }`}
+                    />
+                  </button>
+                ))}
               </div>
             </div>
-            <div
-              ref={sliderRef}
-              className="grid grid-flow-col auto-cols-[100%] md:auto-cols-[calc(50%-0.625rem)] lg:auto-cols-[calc(50%-0.75rem)] gap-4 lg:gap-6 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth pb-3 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0"
-              tabIndex={0}
-              aria-label="Guest stories carousel"
-            >
-              {displayReviews.map((item) => (
-                <div
-                  key={item.id}
-                  className="snap-start flex flex-col h-full min-w-0"
-                >
-                  <TestimonialCard testimonial={item} />
+          ) : (
+            <div className="flex-1 min-w-0 w-full flex flex-col justify-center">
+              <div className="text-center py-12 px-8 bg-white border border-sand/70 rounded-xs shadow-2xs max-w-lg mx-auto">
+                <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-cream flex items-center justify-center text-gold">
+                  <Star size={24} className="fill-gold/20 text-gold" strokeWidth={1.5} />
                 </div>
-              ))}
+                <h4 className="font-serif text-xl text-charcoal mb-2 font-normal">
+                  Guest Memoirs in Moderation
+                </h4>
+                <p className="text-stone text-xs leading-relaxed mb-6 font-light">
+                  Recent reviews from our verified travellers are currently being reviewed and published. Travelled with Anthony? We warmly invite you to share your journey.
+                </p>
+                <Link href="/reviews#review-form" className="btn btn-sm btn-primary">
+                  Share Your Story
+                </Link>
+              </div>
             </div>
-
-            <div className="flex items-center justify-center sm:justify-start gap-1 mt-6 pt-2">
-              {displayReviews.map((item, idx) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => scrollToIndex(idx)}
-                  className="h-8 min-w-8 p-1 flex items-center justify-center cursor-pointer"
-                  aria-label={`Go to slide ${idx + 1}`}
-                >
-                  <span
-                    className={`h-1.5 transition-all duration-300 rounded-full block ${
-                      activeIdx === idx
-                        ? 'w-6 bg-gold'
-                        : 'w-1.5 bg-sand/80 hover:bg-gold/50'
-                    }`}
-                  />
-                </button>
-              ))}
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </section>

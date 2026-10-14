@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, Clock, Calendar } from 'lucide-react'
+import { ArrowRight, Clock, Calendar, BookOpen } from 'lucide-react'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
 import { formatDate } from '@/lib/utils'
@@ -24,15 +24,18 @@ export function JournalPreviewSection({ posts = [] }: JournalPreviewSectionProps
             title="From the"
             highlight="Travel Journal"
             action={
-              <Link href="/blog" className="btn btn-outline shrink-0">
-                All Articles
-                <ArrowRight size={14} />
-              </Link>
+              displayPosts.length > 0 ? (
+                <Link href="/blog" className="btn btn-outline shrink-0">
+                  All Articles
+                  <ArrowRight size={14} />
+                </Link>
+              ) : undefined
             }
           />
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
+        {displayPosts.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
           {displayPosts.map((post, i) => (
             <ScrollReveal
               key={post.id || post.slug}
@@ -94,6 +97,33 @@ export function JournalPreviewSection({ posts = [] }: JournalPreviewSectionProps
             </ScrollReveal>
           ))}
         </div>
+        ) : (
+          <ScrollReveal direction="up" delay={200}>
+            <div className="text-center py-16 px-8 bg-white border border-sand/70 max-w-2xl mx-auto shadow-sm mt-8">
+              <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-cream flex items-center justify-center text-gold">
+                <BookOpen size={28} strokeWidth={1.5} />
+              </div>
+              <span className="section-label text-gold block mb-2 justify-center">
+                Ceylon Chronicles
+              </span>
+              <h3 className="font-serif text-2xl text-charcoal mb-3 font-normal">
+                Field Notes &amp; Essays in Preparation
+              </h3>
+              <p className="text-stone text-sm leading-relaxed mb-8 font-light max-w-lg mx-auto">
+                Our licensed guide lecturers and naturalists are currently authoring new firsthand essays, archaeological guides, and seasonal insights across Sri Lanka. Check back shortly for our upcoming publications.
+              </p>
+              <div className="flex flex-wrap justify-center gap-4">
+                <Link href="/tours" className="btn btn-primary">
+                  <span>Browse Tour Packages</span>
+                  <ArrowRight size={14} />
+                </Link>
+                <Link href="/start-planning" className="btn btn-outline">
+                  Plan a Custom Journey
+                </Link>
+              </div>
+            </div>
+          </ScrollReveal>
+        )}
       </div>
     </section>
   )

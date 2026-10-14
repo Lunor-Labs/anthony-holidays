@@ -94,41 +94,43 @@ export default async function JournalPostPage({
         </div>
       </article>
 
-      <section className="section-padding bg-cream border-t border-forest/10">
-        <div className="container max-w-4xl">
-          <h2 className="font-serif text-3xl text-forest text-center mb-10 font-light">
-            More from the Journal
-          </h2>
+      {relatedArticles.length > 0 && (
+        <section className="section-padding bg-cream border-t border-forest/10">
+          <div className="container max-w-4xl">
+            <h2 className="font-serif text-3xl text-forest text-center mb-10 font-light">
+              More from the Journal
+            </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {relatedArticles.map((rel) => (
-              <Link
-                key={rel.slug}
-                href={`/blog/${rel.slug}`}
-                className="flex gap-5 bg-white p-5 border border-forest/10 items-center transition-shadow hover:shadow-md"
-              >
-                <div className="relative w-[88px] h-[88px] shrink-0 overflow-hidden">
-                  <Image
-                    src={rel.image}
-                    alt={rel.title}
-                    fill
-                    sizes="88px"
-                    className="object-cover"
-                  />
-                </div>
-                <div>
-                  <span className="text-xs uppercase tracking-wider text-gold font-semibold block mb-1">
-                    {rel.category}
-                  </span>
-                  <h3 className="font-serif text-lg text-forest leading-snug font-medium">
-                    {rel.title}
-                  </h3>
-                </div>
-              </Link>
-            ))}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {relatedArticles.map((rel) => (
+                <Link
+                  key={rel.slug}
+                  href={`/blog/${rel.slug}`}
+                  className="flex gap-5 bg-white p-5 border border-forest/10 items-center transition-shadow hover:shadow-md"
+                >
+                  <div className="relative w-[88px] h-[88px] shrink-0 overflow-hidden">
+                    <Image
+                      src={rel.image}
+                      alt={rel.title}
+                      fill
+                      sizes="88px"
+                      className="object-cover"
+                    />
+                  </div>
+                  <div>
+                    <span className="text-xs uppercase tracking-wider text-gold font-semibold block mb-1">
+                      {rel.category}
+                    </span>
+                    <h3 className="font-serif text-lg text-forest leading-snug font-medium">
+                      {rel.title}
+                    </h3>
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </>
   );
 }

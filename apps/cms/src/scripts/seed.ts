@@ -213,11 +213,14 @@ async function getOrCreateMediaFromUrl(
       }
     }
 
-    // 3. Check if media already exists in database
+    // 3. Check if media already exists in database (match by clean filename or alt text)
     const existing = await payload.find({
       collection: "media",
       where: {
-        alt: { equals: altText },
+        or: [
+          { filename: { equals: sanitizedName } },
+          { alt: { equals: altText } },
+        ],
       },
       limit: 1,
     });

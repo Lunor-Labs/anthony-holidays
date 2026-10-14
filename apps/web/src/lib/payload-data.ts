@@ -12,10 +12,11 @@ export const PAYLOAD_API_URL =
  */
 async function fetchFromPayload<T>(endpoint: string, revalidate: number = 60): Promise<T | null> {
   try {
-    const effectiveRevalidate = process.env.NODE_ENV === 'development' ? 0 : revalidate
+    const isDev = process.env.NODE_ENV === 'development'
     const url = `${PAYLOAD_API_URL}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`
     const res = await fetch(url, {
-      next: { revalidate: effectiveRevalidate },
+      cache: isDev ? 'no-store' : 'default',
+      next: isDev ? undefined : { revalidate },
       headers: {
         'Content-Type': 'application/json',
       },
@@ -37,17 +38,44 @@ async function fetchFromPayload<T>(endpoint: string, revalidate: number = 60): P
 export function getMediaUrl(media: any, fallback: string = DEFAULT_MEDIA.url): string {
   if (!media) return fallback
   let rawUrl = ''
-  if (typeof media === 'string') rawUrl = media
-  else if (typeof media === 'object' && media.url) rawUrl = media.url
-  else return fallback
+  let updatedAt: string | undefined
 
-  if (rawUrl.startsWith('http://') || rawUrl.startsWith('https://')) {
-    return rawUrl
+  if (typeof media === 'string') {
+    rawUrl = media
+  } else if (typeof media === 'object') {
+    if (media.filename) {
+      rawUrl = `/media/${media.filename}`
+    } else if (media.url) {
+      rawUrl = media.url
+    }
+    if (media.updatedAt) {
+      updatedAt = media.updatedAt
+    }
+  } else {
+    return fallback
   }
-  if (rawUrl.startsWith('/')) {
-    return `${PAYLOAD_API_URL}${rawUrl}`
+
+  // Convert Payload REST /api/media/file/ to direct static /media/
+  if (rawUrl.includes('/api/media/file/')) {
+    rawUrl = rawUrl.replace('/api/media/file/', '/media/')
   }
-  return rawUrl
+
+  let fullUrl = rawUrl
+  if (fullUrl.startsWith('/')) {
+    fullUrl = `${PAYLOAD_API_URL}${fullUrl}`
+  } else if (!fullUrl.startsWith('http://') && !fullUrl.startsWith('https://')) {
+    fullUrl = `${PAYLOAD_API_URL}/media/${fullUrl}`
+  }
+
+  // Cache busting query string to invalidate stale browser & Next.js image cache
+  if (updatedAt) {
+    const t = new Date(updatedAt).getTime()
+    if (!isNaN(t) && !fullUrl.includes('?v=')) {
+      fullUrl = `${fullUrl}?v=${t}`
+    }
+  }
+
+  return fullUrl
 }
 
 /**

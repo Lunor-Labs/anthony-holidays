@@ -25,8 +25,16 @@ export function FounderProfileCard({
   headline,
   bioOverride,
 }: FounderProfileCardProps) {
-  const { name, role, photo, credentials, bio, specialties, languages } = founder
-  const founderSlug = founder.slug || slugify(name)
+  const {
+    name = 'Anthony',
+    role = 'Founder & SLTDA National Tourist Guide Lecturer',
+    photo = '',
+    credentials = [],
+    bio = '',
+    specialties = [],
+    languages = [],
+  } = founder || {}
+  const founderSlug = founder?.slug || slugify(name)
   const activeBio = bioOverride || bio
   const bioParagraphs = activeBio
     ? activeBio.split('\n\n').map((p) => p.trim()).filter(Boolean)
@@ -81,37 +89,45 @@ export function FounderProfileCard({
           </div>
 
           {/* Official Credentials */}
-          <div className="bg-offwhite p-5 border-l-2 border-gold">
-            <p className="text-xs font-bold uppercase tracking-wider text-forest mb-3 flex items-center gap-1.5">
-              <Award size={15} className="text-gold" />
-              Verified Official Credentials:
-            </p>
-            <ul className="space-y-1.5">
-              {credentials.map((cred, idx) => (
-                <li key={idx} className="flex items-start gap-2 text-xs text-charcoal/85">
-                  <CheckCircle size={13} className="text-gold shrink-0 mt-0.5" />
-                  <span>{cred}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {credentials.length > 0 && (
+            <div className="bg-offwhite p-5 border-l-2 border-gold">
+              <p className="text-xs font-bold uppercase tracking-wider text-forest mb-3 flex items-center gap-1.5">
+                <Award size={15} className="text-gold" />
+                Verified Official Credentials:
+              </p>
+              <ul className="space-y-1.5">
+                {credentials.map((cred, idx) => (
+                  <li key={idx} className="flex items-start gap-2 text-xs text-charcoal/85">
+                    <CheckCircle size={13} className="text-gold shrink-0 mt-0.5" />
+                    <span>{cred}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-            <div>
-              <p className="font-semibold uppercase tracking-wider text-stone mb-1 flex items-center gap-1.5">
-                <Compass size={13} className="text-gold" />
-                Specialist Areas:
-              </p>
-              <p className="text-charcoal/80">{specialties.join(', ')}</p>
+          {(specialties.length > 0 || languages.length > 0) && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              {specialties.length > 0 && (
+                <div>
+                  <p className="font-semibold uppercase tracking-wider text-stone mb-1 flex items-center gap-1.5">
+                    <Compass size={13} className="text-gold" />
+                    Specialist Areas:
+                  </p>
+                  <p className="text-charcoal/80">{specialties.join(', ')}</p>
+                </div>
+              )}
+              {languages.length > 0 && (
+                <div>
+                  <p className="font-semibold uppercase tracking-wider text-stone mb-1 flex items-center gap-1.5">
+                    <Languages size={13} className="text-gold" />
+                    Languages:
+                  </p>
+                  <p className="text-charcoal/80">{languages.join(', ')}</p>
+                </div>
+              )}
             </div>
-            <div>
-              <p className="font-semibold uppercase tracking-wider text-stone mb-1 flex items-center gap-1.5">
-                <Languages size={13} className="text-gold" />
-                Languages:
-              </p>
-              <p className="text-charcoal/80">{languages.join(', ')}</p>
-            </div>
-          </div>
+          )}
 
           <div className="pt-4 border-t border-cream flex flex-wrap gap-4 items-center">
             <Link

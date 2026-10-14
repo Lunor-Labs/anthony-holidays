@@ -10,9 +10,13 @@ export interface FeaturedJourneysSectionProps {
 }
 
 export function FeaturedJourneysSection({
-  journeys,
+  journeys = [],
 }: FeaturedJourneysSectionProps) {
-  const displayJourneys = journeys.slice(0, 3)
+  const displayJourneys = (journeys || []).slice(0, 3)
+
+  if (displayJourneys.length === 0) {
+    return null
+  }
 
   return (
     <section
