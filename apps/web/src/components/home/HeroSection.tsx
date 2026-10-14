@@ -132,8 +132,18 @@ export function HeroSection() {
                 isActive ? "opacity-100 z-1" : "opacity-0 z-0 pointer-events-none"
               }`}
             >
-              {shouldLoad && <source src={video.localSrc} type="video/mp4" />}
-              <track kind="captions" src="" label="English" default />
+              {shouldLoad && (
+                <>
+                  <source src={video.localSrc} type="video/mp4" />
+                  <track
+                    kind="captions"
+                    src="/captions/ambient.vtt"
+                    srcLang="en"
+                    label="English"
+                    default
+                  />
+                </>
+              )}
             </video>
           );
         })}
