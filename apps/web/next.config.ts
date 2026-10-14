@@ -41,9 +41,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  env: {
+    FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:3000',
+    BACKEND_URL: process.env.BACKEND_URL || 'http://localhost:3001',
+    PUBLIC_WHATSAPP_NUMBER: process.env.PUBLIC_WHATSAPP_NUMBER || '94703247929',
+    PUBLIC_PHONE_NUMBER: process.env.PUBLIC_PHONE_NUMBER || '+94 70 324 7929',
+  },
   async redirects() {
     const payloadUrl =
-      process.env.NEXT_PUBLIC_PAYLOAD_URL || 'http://localhost:3001'
+      process.env.BACKEND_URL || 'http://localhost:3001'
     return [
       {
         source: '/admin',
@@ -59,9 +65,7 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     const payloadUrl =
-      process.env.PAYLOAD_API_URL ||
-      process.env.NEXT_PUBLIC_PAYLOAD_URL ||
-      'http://localhost:3001'
+      process.env.BACKEND_URL || 'http://localhost:3001'
     return [
       {
         source: '/api/media/:path*',

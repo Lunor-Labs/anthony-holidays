@@ -3,13 +3,20 @@ import { Resend } from "resend";
 import { checkRateLimit } from "@/lib/rate-limit";
 
 const PAYLOAD_URL =
-  process.env.PAYLOAD_API_URL ||
-  process.env.NEXT_PUBLIC_PAYLOAD_URL ||
-  "http://localhost:3001";
+  process.env.BACKEND_URL || "http://localhost:3001";
 const resendApiKey = process.env.RESEND_API_KEY;
-const resend = resendApiKey ? new Resend(resendApiKey) : null;
+const isResendConfigured = Boolean(
+  resendApiKey && !resendApiKey.startsWith("re_placeholder")
+);
+const resend = isResendConfigured ? new Resend(resendApiKey) : null;
 const COMPANY_EMAIL =
-  process.env.COMPANY_EMAIL || "inquiries@anthonyholidays.com";
+  process.env.COMPANY_EMAIL ||
+  "anthonyholidaysdmc@gmail.com";
+const RESEND_FROM_EMAIL =
+  process.env.RESEND_FROM_EMAIL ||
+  "Anthony Holidays <notifications@anthonyholidays.com>";
+const WHATSAPP_NUMBER =
+  process.env.PUBLIC_WHATSAPP_NUMBER || "94703247929";
 
 export async function POST(req: Request) {
   try {
@@ -172,7 +179,7 @@ Record ID: ${savedInquiryId || "Pending DB"}
       try {
         // Notification to Company
         await resend.emails.send({
-          from: "Anthony Holidays <notifications@anthonyholidays.com>",
+          from: RESEND_FROM_EMAIL,
           to: COMPANY_EMAIL,
           subject: `✨ New Journey Enquiry: ${fullName} (${country})`,
           text: inquirySummary,
@@ -180,10 +187,10 @@ Record ID: ${savedInquiryId || "Pending DB"}
 
         // Automatic Confirmation to Guest
         await resend.emails.send({
-          from: "Anthony Holidays <concierge@anthonyholidays.com>",
+          from: RESEND_FROM_EMAIL,
           to: email,
           subject: "Ayubowan - We have received your Sri Lanka journey enquiry",
-          text: `Dear ${fullName},\n\nThank you for reaching out to Anthony Holidays.\n\nWe have received your enquiry for ${adultsCount} adult(s)${kidsCount > 0 ? ` and ${kidsCount} child(ren)` : ""} arriving around ${arrivalDate || "your requested dates"}.\n\nA Licensed National Tourist Guide Lecturer from our team is reviewing your requirements and will get back to you within 24 hours with a thoughtful, tailor-made proposal.\n\nIf you prefer to chat with us immediately on WhatsApp, feel free to message our concierge at +94 77 123 4567.\n\nWarmest regards from Sri Lanka,\nAnthony Holidays Team`,
+          text: `Dear ${fullName},\n\nThank you for reaching out to Anthony Holidays.\n\nWe have received your enquiry for ${adultsCount} adult(s)${kidsCount > 0 ? ` and ${kidsCount} child(ren)` : ""} arriving around ${arrivalDate || "your requested dates"}.\n\nA Licensed National Tourist Guide Lecturer from our team is reviewing your requirements and will get back to you within 24 hours with a thoughtful, tailor-made proposal.\n\nIf you prefer to chat with us immediately on WhatsApp, feel free to message our concierge at +${WHATSAPP_NUMBER}.\n\nWarmest regards from Sri Lanka,\nAnthony Holidays Team`,
         });
       } catch (emailErr) {
         console.warn(

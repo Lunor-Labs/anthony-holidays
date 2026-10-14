@@ -25,7 +25,7 @@ export async function generateMetadata({
     return { title: "Journey Not Found" };
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const siteUrl = process.env.FRONTEND_URL || "http://localhost:3000";
 
   return {
     title: `${journey.title} - Anthony Holidays`,
@@ -61,11 +61,11 @@ export default async function JourneyDetailPage({
   }
 
   const whatsappUrl = getWhatsAppUrl(
-    process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "94771234567",
+    process.env.PUBLIC_WHATSAPP_NUMBER || "94703247929",
     `Hello, I'm interested in the "${journey.title}" journey. Could you provide more information?`
   );
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const siteUrl = process.env.FRONTEND_URL || "http://localhost:3000";
 
   const jsonLd = {
     "@context": "https://schema.org",

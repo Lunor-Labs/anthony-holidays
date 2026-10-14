@@ -25,7 +25,7 @@ export default async function ToursPage() {
       "@type": "ListItem",
       position: i + 1,
       name: j.title,
-      url: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/tours/${j.slug}`,
+      url: `${process.env.FRONTEND_URL || "http://localhost:3000"}/tours/${j.slug}`,
     })),
   };
 

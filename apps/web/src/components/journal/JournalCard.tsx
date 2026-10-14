@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Calendar, Clock, ArrowRight } from 'lucide-react'
-import { DEFAULT_MEDIA } from '@/lib/media-catalog'
+import { DEFAULT_MEDIA } from '@/lib/payload-data'
 
 export interface Article {
   slug: string

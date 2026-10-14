@@ -5,7 +5,7 @@ import { ArrowRight, Clock, Calendar, BookOpen } from 'lucide-react'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
 import { formatDate } from '@/lib/utils'
-import { DEFAULT_MEDIA } from '@/lib/media-catalog'
+import { DEFAULT_MEDIA } from '@/lib/payload-data'
 
 export interface JournalPreviewSectionProps {
   posts?: any[]

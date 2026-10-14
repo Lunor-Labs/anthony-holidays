@@ -1,11 +1,17 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resendApiKey = process.env.RESEND_API_KEY;
+const isResendConfigured = Boolean(
+  resendApiKey && !resendApiKey.startsWith("re_placeholder")
+);
+const resend = isResendConfigured ? new Resend(resendApiKey) : null;
 
 const FROM_EMAIL =
-  process.env.RESEND_FROM_EMAIL || "noreply@anthonyholidays.com";
+  process.env.RESEND_FROM_EMAIL || "Anthony Holidays <noreply@anthonyholidays.com>";
 const NOTIFICATION_EMAIL =
-  process.env.ENQUIRY_NOTIFICATION_EMAIL || "info@anthonyholidays.com";
+  process.env.ENQUIRY_NOTIFICATION_EMAIL ||
+  process.env.COMPANY_EMAIL ||
+  "anthonyholidaysdmc@gmail.com";
 
 export interface EnquiryEmailData {
   fullName: string;
@@ -108,6 +114,11 @@ export async function sendEnquiryNotification(
     </div>
   `;
 
+  if (!resend) {
+    console.warn("Resend is not configured (RESEND_API_KEY missing or placeholder). Skipping admin notification email.");
+    return;
+  }
+
   await resend.emails.send({
     from: FROM_EMAIL,
     to: NOTIFICATION_EMAIL,
@@ -148,6 +159,11 @@ export async function sendEnquiryConfirmation(
       </div>
     </div>
   `;
+
+  if (!resend) {
+    console.warn("Resend is not configured (RESEND_API_KEY missing or placeholder). Skipping customer confirmation email.");
+    return;
+  }
 
   await resend.emails.send({
     from: FROM_EMAIL,

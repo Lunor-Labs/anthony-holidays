@@ -18,8 +18,8 @@ export default async function ContactPage() {
     whatsappNumber,
     'Hello Anthony Holidays, I would like to get in touch regarding a private Sri Lanka tour.',
   )
-  const email = siteSettings?.contact?.email || 'anthonyholidaysdmc@gmail.com'
-  const phone = siteSettings?.contact?.phone || '+94 70 324 7929'
+  const email = siteSettings?.contact?.email || process.env.COMPANY_EMAIL || 'anthonyholidaysdmc@gmail.com'
+  const phone = siteSettings?.contact?.phone || process.env.PUBLIC_PHONE_NUMBER || '+94 70 324 7929'
   const address = siteSettings?.contact?.address || '480/2, Subodha Mawatha, Kadawatha, Sri Lanka'
   const googleMapsEmbedUrl =
     (siteSettings?.contact as any)?.googleMapsEmbedUrl ||

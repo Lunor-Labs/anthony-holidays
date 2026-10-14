@@ -50,7 +50,7 @@ export function getWhatsAppUrl(
   maybeMessage?: string,
 ): string {
   const defaultNumber =
-    process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '94771234567'
+    process.env.PUBLIC_WHATSAPP_NUMBER || '94703247929'
   let number = defaultNumber
   let message = 'Hello, I would like to enquire about a Sri Lanka journey.'
 
@@ -70,31 +70,3 @@ export function getWhatsAppUrl(
   return `https://wa.me/${number}?text=${encodedMessage}`
 }
 
-export function getMediaUrl(media: { url?: string | null } | null | undefined): string {
-  if (!media?.url) return '/images/placeholder.jpg'
-  return media.url
-}
-
-// Rate limiting helper (in-memory, for simple protection)
-const requestCounts = new Map<string, { count: number; resetAt: number }>()
-
-export function checkRateLimit(
-  identifier: string,
-  maxRequests: number = 5,
-  windowMs: number = 60000,
-): boolean {
-  const now = Date.now()
-  const entry = requestCounts.get(identifier)
-
-  if (!entry || now > entry.resetAt) {
-    requestCounts.set(identifier, { count: 1, resetAt: now + windowMs })
-    return true
-  }
-
-  if (entry.count >= maxRequests) {
-    return false
-  }
-
-  entry.count++
-  return true
-}

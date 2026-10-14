@@ -30,7 +30,7 @@ export async function generateMetadata({
     return { title: 'Team Member Not Found - Anthony Holidays' }
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const siteUrl = process.env.FRONTEND_URL || 'http://localhost:3000'
 
   return {
     title: `${member.name} - ${member.role} | Anthony Holidays Sri Lanka`,
@@ -66,7 +66,7 @@ export default async function SingleTeamMemberPage({
   }
 
   const whatsappUrl = getWhatsAppUrl(
-    process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '94703247929',
+    process.env.PUBLIC_WHATSAPP_NUMBER || '94703247929',
     `Hello Anthony Holidays, I would like to inquire about planning a private journey with ${member.name} (${member.role}).`
   )
 
@@ -83,7 +83,7 @@ export default async function SingleTeamMemberPage({
     worksFor: {
       '@type': 'TravelAgency',
       name: 'Anthony Holidays',
-      url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+      url: process.env.FRONTEND_URL || 'http://localhost:3000',
     },
     knowsAbout: member.specialties,
     knowsLanguage: member.languages,

@@ -1,7 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { HERO_MEDIA } from '@/lib/media-catalog'
 
 export function AboutHero() {
   return (
@@ -11,8 +10,8 @@ export function AboutHero() {
     >
       <div className="absolute inset-0">
         <Image
-          src={HERO_MEDIA.aboutHero.url}
-          alt={HERO_MEDIA.aboutHero.alt}
+          src="/images/about/sri-lanka-ceylon-heritage-about-hero.jpg"
+          alt="Historic Nine Arch Bridge in Demodara at golden sunrise with blue passenger train in Sri Lanka"
           fill
           priority
           sizes="100vw"

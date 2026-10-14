@@ -26,8 +26,8 @@ export interface FooterProps {
 export function Footer({ siteSettings }: FooterProps = {}) {
   const currentYear = new Date().getFullYear()
 
-  const email = siteSettings?.contact?.email || 'anthonyholidaysdmc@gmail.com'
-  const phone = siteSettings?.contact?.phone || '+94 70 324 7929'
+  const email = siteSettings?.contact?.email || process.env.COMPANY_EMAIL || 'anthonyholidaysdmc@gmail.com'
+  const phone = siteSettings?.contact?.phone || process.env.PUBLIC_PHONE_NUMBER || '+94 70 324 7929'
   const address = siteSettings?.contact?.address || '480/2, Subodha Mawatha, Kadawatha, Sri Lanka'
 
   const socialLinks = [

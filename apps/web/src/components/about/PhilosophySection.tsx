@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import { SECTION_MEDIA } from "@/lib/media-catalog";
 
 export function PhilosophySection() {
   return (
@@ -41,8 +40,8 @@ export function PhilosophySection() {
           <div className="relative">
             <div className="relative aspect-[4/5] overflow-hidden shadow-2xl">
               <Image
-                src={SECTION_MEDIA.philosophyTemple.url}
-                alt={SECTION_MEDIA.philosophyTemple.alt}
+                src="/images/about/sri-lanka-licensed-guide-lecturer-philosophy.jpg"
+                alt="Licensed National Tourist Guide Lecturer sharing cultural heritage with travellers at ancient temple ruins"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"

@@ -37,6 +37,10 @@ export const Testimonials: CollectionConfig = {
       label: 'Moderation Status',
       defaultValue: 'pending',
       required: true,
+      access: {
+        create: ({ req: { user } }) => !!user,
+        update: ({ req: { user } }) => !!user,
+      },
       options: [
         { label: 'Pending Moderation', value: 'pending' },
         { label: 'Approved & Published', value: 'published' },
@@ -53,6 +57,10 @@ export const Testimonials: CollectionConfig = {
       type: 'checkbox',
       label: 'Featured on Homepage',
       defaultValue: false,
+      access: {
+        create: ({ req: { user } }) => !!user,
+        update: ({ req: { user } }) => !!user,
+      },
       admin: {
         position: 'sidebar',
       },
@@ -112,6 +120,10 @@ export const Testimonials: CollectionConfig = {
       name: 'submittedAt',
       type: 'date',
       label: 'Submission Timestamp',
+      access: {
+        create: ({ req: { user } }) => !!user,
+        update: ({ req: { user } }) => !!user,
+      },
       admin: {
         readOnly: true,
       },
@@ -126,4 +138,19 @@ export const Testimonials: CollectionConfig = {
       },
     },
   ],
+  hooks: {
+    beforeChange: [
+      ({ data, operation, req }) => {
+        if (operation === 'create') {
+          data.submittedAt = new Date().toISOString()
+          // Security: Guest submissions can never self-publish or self-feature
+          if (!req.user) {
+            data.status = 'pending'
+            data.featured = false
+          }
+        }
+        return data
+      },
+    ],
+  },
 }

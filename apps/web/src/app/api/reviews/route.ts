@@ -3,9 +3,7 @@ import { checkRateLimit } from "@/lib/rate-limit";
 import { getReviews } from "@/lib/payload-data";
 
 const PAYLOAD_URL =
-  process.env.PAYLOAD_API_URL ||
-  process.env.NEXT_PUBLIC_PAYLOAD_URL ||
-  "http://localhost:3001";
+  process.env.BACKEND_URL || "http://localhost:3001";
 
 export async function GET() {
   try {

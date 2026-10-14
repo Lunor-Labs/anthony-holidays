@@ -121,19 +121,11 @@ DATABASE_URI=postgresql://anthony_admin:YOUR_STRONG_DATABASE_PASSWORD@localhost:
 # Payload Secret (Generate min 32 chars: openssl rand -base64 32)
 PAYLOAD_SECRET=YOUR_GENERATED_32_CHAR_SECRET_KEY
 
-# Port & Server Domain
-PORT=3001
-PAYLOAD_PUBLIC_SERVER_URL=https://cms.anthonyholidays.com
-NEXT_PUBLIC_SERVER_URL=https://cms.anthonyholidays.com
+# CMS Backend URL
+BACKEND_URL=https://cms.anthonyholidays.com
 
-# Frontend Origins (CORS & CSRF)
-NEXT_PUBLIC_SITE_URL=https://anthonyholidays.com
+# Allowed Frontend URL for CORS & CSRF Protection
 FRONTEND_URL=https://anthonyholidays.com
-
-# Transactional Email - Resend
-RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxx
-RESEND_FROM_EMAIL=noreply@anthonyholidays.com
-COMPANY_EMAIL=inquiries@anthonyholidays.com
 ```
 Save and exit (`Ctrl+O`, `Enter`, `Ctrl+X`).
 
@@ -224,8 +216,13 @@ In your frontend deployment (e.g., Vercel, VPS, or cloud host):
 
 Set the following environment variables:
 ```env
-NEXT_PUBLIC_PAYLOAD_URL=https://cms.anthonyholidays.com
-PAYLOAD_API_URL=https://cms.anthonyholidays.com
+FRONTEND_URL=https://anthonyholidays.com
+BACKEND_URL=https://cms.anthonyholidays.com
+PUBLIC_WHATSAPP_NUMBER=94703247929
+PUBLIC_PHONE_NUMBER="+94 70 324 7929"
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxx
+RESEND_FROM_EMAIL=noreply@anthonyholidays.com
+COMPANY_EMAIL=anthonyholidaysdmc@gmail.com
 ```
 
 All 15 frontend pages will now query your VPS-hosted Payload CMS API, cache with 60-second revalidation (ISR), and submit guest inquiries directly to your PostgreSQL database.

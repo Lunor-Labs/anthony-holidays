@@ -26,6 +26,10 @@ export const Inquiries: CollectionConfig = {
       label: "Enquiry Status",
       defaultValue: "new",
       required: true,
+      access: {
+        create: ({ req: { user } }) => !!user,
+        update: ({ req: { user } }) => !!user,
+      },
       options: [
         { label: "New", value: "new" },
         { label: "Contacted", value: "contacted" },
@@ -41,6 +45,10 @@ export const Inquiries: CollectionConfig = {
       name: "internalNotes",
       type: "textarea",
       label: "Internal Notes",
+      access: {
+        create: ({ req: { user } }) => !!user,
+        update: ({ req: { user } }) => !!user,
+      },
       admin: {
         position: "sidebar",
         description: "Private notes visible only to the team.",
@@ -244,6 +252,10 @@ export const Inquiries: CollectionConfig = {
       name: "submittedAt",
       type: "date",
       label: "Submission Date",
+      access: {
+        create: ({ req: { user } }) => !!user,
+        update: ({ req: { user } }) => !!user,
+      },
       admin: {
         readOnly: true,
       },
@@ -251,9 +263,14 @@ export const Inquiries: CollectionConfig = {
   ],
   hooks: {
     beforeChange: [
-      ({ data, operation }) => {
+      ({ data, operation, req }) => {
         if (operation === "create") {
           data.submittedAt = new Date().toISOString();
+          // Security: Unauthenticated public submissions cannot set status or internal notes
+          if (!req.user) {
+            data.status = "new";
+            delete data.internalNotes;
+          }
         }
         return data;
       },

@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   description:
     'Discover Sri Lanka with Anthony Holidays - led by licensed national tourist guide lecturers. Tailor-made journeys, private tours, and authentic travel experiences across the island.',
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+    process.env.FRONTEND_URL || 'http://localhost:3000',
   ),
   openGraph: {
     siteName: 'Anthony Holidays',
@@ -63,7 +63,7 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   const siteSettings = await getSiteSettings()
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  const siteUrl = process.env.FRONTEND_URL || 'http://localhost:3000'
 
   const organizationJsonLd = {
     '@context': 'https://schema.org',

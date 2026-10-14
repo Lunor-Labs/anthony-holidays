@@ -33,12 +33,10 @@ Runs on: [http://localhost:3000](http://localhost:3000)
 
 Set in `.env`:
 ```env
-NEXT_PUBLIC_PAYLOAD_URL=http://localhost:3001
-PAYLOAD_API_URL=http://localhost:3001
+BACKEND_URL=http://localhost:3001
 ```
 
 When deploying to production, point this to your CMS VPS domain:
 ```env
-NEXT_PUBLIC_PAYLOAD_URL=https://cms.anthonyholidays.com
-PAYLOAD_API_URL=https://cms.anthonyholidays.com
+BACKEND_URL=https://cms.anthonyholidays.com
 ```

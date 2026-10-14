@@ -1,10 +1,14 @@
-import { DEFAULT_MEDIA } from './media-catalog'
 import { slugify } from './utils'
 
-export const PAYLOAD_API_URL =
-  process.env.PAYLOAD_API_URL ||
-  process.env.NEXT_PUBLIC_PAYLOAD_URL ||
-  'http://localhost:3001'
+export const DEFAULT_MEDIA = {
+  key: 'default_ceylon_cover',
+  url: '/images/gallery/dawn-over-the-citadel.jpg',
+  alt: 'Anthony Holidays Ceylon Travel',
+}
+
+export const BACKEND_URL =
+  process.env.BACKEND_URL || 'http://localhost:3001'
+export const PAYLOAD_API_URL = BACKEND_URL
 
 /**
  * Universal helper to execute cached REST requests against Payload CMS backend.
@@ -134,27 +138,6 @@ export async function getJourneys() {
   }
 
   return []
-}
-
-/**
- * Fetch Tour Media map dynamically from Payload CMS Journeys
- */
-export async function getTourMediaFromDatabase(): Promise<
-  Record<string, { url: string; alt: string; title: string; gallery: { src: string; alt: string }[] }>
-> {
-  const journeys = await getJourneys()
-  const mediaMap: Record<string, { url: string; alt: string; title: string; gallery: { src: string; alt: string }[] }> = {}
-
-  for (const j of journeys) {
-    mediaMap[j.slug] = {
-      url: j.coverImage,
-      alt: j.alt || j.title,
-      title: j.title,
-      gallery: (j as any).gallery || [],
-    }
-  }
-
-  return mediaMap
 }
 
 /**
@@ -321,27 +304,17 @@ export async function getJournalPostBySlug(slug: string) {
  * Fetch Testimonials from Payload CMS (REST API)
  */
 export async function getTestimonials() {
-  try {
-    const data = await fetchFromPayload<{ docs: any[] }>(
-      '/api/testimonials?where[status][equals]=published&limit=10'
-    )
-
-    if (data?.docs && data.docs.length > 0) {
-      return data.docs.map((doc: any) => ({
-        id: String(doc.id),
-        quote: doc.quote || doc.reviewText || '',
-        travellerName: doc.guestName || '',
-        travellerCountry: doc.country || '',
-        journeyTitle: doc.journeyName || doc.tourName || (doc.journey && typeof doc.journey === 'object' ? doc.journey.title : '') || 'Private Sri Lanka Journey',
-        rating: doc.rating || 5,
-      }))
-    }
-  } catch (err) {
-    console.warn('Payload getTestimonials error:', err)
-  }
-
-  return []
+  const reviews = await getReviews()
+  return reviews.slice(0, 10).map((r) => ({
+    id: r.id,
+    quote: r.reviewText,
+    travellerName: r.guestName,
+    travellerCountry: r.country,
+    journeyTitle: r.tourName,
+    rating: r.rating,
+  }))
 }
+
 
 /**
  * Fetch Global Site Settings from Payload CMS (REST API)
@@ -358,9 +331,9 @@ export async function getSiteSettings() {
     companyName: 'Anthony Holidays',
     tagline: 'Authentic Sri Lanka, Expert-Led Journeys',
     contact: {
-      email: 'anthonyholidaysdmc@gmail.com',
-      phone: '+94 70 324 7929',
-      whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '94703247929',
+      email: process.env.COMPANY_EMAIL || 'anthonyholidaysdmc@gmail.com',
+      phone: process.env.PUBLIC_PHONE_NUMBER || '+94 70 324 7929',
+      whatsappNumber: process.env.PUBLIC_WHATSAPP_NUMBER || '94703247929',
       address: '480/2, Subodha Mawatha, Kadawatha, Sri Lanka',
       googleMapsEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.228519495393!2d79.9515598!3d6.9823432!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae25776269b0eb3%3A0x6b4ef8d4b310d5ec!2sSubodha%20Mawatha%2C%20Kadawatha!5e0!3m2!1sen!2slk!4v1700000000000',
     },
