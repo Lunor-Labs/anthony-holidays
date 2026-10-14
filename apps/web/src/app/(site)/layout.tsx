@@ -3,6 +3,7 @@ import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
 import { WhatsAppButton } from '@/components/layout/WhatsAppButton'
 import { ScrollToTop } from '@/components/layout/ScrollToTop'
+import { ReviewsWidget } from '@/components/layout/ReviewsWidget'
 import { SmoothScrollProvider } from '@/components/ui/SmoothScrollProvider'
 import { CustomCursor } from '@/components/ui/CustomCursor'
 import { getSiteSettings } from '@/lib/payload-data'
@@ -125,6 +126,7 @@ export default async function RootLayout({
             whatsappNumber={siteSettings?.contact?.whatsappNumber}
           />
           <ScrollToTop />
+          <ReviewsWidget />
         </SmoothScrollProvider>
       </body>
     </html>

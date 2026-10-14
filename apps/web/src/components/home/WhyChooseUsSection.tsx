@@ -28,14 +28,15 @@ const panels: DifferentiatorPanel[] = [
     heading: "Led by National Tourist Guide Lecturers",
     tagline: "SLTDA Certified · Academic Scholars",
     description:
-      "Every journey is personally guided by licensed National Tourist Guide Lecturers—Sri Lanka's highest national credential. Academic historians and certified naturalists who illuminate the island's living soul.",
+      "Every journey is personally guided by licensed National Tourist Guide Lecturers-Sri Lanka's highest national credential. Academic historians and certified naturalists who illuminate the island's living soul.",
     highlights: [
       "100% SLTDA Certified National Tourist Guide Lecturers",
       "Rigorous academic training in archaeology, flora & fauna",
       "Spontaneous, unscripted storytelling tailored to your curiosities",
     ],
     image: "/images/why-choose-us/sri-lanka-licensed-guide-lecturers.jpg",
-    imageAlt: "Licensed National Tourist Guide Lecturer interpreting ancient Sri Lankan heritage",
+    imageAlt:
+      "Licensed National Tourist Guide Lecturer interpreting ancient Sri Lankan heritage",
     ctaText: "Meet Our Guides",
     ctaHref: "/about#team",
   },
@@ -49,11 +50,12 @@ const panels: DifferentiatorPanel[] = [
       "Zero group coaches, zero rigid tourist timetables. Your dedicated luxury private vehicle, certified chauffeur, and guide adapt in real time to your waking hours, energy, and unexpected roadside discoveries.",
     highlights: [
       "Private climate-controlled luxury SUV or executive van",
-      "Unhurried pacing—linger at viewpoints or sleep in as you please",
+      "Unhurried pacing-linger at viewpoints or sleep in as you please",
       "Bespoke routes designed for couples, families, and private explorers",
     ],
     image: "/images/why-choose-us/sri-lanka-private-pacing.jpg",
-    imageAlt: "Private luxury chauffeur vehicle paused over scenic Ceylon tea highlands",
+    imageAlt:
+      "Private luxury chauffeur vehicle paused over scenic Ceylon tea highlands",
     ctaText: "Plan Your Journey",
     ctaHref: "/start-planning",
   },
@@ -71,7 +73,8 @@ const panels: DifferentiatorPanel[] = [
       "Visits to private heirloom spice gardens and master artisan studios",
     ],
     image: "/images/why-choose-us/sri-lanka-insider-cultural-access.jpg",
-    imageAlt: "Private Theravada Buddhist blessing ceremony in a secluded forest hermitage",
+    imageAlt:
+      "Private Theravada Buddhist blessing ceremony in a secluded forest hermitage",
     ctaText: "Explore Private Tours",
     ctaHref: "/tours",
   },
@@ -89,7 +92,8 @@ const panels: DifferentiatorPanel[] = [
       "Dedicated 24/7 guest concierge while you travel on the island",
     ],
     image: "/images/why-choose-us/sri-lanka-direct-stewardship.jpg",
-    imageAlt: "Founder Anthony welcoming international travellers on a colonial veranda",
+    imageAlt:
+      "Founder Anthony welcoming international travellers on a colonial veranda",
     ctaText: "Speak With Anthony",
     ctaHref: "/contact",
   },

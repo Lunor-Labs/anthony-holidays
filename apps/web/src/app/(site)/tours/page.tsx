@@ -41,7 +41,7 @@ export default async function ToursPage() {
         breadcrumbCurrent="Tour Packages"
         badge="Expert-Led Private Tours"
         title="Curated Sri Lanka Tour Packages & Itineraries"
-        description="From ancient kingdoms and sacred heritage citadels to misty tea estates and tropical coastlines — discover our curated private tour packages or let us craft something entirely personal for you."
+        description="From ancient kingdoms and sacred heritage citadels to misty tea estates and tropical coastlines - discover our curated private tour packages or let us craft something entirely personal for you."
       />
 
       {/* Filter + Grid Section */}

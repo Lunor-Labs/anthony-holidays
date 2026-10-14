@@ -41,7 +41,7 @@ export function PageHero({
 
   return (
     <header
-      className={`bg-forest pt-32 pb-16 md:pt-40 md:pb-20 text-ivory ${className}`}
+      className={`bg-forest pt-28 pb-10 md:pt-32 md:pb-12 text-ivory ${className}`}
       aria-label="Page header"
     >
       <div className="container">
