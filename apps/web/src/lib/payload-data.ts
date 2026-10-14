@@ -1,15 +1,5 @@
 import { DEFAULT_MEDIA } from './media-catalog'
 import { slugify } from './utils'
-import {
-  FALLBACK_SPECIAL_PACKAGES,
-  FALLBACK_TESTIMONIALS,
-  FALLBACK_REVIEWS,
-  FALLBACK_JOURNEYS,
-  FALLBACK_BLOG_POSTS,
-  FALLBACK_SERVICES,
-  FALLBACK_TEAM_MEMBERS,
-  getFallbackJourneyDetail,
-} from '@/data/fallback-data'
 
 export const PAYLOAD_API_URL =
   process.env.PAYLOAD_API_URL ||
@@ -22,9 +12,10 @@ export const PAYLOAD_API_URL =
  */
 async function fetchFromPayload<T>(endpoint: string, revalidate: number = 60): Promise<T | null> {
   try {
+    const effectiveRevalidate = process.env.NODE_ENV === 'development' ? 0 : revalidate
     const url = `${PAYLOAD_API_URL}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`
     const res = await fetch(url, {
-      next: { revalidate },
+      next: { revalidate: effectiveRevalidate },
       headers: {
         'Content-Type': 'application/json',
       },
@@ -85,39 +76,36 @@ export async function getJourneys() {
     )
 
     if (data?.docs && data.docs.length > 0) {
-      return data.docs.map((doc: any) => {
-        const localJourney = FALLBACK_JOURNEYS.find((f) => f.slug === doc.slug)
-        return {
-          id: String(doc.id),
-          slug: doc.slug,
-          title: doc.title,
-          tagline: doc.tagline || localJourney?.tagline || '',
-          excerpt: doc.excerpt || doc.overview || localJourney?.excerpt || '',
-          duration: {
-            days: doc.duration?.days || localJourney?.duration.days || 1,
-            nights: doc.duration?.nights || localJourney?.duration.nights || 0,
-          },
-          pricing: {
-            priceFrom: doc.pricing?.priceFrom || localJourney?.pricing.priceFrom || 0,
-            currency: doc.pricing?.currency || localJourney?.pricing.currency || 'USD',
-          },
-          coverImage: localJourney?.coverImage || getMediaUrl(doc.coverImage),
-          alt: localJourney?.alt || doc.title,
-          destinations: Array.isArray(doc.destinations) && doc.destinations.length > 0
-            ? doc.destinations.map((d: any) => (typeof d === 'object' ? d.name || d.title : String(d)))
-            : localJourney?.destinations || [],
-          categories: Array.isArray(doc.categories) && doc.categories.length > 0
-            ? doc.categories.map((c: any) => (typeof c === 'object' ? c.slug || c.title : String(c)))
-            : localJourney?.categories || ['cultural-heritage'],
-          featured: Boolean(doc.featured),
-        }
-      })
+      return data.docs.map((doc: any) => ({
+        id: String(doc.id),
+        slug: doc.slug,
+        title: doc.title,
+        tagline: doc.tagline || '',
+        excerpt: doc.excerpt || doc.overview || '',
+        duration: {
+          days: doc.duration?.days || 1,
+          nights: doc.duration?.nights || 0,
+        },
+        pricing: {
+          priceFrom: doc.pricing?.priceFrom || 0,
+          currency: doc.pricing?.currency || 'USD',
+        },
+        coverImage: getMediaUrl(doc.coverImage),
+        alt: (doc.coverImage && typeof doc.coverImage === 'object' && doc.coverImage.alt) || doc.title || '',
+        destinations: Array.isArray(doc.destinations) && doc.destinations.length > 0
+          ? doc.destinations.map((d: any) => (typeof d === 'object' ? d.name || d.title : String(d)))
+          : [],
+        categories: Array.isArray(doc.categories) && doc.categories.length > 0
+          ? doc.categories.map((c: any) => (typeof c === 'object' ? c.slug || c.title : String(c)))
+          : ['cultural-heritage'],
+        featured: Boolean(doc.featured),
+      }))
     }
   } catch (err) {
     console.warn('Payload getJourneys error:', err)
   }
 
-  return FALLBACK_JOURNEYS
+  return []
 }
 
 /**
@@ -152,17 +140,11 @@ export async function getJourneyBySlug(slug: string) {
 
     if (data?.docs && data.docs.length > 0) {
       const doc = data.docs[0] as any
-      const fallbackDetail = getFallbackJourneyDetail(slug)
-      const localJourney = FALLBACK_JOURNEYS.find((f) => f.slug === doc.slug)
 
-      // Curated cover image (local SEO asset takes precedence over outdated DB seed)
-      const coverImage = localJourney?.coverImage || fallbackDetail?.coverImage || getMediaUrl(doc.coverImage)
-      const alt = localJourney?.alt || fallbackDetail?.alt || doc.title
+      const coverImage = getMediaUrl(doc.coverImage)
+      const alt = (doc.coverImage && typeof doc.coverImage === 'object' && doc.coverImage.alt) || doc.title || ''
 
-      // Curated gallery (local authentic gallery takes precedence if available)
-      const gallery = fallbackDetail?.gallery && fallbackDetail.gallery.length > 0
-        ? fallbackDetail.gallery
-        : Array.isArray(doc.gallery) && doc.gallery.length > 0
+      const gallery = Array.isArray(doc.gallery) && doc.gallery.length > 0
         ? doc.gallery.map((g: any) => ({
             src: getMediaUrl(g.image || g),
             alt: doc.title,
@@ -173,19 +155,19 @@ export async function getJourneyBySlug(slug: string) {
         id: String(doc.id),
         slug: doc.slug,
         title: doc.title,
-        tagline: doc.tagline || fallbackDetail?.tagline || '',
-        excerpt: doc.excerpt || fallbackDetail?.excerpt || '',
-        description: extractTextFromLexical(doc.description) || fallbackDetail?.description || '',
+        tagline: doc.tagline || '',
+        excerpt: doc.excerpt || '',
+        description: extractTextFromLexical(doc.description) || (typeof doc.description === 'string' ? doc.description : ''),
         duration: {
-          days: doc.duration?.days || fallbackDetail?.duration.days || 1,
-          nights: doc.duration?.nights || fallbackDetail?.duration.nights || 0,
+          days: doc.duration?.days || 1,
+          nights: doc.duration?.nights || 0,
         },
         destinations: Array.isArray(doc.destinations) && doc.destinations.length > 0
           ? doc.destinations.map((d: any) => (typeof d === 'object' ? d.name || d.title : String(d)))
-          : fallbackDetail?.destinations || [],
+          : [],
         categories: Array.isArray(doc.categories) && doc.categories.length > 0
           ? doc.categories.map((c: any) => (typeof c === 'object' ? c.slug || c.title : String(c)))
-          : fallbackDetail?.categories || [],
+          : [],
         coverImage,
         alt,
         gallery,
@@ -198,30 +180,30 @@ export async function getJourneyBySlug(slug: string) {
               accommodation: d.accommodation || '',
               meals: d.meals || '',
             }))
-          : fallbackDetail?.itinerary || [],
+          : [],
         inclusions: Array.isArray(doc.inclusions) && doc.inclusions.length > 0
           ? doc.inclusions.map((i: any) => (typeof i === 'string' ? i : i.item || ''))
-          : fallbackDetail?.inclusions || [],
+          : [],
         exclusions: Array.isArray(doc.exclusions) && doc.exclusions.length > 0
           ? doc.exclusions.map((e: any) => (typeof e === 'string' ? e : e.item || ''))
-          : fallbackDetail?.exclusions || [],
+          : [],
         includedSites: Array.isArray(doc.includedSites) && doc.includedSites.length > 0
           ? doc.includedSites.map((s: any) => (typeof s === 'string' ? s : s.item || ''))
-          : fallbackDetail?.includedSites || [],
+          : [],
         optionalSites: Array.isArray(doc.optionalSites) && doc.optionalSites.length > 0
           ? doc.optionalSites.map((s: any) => (typeof s === 'string' ? s : s.item || ''))
-          : fallbackDetail?.optionalSites || [],
-        accommodationDetails: doc.accommodationDetails || fallbackDetail?.accommodationDetails || '',
-        transportDetails: doc.transportDetails || fallbackDetail?.transportDetails || '',
-        guideDetails: doc.guideDetails || fallbackDetail?.guideDetails || '',
-        insuranceInfo: doc.insuranceInfo || fallbackDetail?.insuranceInfo || '',
-        visaInfo: doc.visaInfo || fallbackDetail?.visaInfo || '',
-        airTicketInfo: doc.airTicketInfo || fallbackDetail?.airTicketInfo || '',
-        travelInfo: extractTextFromLexical(doc.travelInfo) || fallbackDetail?.travelInfo || '',
+          : [],
+        accommodationDetails: doc.accommodationDetails || '',
+        transportDetails: doc.transportDetails || '',
+        guideDetails: doc.guideDetails || '',
+        insuranceInfo: doc.insuranceInfo || '',
+        visaInfo: doc.visaInfo || '',
+        airTicketInfo: doc.airTicketInfo || '',
+        travelInfo: extractTextFromLexical(doc.travelInfo) || '',
         pricing: {
           showPrice: true,
-          priceFrom: doc.pricing?.priceFrom || fallbackDetail?.pricing.priceFrom || localJourney?.pricing.priceFrom || 790,
-          currency: doc.pricing?.currency || localJourney?.pricing.currency || 'USD',
+          priceFrom: doc.pricing?.priceFrom || 0,
+          currency: doc.pricing?.currency || 'USD',
           pricingNote: doc.pricing?.pricingNote || 'per person',
         },
         faqs: Array.isArray(doc.faqs) && doc.faqs.length > 0
@@ -229,9 +211,9 @@ export async function getJourneyBySlug(slug: string) {
               question: f.question,
               answer: extractTextFromLexical(f.answer),
             }))
-          : fallbackDetail?.faqs || [],
-        relatedSlugs: fallbackDetail?.relatedSlugs || [],
-        featured: Boolean(doc.featured ?? fallbackDetail?.featured),
+          : [],
+        relatedSlugs: [],
+        featured: Boolean(doc.featured),
         status: doc.status || 'published',
       }
     }
@@ -239,7 +221,7 @@ export async function getJourneyBySlug(slug: string) {
     console.warn(`Payload getJourneyBySlug(${slug}) error:`, err)
   }
 
-  return getFallbackJourneyDetail(slug)
+  return null
 }
 
 /**
@@ -271,7 +253,7 @@ export async function getJournalPosts() {
     console.warn('Payload getJournalPosts error:', err)
   }
 
-  return FALLBACK_BLOG_POSTS
+  return []
 }
 
 /**
@@ -304,8 +286,7 @@ export async function getJournalPostBySlug(slug: string) {
     console.warn(`Payload getJournalPostBySlug(${slug}) error:`, err)
   }
 
-  const fallback = FALLBACK_BLOG_POSTS.find((p) => p.slug === slug)
-  return fallback || null
+  return null
 }
 
 /**
@@ -331,7 +312,7 @@ export async function getTestimonials() {
     console.warn('Payload getTestimonials error:', err)
   }
 
-  return FALLBACK_TESTIMONIALS
+  return []
 }
 
 /**
@@ -372,48 +353,45 @@ export async function getSpecialPackages() {
     )
 
     if (data?.docs && data.docs.length > 0) {
-      return data.docs.map((doc: any) => {
-        const localPackage = FALLBACK_SPECIAL_PACKAGES.find((f) => f.slug === doc.slug)
-        return {
-          id: String(doc.id),
-          slug: doc.slug,
-          title: doc.title,
-          category: doc.category || localPackage?.category || 'other',
-          categoryLabel:
-            doc.category === 'volunteering'
-              ? 'Volunteering Experience'
-              : doc.category === 'hikkaduwa'
-              ? 'Hikkaduwa-Based Tourism'
-              : doc.category === 'customised'
-              ? 'Customised Tour'
-              : doc.category === 'budget'
-              ? 'Budget-Based Tour'
-              : doc.category === 'adventure'
-              ? 'Adventure Tour'
-              : localPackage?.categoryLabel || 'Special Package',
-          excerpt: doc.excerpt || localPackage?.excerpt || '',
-          duration: {
-            days: doc.duration?.days || localPackage?.duration.days || 1,
-            nights: doc.duration?.nights || localPackage?.duration.nights || 0,
-          },
-          pricing: {
-            showPrice: Boolean(doc.pricing?.showPrice),
-            priceFrom: doc.pricing?.priceFrom || localPackage?.pricing.priceFrom || 0,
-            currency: doc.pricing?.currency || localPackage?.pricing.currency || 'USD',
-            pricingNote: doc.pricing?.pricingNote || localPackage?.pricing.pricingNote || '',
-          },
-          coverImage: localPackage?.coverImage || getMediaUrl(doc.coverImage),
-          alt: localPackage?.alt || doc.title,
-          activities: Array.isArray(doc.activities) && doc.activities.length > 0 ? doc.activities : localPackage?.activities || [],
-          featured: Boolean(doc.featured),
-        }
-      })
+      return data.docs.map((doc: any) => ({
+        id: String(doc.id),
+        slug: doc.slug,
+        title: doc.title,
+        category: doc.category || 'other',
+        categoryLabel:
+          doc.category === 'volunteering'
+            ? 'Volunteering Experience'
+            : doc.category === 'hikkaduwa'
+            ? 'Hikkaduwa-Based Tourism'
+            : doc.category === 'customised'
+            ? 'Customised Tour'
+            : doc.category === 'budget'
+            ? 'Budget-Based Tour'
+            : doc.category === 'adventure'
+            ? 'Adventure Tour'
+            : 'Special Package',
+        excerpt: doc.excerpt || '',
+        duration: {
+          days: doc.duration?.days || 1,
+          nights: doc.duration?.nights || 0,
+        },
+        pricing: {
+          showPrice: Boolean(doc.pricing?.showPrice),
+          priceFrom: doc.pricing?.priceFrom || 0,
+          currency: doc.pricing?.currency || 'USD',
+          pricingNote: doc.pricing?.pricingNote || '',
+        },
+        coverImage: getMediaUrl(doc.coverImage),
+        alt: (doc.coverImage && typeof doc.coverImage === 'object' && doc.coverImage.alt) || doc.title || '',
+        activities: Array.isArray(doc.activities) && doc.activities.length > 0 ? doc.activities : [],
+        featured: Boolean(doc.featured),
+      }))
     }
   } catch (err) {
     console.warn('Payload getSpecialPackages error:', err)
   }
 
-  return FALLBACK_SPECIAL_PACKAGES
+  return []
 }
 
 /**
@@ -427,12 +405,11 @@ export async function getSpecialPackageBySlug(slug: string) {
 
     if (data?.docs && data.docs.length > 0) {
       const doc = data.docs[0] as any
-      const localPackage = FALLBACK_SPECIAL_PACKAGES.find((f) => f.slug === doc.slug)
       return {
         id: String(doc.id),
         slug: doc.slug,
         title: doc.title,
-        category: doc.category || localPackage?.category || 'other',
+        category: doc.category || 'other',
         categoryLabel:
           doc.category === 'volunteering'
             ? 'Volunteering Experience'
@@ -444,49 +421,35 @@ export async function getSpecialPackageBySlug(slug: string) {
             ? 'Budget-Based Tour'
             : doc.category === 'adventure'
             ? 'Adventure Tour'
-            : localPackage?.categoryLabel || 'Special Package',
-        excerpt: doc.excerpt || localPackage?.excerpt || '',
-        description: doc.description || localPackage?.description,
+            : 'Special Package',
+        excerpt: doc.excerpt || '',
+        description: doc.description || '',
         duration: {
-          days: doc.duration?.days || localPackage?.duration.days || 1,
-          nights: doc.duration?.nights || localPackage?.duration.nights || 0,
+          days: doc.duration?.days || 1,
+          nights: doc.duration?.nights || 0,
         },
         pricing: {
           showPrice: Boolean(doc.pricing?.showPrice),
-          priceFrom: doc.pricing?.priceFrom || localPackage?.pricing.priceFrom || 0,
-          currency: doc.pricing?.currency || localPackage?.pricing.currency || 'USD',
-          pricingNote: doc.pricing?.pricingNote || localPackage?.pricing.pricingNote || '',
+          priceFrom: doc.pricing?.priceFrom || 0,
+          currency: doc.pricing?.currency || 'USD',
+          pricingNote: doc.pricing?.pricingNote || '',
         },
-        coverImage: localPackage?.coverImage || getMediaUrl(doc.coverImage),
-        alt: localPackage?.alt || doc.title,
-        activities: Array.isArray(doc.activities) && doc.activities.length > 0 ? doc.activities : localPackage?.activities || [],
+        coverImage: getMediaUrl(doc.coverImage),
+        alt: (doc.coverImage && typeof doc.coverImage === 'object' && doc.coverImage.alt) || doc.title || '',
+        activities: Array.isArray(doc.activities) && doc.activities.length > 0 ? doc.activities : [],
         itinerary: Array.isArray(doc.itinerary) ? doc.itinerary : [],
-        conditions: doc.conditions || localPackage?.conditions,
+        conditions: doc.conditions || '',
         inclusions: Array.isArray(doc.inclusions) && doc.inclusions.length > 0
           ? doc.inclusions.map((i: any) => (typeof i === 'string' ? i : i.item || ''))
-          : localPackage?.inclusions || [],
+          : [],
         exclusions: Array.isArray(doc.exclusions) && doc.exclusions.length > 0
           ? doc.exclusions.map((e: any) => (typeof e === 'string' ? e : e.item || ''))
-          : localPackage?.exclusions || [],
+          : [],
         featured: Boolean(doc.featured),
       }
     }
   } catch (err) {
     console.warn(`Payload getSpecialPackageBySlug(${slug}) error:`, err)
-  }
-
-  const fallback = FALLBACK_SPECIAL_PACKAGES.find((p) => p.slug === slug)
-  if (fallback) {
-    return {
-      ...fallback,
-      itinerary: [],
-      pricing: {
-        showPrice: fallback.pricing.showPrice,
-        priceFrom: fallback.pricing.priceFrom,
-        currency: fallback.pricing.currency,
-        pricingNote: fallback.pricing.pricingNote,
-      },
-    }
   }
 
   return null
@@ -502,28 +465,25 @@ export async function getServices() {
     )
 
     if (data?.docs && data.docs.length > 0) {
-      return data.docs.map((doc: any) => {
-        const localService = FALLBACK_SERVICES.find((f) => f.slug === doc.slug)
-        return {
-          id: String(doc.id),
-          slug: doc.slug,
-          title: doc.title,
-          shortDescription: doc.shortDescription || localService?.shortDescription || '',
-          description: doc.description || localService?.description,
-          image: localService?.image || getMediaUrl(doc.image),
-          iconName: doc.iconName || localService?.iconName || 'Compass',
-          displayOrder: doc.displayOrder ?? localService?.displayOrder ?? 0,
-          highlights: Array.isArray(doc.highlights) && doc.highlights.length > 0
-            ? doc.highlights.map((h: any) => h.item || String(h))
-            : localService?.highlights || [],
-        }
-      })
+      return data.docs.map((doc: any) => ({
+        id: String(doc.id),
+        slug: doc.slug,
+        title: doc.title,
+        shortDescription: doc.shortDescription || '',
+        description: doc.description || '',
+        image: getMediaUrl(doc.image),
+        iconName: doc.iconName || 'Compass',
+        displayOrder: doc.displayOrder ?? 0,
+        highlights: Array.isArray(doc.highlights) && doc.highlights.length > 0
+          ? doc.highlights.map((h: any) => h.item || String(h))
+          : [],
+      }))
     }
   } catch (err) {
     console.warn('Payload getServices error:', err)
   }
 
-  return FALLBACK_SERVICES
+  return []
 }
 
 /**
@@ -536,44 +496,31 @@ export async function getTeamMembers() {
     )
 
     if (data?.docs && data.docs.length > 0) {
-      const items = data.docs.map((doc: any) => {
-        const localMember = FALLBACK_TEAM_MEMBERS.find((f) => f.slug === (doc.slug || slugify(doc.name)))
-        return {
-          id: String(doc.id),
-          name: doc.name,
-          slug: doc.slug || slugify(doc.name),
-          role: doc.role,
-          isFounder: Boolean(doc.isFounder),
-          photo: localMember?.photo || getMediaUrl(doc.photo),
-          credentials: Array.isArray(doc.credentials) && doc.credentials.length > 0
-            ? doc.credentials.map((c: any) => c.badge || String(c))
-            : localMember?.credentials || [],
-          bio: extractTextFromLexical(doc.bio) || (typeof doc.bio === 'string' ? doc.bio : '') || localMember?.bio || '',
-          specialties: Array.isArray(doc.specialties) && doc.specialties.length > 0
-            ? doc.specialties.map((s: any) => s.area || String(s))
-            : localMember?.specialties || [],
-          languages: Array.isArray(doc.languages) && doc.languages.length > 0
-            ? doc.languages.map((l: any) => l.language || String(l))
-            : localMember?.languages || [],
-          displayOrder: doc.displayOrder ?? localMember?.displayOrder ?? 0,
-        }
-      })
-
-      if (items.length > 1) {
-        return items
-      }
-
-      // If only founder is present in CMS, merge the rest of the specialist faculty guides from fallback data
-      const otherFallbackMembers = FALLBACK_TEAM_MEMBERS.filter(
-        (m) => !items.some((i) => i.slug === m.slug)
-      )
-      return [...items, ...otherFallbackMembers]
+      return data.docs.map((doc: any) => ({
+        id: String(doc.id),
+        name: doc.name,
+        slug: doc.slug || slugify(doc.name),
+        role: doc.role,
+        isFounder: Boolean(doc.isFounder),
+        photo: getMediaUrl(doc.photo),
+        credentials: Array.isArray(doc.credentials) && doc.credentials.length > 0
+          ? doc.credentials.map((c: any) => c.badge || String(c))
+          : [],
+        bio: extractTextFromLexical(doc.bio) || (typeof doc.bio === 'string' ? doc.bio : '') || '',
+        specialties: Array.isArray(doc.specialties) && doc.specialties.length > 0
+          ? doc.specialties.map((s: any) => s.area || String(s))
+          : [],
+        languages: Array.isArray(doc.languages) && doc.languages.length > 0
+          ? doc.languages.map((l: any) => l.language || String(l))
+          : [],
+        displayOrder: doc.displayOrder ?? 0,
+      }))
     }
   } catch (err) {
     console.warn('Payload getTeamMembers error:', err)
   }
 
-  return FALLBACK_TEAM_MEMBERS
+  return []
 }
 
 /**
@@ -582,8 +529,7 @@ export async function getTeamMembers() {
 export async function getTeamMemberBySlug(slug: string) {
   const members = await getTeamMembers()
   const found = members.find((m) => m.slug === slug || slugify(m.name) === slug)
-  if (found) return found
-  return FALLBACK_TEAM_MEMBERS.find((m) => m.slug === slug || slugify(m.name) === slug) || null
+  return found || null
 }
 
 /**
@@ -611,5 +557,5 @@ export async function getReviews() {
     console.warn('Payload getReviews error:', err)
   }
 
-  return FALLBACK_REVIEWS
+  return []
 }

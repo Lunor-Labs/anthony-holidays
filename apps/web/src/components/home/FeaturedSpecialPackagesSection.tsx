@@ -5,7 +5,6 @@ import Link from "next/link";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SpecialPackageCard } from "@/components/special-packages/SpecialPackageCard";
-import { FALLBACK_SPECIAL_PACKAGES } from "@/data/fallback-data";
 
 export interface SpecialPackageItem {
   id: string;
@@ -32,12 +31,9 @@ export interface FeaturedSpecialPackagesSectionProps {
 }
 
 export function FeaturedSpecialPackagesSection({
-  specialPackages,
+  specialPackages = [],
 }: FeaturedSpecialPackagesSectionProps) {
-  const displayPackages =
-    specialPackages && specialPackages.length > 0
-      ? specialPackages
-      : FALLBACK_SPECIAL_PACKAGES;
+  const displayPackages = specialPackages || [];
 
   const sectionRef = useRef<HTMLElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);

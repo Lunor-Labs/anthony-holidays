@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { ArrowRight, ChevronLeft, ChevronRight, Star } from 'lucide-react'
 import { TestimonialCard } from '@/components/ui/TestimonialCard'
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { FALLBACK_TESTIMONIALS } from '@/data/fallback-data'
 
 export interface TestimonialItem {
   id: string
@@ -20,9 +19,8 @@ export interface TestimonialsSectionProps {
   testimonials?: TestimonialItem[]
 }
 
-export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) {
-  const displayReviews: TestimonialItem[] =
-    testimonials && testimonials.length > 0 ? testimonials : FALLBACK_TESTIMONIALS
+export function TestimonialsSection({ testimonials = [] }: TestimonialsSectionProps) {
+  const displayReviews: TestimonialItem[] = testimonials || []
 
   const sliderRef = useRef<HTMLDivElement>(null)
   const [activeIdx, setActiveIdx] = useState(0)

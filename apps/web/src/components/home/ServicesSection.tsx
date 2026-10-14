@@ -13,7 +13,6 @@ import {
 } from 'lucide-react'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
-import { FALLBACK_SERVICES } from '@/data/fallback-data'
 
 export interface ServiceItem {
   id: string
@@ -38,63 +37,21 @@ const iconMap: Record<string, any> = {
   Compass,
 }
 
-export function ServicesSection({ services }: ServicesSectionProps) {
-  const cmsServices =
-    services && services.length > 0 ? services : FALLBACK_SERVICES
-
+export function ServicesSection({ services = [] }: ServicesSectionProps) {
   const cards = [
+    ...services.map((service, index) => {
+      const Icon = (service.iconName && iconMap[service.iconName]) || Sparkles
+      return {
+        number: String(index + 1).padStart(2, '0'),
+        title: service.title,
+        desc: service.shortDescription,
+        icon: Icon,
+        href: `/services#${service.slug}`,
+        actionText: 'Learn More',
+      }
+    }),
     {
-      number: '01',
-      title: cmsServices[0]?.title || 'Hotel Reservations',
-      desc:
-        cmsServices[0]?.shortDescription ||
-        'Handpicked boutique hotels, colonial tea bungalows, and luxury beach resorts with exclusive partner rates across Sri Lanka.',
-      icon: (cmsServices[0]?.iconName && iconMap[cmsServices[0].iconName]) || Building,
-      href: '/services',
-      actionText: 'Explore Hotel Partners',
-    },
-    {
-      number: '02',
-      title: cmsServices[1]?.title || 'Visa Assistance',
-      desc:
-        cmsServices[1]?.shortDescription ||
-        'Hassle-free Sri Lanka ETA tourist visa guidance, entry requirement advisories, and official arrival verification.',
-      icon: (cmsServices[1]?.iconName && iconMap[cmsServices[1].iconName]) || FileCheck,
-      href: '/services',
-      actionText: 'Visa Requirements',
-    },
-    {
-      number: '03',
-      title: cmsServices[2]?.title || 'Air Ticketing',
-      desc:
-        cmsServices[2]?.shortDescription ||
-        'International airline coordination, scenic Cinnamon Air domestic seaplane flights, and private helicopter charters.',
-      icon: (cmsServices[2]?.iconName && iconMap[cmsServices[2].iconName]) || Plane,
-      href: '/services',
-      actionText: 'Flight Coordination',
-    },
-    {
-      number: '04',
-      title: cmsServices[3]?.title || 'Travel Insurance',
-      desc:
-        cmsServices[3]?.shortDescription ||
-        'Comprehensive travel insurance advisory and safety coverage ensuring total peace of mind on the road.',
-      icon: (cmsServices[3]?.iconName && iconMap[cmsServices[3].iconName]) || ShieldCheck,
-      href: '/services',
-      actionText: 'Insurance Advisory',
-    },
-    {
-      number: '05',
-      title: cmsServices[4]?.title || 'Value Added Services',
-      desc:
-        cmsServices[4]?.shortDescription ||
-        'Complimentary local 4G/5G tourist SIM on arrival, private air-conditioned vehicle fleet, and dedicated trip care.',
-      icon: (cmsServices[4]?.iconName && iconMap[cmsServices[4].iconName]) || Sparkles,
-      href: '/services',
-      actionText: 'Exclusive Amenities',
-    },
-    {
-      number: '06',
+      number: String(services.length + 1).padStart(2, '0'),
       title: 'Bespoke Itinerary Design',
       desc:
         '100% private, tailor-made journeys calibrated to your pace and passions, backed by 24/7 dedicated on-island concierge support.',

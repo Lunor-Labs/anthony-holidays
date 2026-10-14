@@ -1,10 +1,20 @@
 import { NextResponse } from "next/server";
 import { checkRateLimit } from "@/lib/rate-limit";
+import { getReviews } from "@/lib/payload-data";
 
 const PAYLOAD_URL =
   process.env.PAYLOAD_API_URL ||
   process.env.NEXT_PUBLIC_PAYLOAD_URL ||
   "http://localhost:3001";
+
+export async function GET() {
+  try {
+    const reviews = await getReviews();
+    return NextResponse.json({ docs: reviews });
+  } catch {
+    return NextResponse.json({ docs: [] });
+  }
+}
 
 export async function POST(req: Request) {
   try {

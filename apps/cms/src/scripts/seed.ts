@@ -1,7 +1,11 @@
 import path from "path";
 import fs from "fs";
+import { fileURLToPath } from "url";
 import { getPayload } from "payload";
 import config from "../payload/payload.config";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 import { toursData } from "./seed-tours";
 import { SEED_SPECIAL_PACKAGES } from "./seed-special-packages";
 import {
@@ -124,7 +128,8 @@ function toLexical(text: string) {
 const mediaCache: Record<string, string | number> = {};
 
 /**
- * Downloads an image from an online URL and uploads it into Payload's media collection
+ * Downloads an image from an online URL or loads it from local disk,
+ * and creates or updates it in Payload's media collection.
  */
 async function getOrCreateMediaFromUrl(
   payload: any,
@@ -137,7 +142,78 @@ async function getOrCreateMediaFromUrl(
   }
 
   try {
-    // 1. Check if media with this exact alt text already exists in database
+    let buffer: Buffer | null = null;
+    const sanitizedName = `${key.replace(/[^a-z0-9_-]/gi, "_").toLowerCase()}.jpg`;
+    const isRemote = imageUrl.startsWith("http://") || imageUrl.startsWith("https://");
+
+    if (!isRemote) {
+      // 1. Resolve against local asset directories
+      const cleanPath = imageUrl.replace(/^\//, "");
+      const baseName = path.basename(cleanPath);
+      const baseWithoutExt = path.basename(cleanPath, path.extname(cleanPath));
+
+      const mediaDirs = [
+        path.resolve(process.cwd(), "public/media"),
+        path.resolve(__dirname, "../../public/media"),
+      ];
+
+      const searchPaths: string[] = [
+        path.resolve(process.cwd(), cleanPath),
+        path.resolve(process.cwd(), "public", cleanPath),
+        path.resolve(process.cwd(), "public/media", cleanPath),
+        path.resolve(process.cwd(), "public/media", baseName),
+        path.resolve(process.cwd(), "public/media", sanitizedName),
+        path.resolve(__dirname, "../../public", cleanPath),
+        path.resolve(__dirname, "../../public/media", baseName),
+        path.resolve(__dirname, "../../public/media", sanitizedName),
+      ];
+
+      for (const mDir of mediaDirs) {
+        if (fs.existsSync(mDir)) {
+          const files = fs.readdirSync(mDir);
+          const found = files.find(f => 
+            !f.match(/-\d+x\d+\./) && (
+              f === baseName || 
+              f === sanitizedName || 
+              f.startsWith(`${baseWithoutExt}-`) || 
+              f.startsWith(`${sanitizedName.replace(/\.jpg$/, "")}-`)
+            )
+          );
+          if (found) {
+            searchPaths.unshift(path.resolve(mDir, found));
+          }
+        }
+      }
+
+      for (const p of searchPaths) {
+        if (fs.existsSync(p)) {
+          buffer = fs.readFileSync(p);
+          console.log(`  📁 Loaded local photo for: "${altText}"`);
+          break;
+        }
+      }
+
+      if (!buffer) {
+        console.warn(`  ⚠️ Local file not found for "${altText}" at: ${imageUrl}`);
+      }
+    } else {
+      // 2. Download image from online URL
+      console.log(`  📥 Downloading photo for: "${altText}"...`);
+      const response = await fetch(imageUrl, {
+        headers: {
+          "User-Agent": "AnthonyHolidaysSeeder/1.0",
+        },
+      });
+
+      if (response.ok) {
+        const arrayBuffer = await response.arrayBuffer();
+        buffer = Buffer.from(arrayBuffer);
+      } else {
+        console.warn(`  ⚠️ HTTP ${response.status} when fetching "${imageUrl}"`);
+      }
+    }
+
+    // 3. Check if media already exists in database
     const existing = await payload.find({
       collection: "media",
       where: {
@@ -147,49 +223,85 @@ async function getOrCreateMediaFromUrl(
     });
 
     if (existing.docs.length > 0) {
-      mediaCache[key] = existing.docs[0].id;
-      return existing.docs[0].id;
+      const existingDoc = existing.docs[0] as any;
+      const existingId = existingDoc.id;
+
+      const currentFile = existingDoc.filename;
+      const currentFilePath = currentFile ? path.resolve(process.cwd(), "public/media", currentFile) : null;
+
+      if (currentFilePath && fs.existsSync(currentFilePath)) {
+        await payload.update({
+          collection: "media",
+          id: existingId,
+          data: {
+            alt: altText,
+            caption: altText,
+          },
+        });
+        console.log(`  ✓ Verified existing media: ${currentFile} (ID: ${existingId})`);
+        mediaCache[key] = existingId;
+        return existingId;
+      }
+
+      if (buffer) {
+        try {
+          await payload.update({
+            collection: "media",
+            id: existingId,
+            data: {
+              alt: altText,
+              caption: altText,
+            },
+            file: {
+              data: buffer,
+              mimetype: "image/jpeg",
+              name: sanitizedName,
+              size: buffer.length,
+            },
+          });
+          console.log(`  ✓ Updated existing media: ${sanitizedName} (ID: ${existingId})`);
+        } catch {
+          await payload.update({
+            collection: "media",
+            id: existingId,
+            data: {
+              alt: altText,
+              caption: altText,
+            },
+          });
+        }
+      }
+      mediaCache[key] = existingId;
+      return existingId;
     }
 
-    // 2. Download image from online URL
-    console.log(`  📥 Downloading photo for: "${altText}"...`);
-    const response = await fetch(imageUrl, {
-      headers: {
-        "User-Agent": "AnthonyHolidaysSeeder/1.0",
-      },
-    });
+    // 4. Create new media record
+    if (buffer) {
+      const createdMedia = await payload.create({
+        collection: "media",
+        data: {
+          alt: altText,
+          caption: altText,
+        },
+        file: {
+          data: buffer,
+          mimetype: "image/jpeg",
+          name: sanitizedName,
+          size: buffer.length,
+        },
+      });
 
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status} ${response.statusText}`);
+      console.log(
+        `  ✓ Uploaded unique media: ${sanitizedName} (ID: ${createdMedia.id})`,
+      );
+      mediaCache[key] = createdMedia.id;
+      return createdMedia.id;
     }
 
-    const arrayBuffer = await response.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-    const sanitizedName = `${key.replace(/[^a-z0-9_-]/gi, "_").toLowerCase()}.jpg`;
-
-    // 3. Upload to Payload Media collection
-    const createdMedia = await payload.create({
-      collection: "media",
-      data: {
-        alt: altText,
-        caption: altText,
-      },
-      file: {
-        data: buffer,
-        mimetype: "image/jpeg",
-        name: sanitizedName,
-        size: buffer.length,
-      },
-    });
-
-    console.log(
-      `  ✓ Uploaded unique media: ${sanitizedName} (ID: ${createdMedia.id})`,
-    );
-    mediaCache[key] = createdMedia.id;
-    return createdMedia.id;
+    return null;
   } catch (err: any) {
     console.warn(
-      `  ⚠️ Could not download media for "${altText}": ${err.message}`,
+      `  ⚠️ Could not process media for "${altText}": ${err.message}`,
     );
     return null;
   }
@@ -397,6 +509,7 @@ async function seed() {
       title: tour.title,
       slug: tour.slug,
       status: "published",
+      _status: "published",
       featured: featured,
       excerpt: tour.excerpt,
       description: toLexical(tour.description),
@@ -434,6 +547,29 @@ async function seed() {
       journeyData.coverImage = coverMediaId;
     }
 
+    // Attach Gallery images defined in TOUR_MEDIA
+    const tourMedia = TOUR_MEDIA[slug];
+    if (tourMedia && Array.isArray(tourMedia.gallery)) {
+      const galleryItems: { image: string | number; caption?: string }[] = [];
+      for (const item of tourMedia.gallery) {
+        const galleryMediaId = await getOrCreateMediaFromUrl(
+          payload,
+          item.url,
+          item.alt,
+          item.key,
+        );
+        if (galleryMediaId) {
+          galleryItems.push({
+            image: galleryMediaId,
+            caption: item.alt,
+          });
+        }
+      }
+      if (galleryItems.length > 0) {
+        journeyData.gallery = galleryItems;
+      }
+    }
+
     const existing = await payload.find({
       collection: "journeys",
       where: { slug: { equals: slug } },
@@ -449,7 +585,7 @@ async function seed() {
       console.log(
         `  ✓ Updated Tour: ${tour.title} (${tour.duration.nights}N / ${tour.duration.days}D)`,
       );
-    } else if (coverMediaId) {
+    } else {
       await payload.create({
         collection: "journeys",
         data: journeyData,
@@ -475,6 +611,7 @@ async function seed() {
       slug: sp.slug,
       category: sp.category,
       status: "published",
+      _status: "published",
       featured: sp.featured ?? false,
       excerpt: sp.excerpt,
       description: toLexical(
@@ -521,7 +658,7 @@ async function seed() {
         data: specialData,
       });
       console.log(`  ✓ Updated Special Package: ${sp.title}`);
-    } else if (coverMediaId) {
+    } else {
       await payload.create({
         collection: "special-packages",
         data: specialData,
@@ -548,6 +685,7 @@ async function seed() {
       author: blog.author,
       publishedAt: blog.publishedAt,
       status: blog.status,
+      _status: "published",
       excerpt: blog.excerpt,
       content: toLexical(blog.content),
       categories: blog.categories,
@@ -616,61 +754,142 @@ async function seed() {
     }
   }
 
-  // 5. Seed Founder Profile (Team Member) with portrait photo
-  console.log("\n👤 Seeding Founder Profile with personal portrait...");
-  const founderPhotoId = await getOrCreateMediaFromUrl(
-    payload,
-    TEAM_MEDIA["anthony-founder"].url,
-    TEAM_MEDIA["anthony-founder"].alt,
-    TEAM_MEDIA["anthony-founder"].key,
-  );
-
-  const founderData: any = {
-    name: "Anthony",
-    role: "Founder & Licensed National Tourist Guide Lecturer",
-    isFounder: true,
-    status: "published",
-    displayOrder: 1,
-    credentials: [
-      { badge: "Licensed National Tourist Guide Lecturer (SLTDA Reg.)" },
-      { badge: "Ceylon Tourism Industry Veteran (Anthony Guesthouse)" },
-      { badge: "Cultural Triangle & UNESCO Heritage Specialist" },
-    ],
-    bio: toLexical(FOUNDER_BIO),
-    specialties: [
-      { area: "Ancient Hydraulic Civilizations & UNESCO Sites" },
-      { area: "Cultural & Spiritual Living Heritage" },
-      { area: "Hill Country Tea & Colonial History" },
-      { area: "Bespoke Island Routing & Wildlife Logistics" },
-    ],
-    languages: [{ language: "English" }, { language: "Sinhala" }],
-  };
-
-  if (founderPhotoId) {
-    founderData.photo = founderPhotoId;
-  }
-
-  const existingFounder = await payload.find({
-    collection: "team-members",
-    where: {
-      isFounder: { equals: true },
+  // 5. Seed Team Members (Founder & Specialist Guide Lecturers)
+  console.log("\n👤 Seeding Team Members (Founder & Specialist Guides)...");
+  const teamList = [
+    {
+      name: "Anthony",
+      role: "Founder & Licensed National Tourist Guide Lecturer",
+      isFounder: true,
+      displayOrder: 1,
+      mediaKey: "anthony-founder",
+      credentials: [
+        "Licensed National Tourist Guide Lecturer (SLTDA Reg.)",
+        "Ceylon Tourism Industry Veteran (Anthony Guesthouse)",
+        "Cultural Triangle & UNESCO Heritage Specialist",
+      ],
+      bio: FOUNDER_BIO,
+      specialties: [
+        "Ancient Hydraulic Civilizations & UNESCO Sites",
+        "Cultural & Spiritual Living Heritage",
+        "Hill Country Tea & Colonial History",
+        "Bespoke Island Routing & Wildlife Logistics",
+      ],
+      languages: ["English", "Sinhala"],
     },
-    limit: 1,
-  });
+    {
+      name: "Chaminda Silva",
+      role: "Senior Naturalist & Wildlife Tracking Specialist",
+      isFounder: false,
+      displayOrder: 2,
+      mediaKey: "chaminda-silva",
+      credentials: [
+        "SLTDA Licensed Tourist Guide Lecturer",
+        "Field Ornithology & Leopard Habitat Specialist",
+        "Marine Mammal Observation Certified (Mirissa & Trincomalee)",
+      ],
+      bio: `With over 14 years in the field, Chaminda is one of Sri Lanka’s most respected naturalist guide lecturers. His deep knowledge of leopard tracking in Yala and Wilpattu, combined with strict ethical observation protocols, ensures breathtaking wildlife encounters that prioritize animal welfare above all else.\n\nChaminda also specializes in endemic avifauna in Sinharaja Rainforest and seasonal blue whale migrations off the southern continental shelf.`,
+      specialties: [
+        "Wildlife Tracking",
+        "Birdwatching",
+        "Marine Safari",
+        "Sinharaja Endemics",
+      ],
+      languages: ["English", "Sinhala", "German"],
+    },
+    {
+      name: "Dinesh Perera",
+      role: "Cultural Heritage & Archaeological Lecturer",
+      isFounder: false,
+      displayOrder: 3,
+      mediaKey: "dinesh-perera",
+      credentials: [
+        "National Tourist Guide Lecturer License #NTGL-4482",
+        "Postgraduate Diploma in Archaeology (Univ. of Kelaniya)",
+        "Central Cultural Fund Accredited Lecturer",
+      ],
+      bio: `An academic lecturer and field archaeologist with over 16 years of guiding experience across Anuradhapura, Polonnaruwa, and Sigiriya. Dinesh brings ancient ruins vividly to life, explaining the sophisticated hydraulic engineering of 5th-century irrigation systems and the subtle iconography of Buddhist stone architecture.\n\nHis scholarly yet engaging narratives have enlightened academic groups, documentary film crews, and curious independent travellers alike.`,
+      specialties: [
+        "Ancient Citadels",
+        "Buddhist Art & Iconography",
+        "Hydraulic Engineering",
+        "Colonial Forts",
+      ],
+      languages: ["English", "Sinhala", "French"],
+    },
+    {
+      name: "Rohan Fernando",
+      role: "Highland Trails & Tea Heritage Specialist",
+      isFounder: false,
+      displayOrder: 4,
+      mediaKey: "rohan-fernando",
+      credentials: [
+        "SLTDA Certified Highland Guide Lecturer",
+        "Knuckles Range Wilderness Navigation Certified",
+        "Ceylon Tea Board Certified Taster & Factory Specialist",
+      ],
+      bio: `Born in the central highlands, Rohan spent his youth traversing the mist-shrouded ridges of the Knuckles Wilderness and Hatton tea estates. He leads private hikes through primary cloud forests, reveals secret waterfall pools, and guides guests through private tea tastings in heritage planter bungalows.\n\nRohan combines an encyclopedic knowledge of montane botany with an authentic passion for Sri Lanka’s hill country heritage.`,
+      specialties: [
+        "Cloud Forest Trekking",
+        "Ceylon Tea Culture",
+        "Botanical Walks",
+        "Highland History",
+      ],
+      languages: ["English", "Sinhala", "Japanese"],
+    },
+  ];
 
-  if (existingFounder.docs.length > 0) {
-    await payload.update({
+  for (const member of teamList) {
+    const mediaInfo = TEAM_MEDIA[member.mediaKey];
+    let photoMediaId: string | number | null = null;
+    if (mediaInfo) {
+      photoMediaId = await getOrCreateMediaFromUrl(
+        payload,
+        mediaInfo.url,
+        mediaInfo.alt,
+        mediaInfo.key,
+      );
+    }
+
+    const memberData: any = {
+      name: member.name,
+      role: member.role,
+      isFounder: member.isFounder,
+      status: "published",
+      _status: "published",
+      displayOrder: member.displayOrder,
+      credentials: member.credentials.map((badge: string) => ({ badge })),
+      bio: toLexical(member.bio),
+      specialties: member.specialties.map((area: string) => ({ area })),
+      languages: member.languages.map((language: string) => ({ language })),
+    };
+
+    if (photoMediaId) {
+      memberData.photo = photoMediaId;
+    }
+
+    const existingMember = await payload.find({
       collection: "team-members",
-      id: existingFounder.docs[0].id,
-      data: founderData,
+      where: {
+        name: { equals: member.name },
+      },
+      limit: 1,
     });
-    console.log("  ✓ Updated Founder profile: Anthony");
-  } else {
-    await payload.create({
-      collection: "team-members",
-      data: founderData,
-    });
-    console.log("  ✓ Created Founder profile: Anthony");
+
+    if (existingMember.docs.length > 0) {
+      await payload.update({
+        collection: "team-members",
+        id: existingMember.docs[0].id,
+        data: memberData,
+      });
+      console.log(`  ✓ Updated Team Member: ${member.name}`);
+    } else {
+      await payload.create({
+        collection: "team-members",
+        data: memberData,
+      });
+      console.log(`  ✓ Created Team Member: ${member.name}`);
+    }
   }
 
   // 6. Seed Services with distinct individual online photos

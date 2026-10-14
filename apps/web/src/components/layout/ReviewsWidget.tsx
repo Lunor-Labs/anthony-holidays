@@ -13,7 +13,6 @@ import {
   Quote,
   ChevronRight,
 } from "lucide-react";
-import { FALLBACK_TESTIMONIALS } from "@/data/fallback-data";
 
 export function ReviewsWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,6 +29,23 @@ export function ReviewsWidget() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [stories, setStories] = useState<any[]>([]);
+  const [loadingStories, setLoadingStories] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (activeTab === "read" && stories.length === 0) {
+      setLoadingStories(true);
+      fetch("/api/reviews")
+        .then((res) => res.json())
+        .then((data) => {
+          if (Array.isArray(data?.docs)) {
+            setStories(data.docs);
+          }
+        })
+        .catch(() => {})
+        .finally(() => setLoadingStories(false));
+    }
+  }, [activeTab, stories.length]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -209,7 +225,7 @@ export function ReviewsWidget() {
             }`}
           >
             <Quote size={13} className="text-gold" />
-            <span>Read Stories ({FALLBACK_TESTIMONIALS.length}+)</span>
+            <span>Read Stories{stories.length > 0 ? ` (${stories.length})` : ""}</span>
           </button>
         </div>
 
@@ -436,48 +452,58 @@ export function ReviewsWidget() {
                 </p>
               </div>
 
-              {FALLBACK_TESTIMONIALS.map((t) => (
-                <div
-                  key={t.id}
-                  className="bg-white p-5 border border-sand rounded-xs shadow-xs hover:border-gold/60 transition-colors duration-200"
-                >
-                  <div className="flex items-center justify-between mb-2.5">
-                    <div className="flex items-center gap-1 text-gold">
-                      {[...Array(t.rating || 5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          size={13}
-                          className="fill-gold text-gold"
-                        />
-                      ))}
+              {loadingStories ? (
+                <div className="py-8 text-center text-stone text-xs">
+                  Loading traveler stories...
+                </div>
+              ) : stories.length === 0 ? (
+                <div className="py-8 text-center text-stone text-xs">
+                  No traveler stories published yet. Be the first to share your journey!
+                </div>
+              ) : (
+                stories.map((t: any) => (
+                  <div
+                    key={t.id}
+                    className="bg-white p-5 border border-sand rounded-xs shadow-xs hover:border-gold/60 transition-colors duration-200"
+                  >
+                    <div className="flex items-center justify-between mb-2.5">
+                      <div className="flex items-center gap-1 text-gold">
+                        {[...Array(t.rating || 5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            size={13}
+                            className="fill-gold text-gold"
+                          />
+                        ))}
+                      </div>
+                      <span className="text-[10px] uppercase tracking-wider text-forest bg-forest/5 px-2 py-0.5 rounded-full border border-forest/15 font-semibold">
+                        Verified Guest
+                      </span>
                     </div>
-                    <span className="text-[10px] uppercase tracking-wider text-forest bg-forest/5 px-2 py-0.5 rounded-full border border-forest/15 font-semibold">
-                      Verified Guest
-                    </span>
-                  </div>
 
-                  <p className="text-sm font-light text-charcoal/90 leading-relaxed italic mb-3">
-                    "{t.quote}"
-                  </p>
+                    <p className="text-sm font-light text-charcoal/90 leading-relaxed italic mb-3">
+                      &ldquo;{t.reviewText || t.quote}&rdquo;
+                    </p>
 
-                  <div className="flex items-center justify-between text-xs pt-2.5 border-t border-sand/50">
-                    <span className="font-medium text-forest">
-                      {t.travellerName}
-                      {t.travellerCountry && (
-                        <span className="text-stone font-normal">
-                          {" "}
-                          • {t.travellerCountry}
+                    <div className="flex items-center justify-between text-xs pt-2.5 border-t border-sand/50">
+                      <span className="font-medium text-forest">
+                        {t.guestName || t.travellerName}
+                        {(t.country || t.travellerCountry) && (
+                          <span className="text-stone font-normal">
+                            {" "}
+                            • {t.country || t.travellerCountry}
+                          </span>
+                        )}
+                      </span>
+                      {(t.tourName || t.journeyTitle) && (
+                        <span className="text-[11px] text-gold font-serif">
+                          {t.tourName || t.journeyTitle}
                         </span>
                       )}
-                    </span>
-                    {t.journeyTitle && (
-                      <span className="text-[11px] text-gold font-serif">
-                        {t.journeyTitle}
-                      </span>
-                    )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
 
               <div className="pt-2 text-center">
                 <button
