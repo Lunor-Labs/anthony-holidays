@@ -1,0 +1,45 @@
+# Coolify stack for the Payload CMS (apps/cms).
+# Image is built and pushed by .github/workflows/deploy-cms.yml.
+# Use tag `latest` for prod and `dev` for the dev stack.
+services:
+  cms:
+    image: 'ghcr.io/lunor-labs/anthony-holidays-cms:latest'
+    restart: unless-stopped
+    pull_policy: always
+    healthcheck:
+      # node:22-slim has no wget/curl, so use node's built-in fetch
+      test:
+        - CMD
+        - node
+        - '-e'
+        - "fetch('http://localhost:3001/api/access').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    environment:
+      DATABASE_URI: '${DATABASE_URI}'
+      PAYLOAD_SECRET: '${PAYLOAD_SECRET}'
+      PAYLOAD_PUBLIC_SERVER_URL: '${PAYLOAD_PUBLIC_SERVER_URL}'
+      NEXT_PUBLIC_SERVER_URL: '${PAYLOAD_PUBLIC_SERVER_URL}'
+      NEXT_PUBLIC_SITE_URL: '${FRONTEND_URL}'
+      FRONTEND_URL: '${FRONTEND_URL}'
+      RESEND_API_KEY: '${RESEND_API_KEY}'
+      RESEND_FROM_EMAIL: '${RESEND_FROM_EMAIL}'
+      COMPANY_EMAIL: '${COMPANY_EMAIL}'
+      NODE_ENV: production
+      PORT: 3001
+    ports:
+      - '4003:3001'
+    volumes:
+      # Payload uploads (Media collection staticDir) must survive redeploys
+      - 'cms_media:/app/apps/cms/public/media'
+    networks:
+      - default
+      - postgres_net
+volumes:
+  cms_media:
+networks:
+  postgres_net:
+    external: true
+    name: '${DOCKER_NETWORK}'
