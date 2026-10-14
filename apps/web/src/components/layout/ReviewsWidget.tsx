@@ -141,7 +141,7 @@ export function ReviewsWidget() {
         aria-hidden="true"
       />
 
-      <aside
+      <div
         ref={drawerRef}
         aria-modal="true"
         role="dialog"
@@ -338,10 +338,15 @@ export function ReviewsWidget() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal mb-1.5">
+                    <label
+                      htmlFor="review-tour-name"
+                      className="block text-xs font-semibold uppercase tracking-wider text-charcoal mb-1.5"
+                    >
                       Journey or Package Taken (Optional)
                     </label>
                     <select
+                      id="review-tour-name"
+                      aria-label="Journey or Package Taken (Optional)"
                       value={tourName}
                       onChange={(e) => setTourName(e.target.value)}
                       className="w-full px-3.5 py-2.5 bg-white border border-sand text-sm text-charcoal outline-none focus:border-forest rounded-xs transition-colors cursor-pointer"
@@ -501,7 +506,7 @@ export function ReviewsWidget() {
             Close
           </button>
         </div>
-      </aside>
+      </div>
     </>
   );
 }

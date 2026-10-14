@@ -450,17 +450,17 @@ export function DiscoverSriLankaSection({
                     onClick={() => scrollToJourney(i)}
                   >
                     <div className="flex items-center justify-between gap-4 mb-3.5 flex-wrap">
-                      <div className="flex items-center gap-3.5 font-serif text-3xl lg:text-4xl text-gold font-normal leading-none">
+                      <div className="flex items-center gap-3.5 font-serif text-3xl lg:text-4xl text-gold-dark font-normal leading-none">
                         <span>{formattedNum}</span>
                         <span
-                          className={`h-[1px] bg-gold transition-all duration-500 ${
+                          className={`h-[1px] bg-gold/50 transition-all duration-500 ${
                             isActive ? "w-16 opacity-100" : "w-10 opacity-60"
                           }`}
                         />
                       </div>
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="inline-flex items-center gap-1.5 font-sans text-xs font-medium tracking-wider uppercase text-forest bg-gold/15 px-2.5 py-1 border border-gold/30 rounded-xs">
-                          <Clock size={12} className="text-gold" />
+                          <Clock size={12} className="text-gold-dark" />
                           {formatDuration(
                             journey.duration?.days || 1,
                             journey.duration?.nights || 0,
@@ -483,7 +483,7 @@ export function DiscoverSriLankaSection({
                     {journey.destinations &&
                       journey.destinations.length > 0 && (
                         <div className="inline-flex items-center gap-2 font-sans text-xs sm:text-sm tracking-wide text-stone mb-4">
-                          <MapPin size={13} className="text-gold shrink-0" />
+                          <MapPin size={13} className="text-gold-dark shrink-0" />
                           <span className="leading-snug">
                             {journey.destinations.join("  ·  ")}
                           </span>
@@ -501,7 +501,7 @@ export function DiscoverSriLankaSection({
                         speed={0.42}
                         maxTranslate={150}
                         scale={1}
-                        sizes="100vw"
+                        sizes="(max-width: 640px) 92vw, (max-width: 1024px) 90vw, 550px"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-forest/85 via-transparent to-transparent pointer-events-none z-10" />
                       <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-xs z-20">
@@ -554,6 +554,7 @@ export function DiscoverSriLankaSection({
                         href={`/tours/${journey.slug}`}
                         className="btn btn-sm btn-outline-gold"
                         onClick={(e) => e.stopPropagation()}
+                        aria-label={`View itinerary for ${journey.title}`}
                       >
                         <span>View Itinerary</span>
                         <ArrowRight size={13} />
@@ -645,6 +646,7 @@ export function DiscoverSriLankaSection({
                   <Link
                     href={`/tours/${activeJourney.slug}`}
                     className="btn btn-sm btn-gold"
+                    aria-label={`View itinerary for ${activeJourney.title}`}
                   >
                     <span>View Itinerary</span>
                     <ArrowRight size={13} />

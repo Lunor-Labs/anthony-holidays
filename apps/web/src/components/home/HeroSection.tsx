@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { MarqueeTicker } from "@/components/ui/MarqueeTicker";
@@ -20,7 +21,6 @@ interface HeroVideo {
   id: string;
   name: string;
   localSrc: string;
-  onlineSrc: string;
 }
 
 const HERO_VIDEOS: HeroVideo[] = [
@@ -28,19 +28,16 @@ const HERO_VIDEOS: HeroVideo[] = [
     id: "ambuluwawa",
     name: "Ambuluwawa Biodiversity Complex",
     localSrc: "/videos/hero-ambuluwawa.mp4",
-    onlineSrc: "https://cdn.pixabay.com/video/2023/08/22/177127-856658451_medium.mp4",
   },
   {
     id: "sigiriya",
     name: "Sigiriya Lion Rock Citadel",
     localSrc: "/videos/sigiriya.mp4",
-    onlineSrc: "https://pixabay.com/videos/download/video-191283_medium.mp4",
   },
   {
     id: "elephant",
     name: "Wild Elephants Gathering",
     localSrc: "/videos/elephant.mp4",
-    onlineSrc: "https://pixabay.com/videos/download/video-242272_medium.mp4",
   },
 ];
 
@@ -97,8 +94,19 @@ export function HeroSection() {
       aria-label="Hero"
     >
       <div className="absolute inset-0 z-0 overflow-hidden bg-forest">
+        <Image
+          src="/images/hero-poster.webp"
+          alt="Anthony Holidays - Authentic Sri Lanka Journeys"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center scale-105 pointer-events-none"
+        />
         {HERO_VIDEOS.map((video, index) => {
           const isActive = index === currentIndex;
+          const isNext = index === (currentIndex + 1) % HERO_VIDEOS.length;
+          const shouldLoad = isActive || isNext;
+
           return (
             <video
               key={video.id}
@@ -107,7 +115,9 @@ export function HeroSection() {
               }}
               muted
               playsInline
-              preload={index === 0 ? "auto" : "metadata"}
+              preload={index === 0 ? "auto" : isNext ? "metadata" : "none"}
+              poster="/images/hero-poster.webp"
+              aria-label={video.name}
               onEnded={() => {
                 if (index === currentIndex) {
                   advanceToNext();
@@ -122,8 +132,8 @@ export function HeroSection() {
                 isActive ? "opacity-100 z-1" : "opacity-0 z-0 pointer-events-none"
               }`}
             >
-              <source src={video.localSrc} type="video/mp4" />
-              <source src={video.onlineSrc} type="video/mp4" />
+              {shouldLoad && <source src={video.localSrc} type="video/mp4" />}
+              <track kind="captions" src="" label="English" default />
             </video>
           );
         })}

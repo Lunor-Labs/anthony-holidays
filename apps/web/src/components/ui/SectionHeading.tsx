@@ -31,12 +31,11 @@ export function SectionHeading({
 }: SectionHeadingProps) {
   const isCenter = align === 'center'
 
-  const labelColor = 'text-gold'
-  const titleColor =
-    theme === 'forest' || theme === 'dark' ? 'text-ivory' : 'text-forest'
-  const highlightColor = 'text-gold font-normal'
-  const descColor =
-    theme === 'forest' || theme === 'dark' ? 'text-ivory/70' : 'text-stone'
+  const isDark = theme === 'forest' || theme === 'dark'
+  const labelColor = isDark ? 'text-gold' : 'text-gold-dark'
+  const titleColor = isDark ? 'text-ivory' : 'text-forest'
+  const highlightColor = isDark ? 'text-gold font-normal' : 'text-gold-dark font-normal'
+  const descColor = isDark ? 'text-ivory/70' : 'text-stone'
 
   return (
     <div

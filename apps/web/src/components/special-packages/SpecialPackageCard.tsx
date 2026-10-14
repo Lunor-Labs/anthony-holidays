@@ -61,11 +61,11 @@ export function SpecialPackageCard({ packageItem }: SpecialPackageCardProps) {
       </Link>
 
       <div className="p-5 flex flex-col flex-1">
-        <h2 className="font-serif text-2xl font-normal text-charcoal mb-3 leading-snug group-hover:text-forest transition-colors">
+        <h3 className="font-serif text-2xl font-normal text-charcoal mb-3 leading-snug group-hover:text-forest transition-colors">
           <Link href={`/special-packages/${slug}`}>
             {title}
           </Link>
-        </h2>
+        </h3>
 
         <p className="text-sm text-stone leading-relaxed mb-6 line-clamp-3">
           {excerpt}

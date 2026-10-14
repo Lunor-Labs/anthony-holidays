@@ -221,19 +221,23 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
               ))}
             </div>
 
-            <div className="flex items-center justify-center sm:justify-start gap-1.5 mt-6 pt-2">
+            <div className="flex items-center justify-center sm:justify-start gap-1 mt-6 pt-2">
               {displayReviews.map((item, idx) => (
                 <button
                   key={item.id}
                   type="button"
                   onClick={() => scrollToIndex(idx)}
-                  className={`h-1.5 transition-all duration-300 rounded-full cursor-pointer ${
-                    activeIdx === idx
-                      ? 'w-6 bg-gold'
-                      : 'w-1.5 bg-sand/80 hover:bg-gold/50'
-                  }`}
+                  className="h-8 min-w-8 p-1 flex items-center justify-center cursor-pointer"
                   aria-label={`Go to slide ${idx + 1}`}
-                />
+                >
+                  <span
+                    className={`h-1.5 transition-all duration-300 rounded-full block ${
+                      activeIdx === idx
+                        ? 'w-6 bg-gold'
+                        : 'w-1.5 bg-sand/80 hover:bg-gold/50'
+                    }`}
+                  />
+                </button>
               ))}
             </div>
           </div>

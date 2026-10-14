@@ -74,7 +74,7 @@ export function Footer({ siteSettings }: FooterProps = {}) {
               <p className="font-serif text-2xl font-semibold tracking-widest uppercase text-ivory mb-1">
                 Anthony
               </p>
-              <p className="font-sans text-xs tracking-[0.25em] uppercase text-stone">
+              <p className="font-sans text-xs tracking-[0.25em] uppercase text-sand">
                 Holidays
               </p>
             </div>
@@ -196,7 +196,7 @@ export function Footer({ siteSettings }: FooterProps = {}) {
 
         {/* Bottom Bar */}
         <div className="flex flex-wrap items-center justify-between gap-4 pt-7">
-          <p className="text-xs text-ivory/40">
+          <p className="text-xs text-ivory/70">
             © {currentYear} Anthony Holidays. All rights reserved.
           </p>
 
@@ -208,7 +208,7 @@ export function Footer({ siteSettings }: FooterProps = {}) {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-xs text-ivory/40 hover:text-ivory/70 transition-colors"
+                className="text-xs text-ivory/70 hover:text-ivory transition-colors"
               >
                 {link.label}
               </Link>

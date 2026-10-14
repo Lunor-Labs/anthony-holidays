@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
@@ -6,14 +7,18 @@ import { ScrollReveal } from '@/components/ui/ScrollReveal'
 export function CallToActionSection() {
   return (
     <section
-      className="section-padding relative overflow-hidden bg-forest/50 bg-fixed bg-cover bg-center"
-      style={{
-        backgroundImage: `url('/images/sri-lanka-warm-authentic-welcome.jpg')`,
-      }}
+      className="section-padding relative overflow-hidden bg-forest"
       aria-label="Start planning your journey"
     >
-      <div className="absolute inset-0 bg-forest/40 backdrop-brightness-75 pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-b from-forest/60 via-forest/40 to-forest/60 pointer-events-none" />
+      <Image
+        src="/images/sri-lanka-warm-authentic-welcome.jpg"
+        alt="Warm authentic Sri Lankan hospitality"
+        fill
+        sizes="100vw"
+        className="object-cover object-center opacity-35 pointer-events-none"
+        quality={75}
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-forest/80 via-forest/50 to-forest/80 pointer-events-none" />
 
       <div className="container relative z-10 text-center">
         <ScrollReveal direction="up">

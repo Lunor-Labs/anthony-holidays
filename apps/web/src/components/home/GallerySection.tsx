@@ -454,9 +454,9 @@ export function GallerySection() {
                 <span className="inline-block px-2 py-0.5 mb-1 bg-white/90 border border-sand text-forest text-xs uppercase font-sans tracking-wider rounded-xs font-medium">
                   {item.category}
                 </span>
-                <h4 className="font-serif text-sm font-normal text-ivory uppercase">
+                <h3 className="font-serif text-sm font-normal text-ivory uppercase">
                   {item.title}
-                </h4>
+                </h3>
                 <p className="font-sans text-xs text-sand flex items-center gap-1 mt-0.5">
                   <MapPin size={11} className="text-gold" />
                   {item.location}
