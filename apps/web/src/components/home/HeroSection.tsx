@@ -21,6 +21,7 @@ interface HeroVideo {
   id: string;
   name: string;
   localSrc: string;
+  onlineSrc?: string;
 }
 
 const HERO_VIDEOS: HeroVideo[] = [
@@ -28,16 +29,19 @@ const HERO_VIDEOS: HeroVideo[] = [
     id: "ambuluwawa",
     name: "Ambuluwawa Biodiversity Complex",
     localSrc: "/videos/hero-ambuluwawa.mp4",
+    onlineSrc: "https://cdn.pixabay.com/video/2023/08/22/177127-856658451_medium.mp4",
   },
   {
     id: "sigiriya",
     name: "Sigiriya Lion Rock Citadel",
     localSrc: "/videos/sigiriya.mp4",
+    onlineSrc: "https://pixabay.com/videos/download/video-191283_medium.mp4",
   },
   {
     id: "elephant",
     name: "Wild Elephants Gathering",
     localSrc: "/videos/elephant.mp4",
+    onlineSrc: "https://pixabay.com/videos/download/video-242272_medium.mp4",
   },
 ];
 
@@ -134,14 +138,10 @@ export function HeroSection() {
             >
               {shouldLoad && (
                 <>
+                  {video.onlineSrc ? (
+                    <source src={video.onlineSrc} type="video/mp4" />
+                  ) : null}
                   <source src={video.localSrc} type="video/mp4" />
-                  <track
-                    kind="captions"
-                    src="/captions/ambient.vtt"
-                    srcLang="en"
-                    label="English"
-                    default
-                  />
                 </>
               )}
             </video>
@@ -154,7 +154,7 @@ export function HeroSection() {
       />
       <div className="relative z-20 pb-28 md:pb-36 lg:pb-40 container w-full">
         <div className="max-w-4xl">
-          <p className="section-label animate-fade-in text-secondary/90">
+          <p className="section-label animate-fade-in !text-gold">
             Sri Lanka Journeys
           </p>
 
