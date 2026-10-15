@@ -280,6 +280,23 @@ async function getOrCreateMediaFromUrl(
 
     // 4. Create new media record
     if (buffer) {
+      // If file already exists on disk (e.g. from git repo), remove it first so Payload
+      // writes with the exact clean name instead of auto-appending '-1', '-2', etc.
+      const targetDiskFile = path.resolve(process.cwd(), "public/media", sanitizedName);
+      if (fs.existsSync(targetDiskFile)) {
+        try {
+          fs.unlinkSync(targetDiskFile);
+          const baseNoExt = sanitizedName.replace(/\.[^/.]+$/, "");
+          const mediaDir = path.resolve(process.cwd(), "public/media");
+          const existingSizes = fs.readdirSync(mediaDir).filter(f => f.startsWith(`${baseNoExt}-`) && f.match(/-\d+x\d+\./));
+          for (const sFile of existingSizes) {
+            fs.unlinkSync(path.resolve(mediaDir, sFile));
+          }
+        } catch {
+          // ignore unlink error
+        }
+      }
+
       const createdMedia = await payload.create({
         collection: "media",
         data: {
