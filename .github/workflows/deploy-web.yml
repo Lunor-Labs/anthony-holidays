@@ -51,10 +51,11 @@ jobs:
       - name: Create .env file
         run: |
           {
-            echo "NEXT_PUBLIC_PAYLOAD_URL=${{ vars.NEXT_PUBLIC_PAYLOAD_URL }}"
-            echo "PAYLOAD_API_URL=${{ vars.NEXT_PUBLIC_PAYLOAD_URL }}"
-            echo "NEXT_PUBLIC_SITE_URL=${{ vars.NEXT_PUBLIC_SITE_URL }}"
-            echo "NEXT_PUBLIC_WHATSAPP_NUMBER=${{ vars.NEXT_PUBLIC_WHATSAPP_NUMBER }}"
+            echo "BACKEND_URL=${{ vars.BACKEND_URL }}"
+            echo "FRONTEND_URL=${{ vars.FRONTEND_URL }}"
+            echo "PUBLIC_WHATSAPP_NUMBER=${{ vars.PUBLIC_WHATSAPP_NUMBER }}"
+            echo "PUBLIC_PHONE_NUMBER=\"${{ vars.PUBLIC_PHONE_NUMBER }}\""
+            echo "COMPANY_EMAIL=${{ vars.COMPANY_EMAIL }}"
           } > apps/web/.env.production
 
       - name: Install Vercel CLI
@@ -77,9 +78,19 @@ jobs:
       - name: Build project
         run: vercel build ${{ steps.target.outputs.prod_flag }} --token=${{ secrets.VERCEL_TOKEN }}
 
+      # Server-only values for API routes (emails), set as runtime env on the deployment
       - name: Deploy to Vercel
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RESEND_FROM_EMAIL: ${{ vars.RESEND_FROM_EMAIL }}
+          COMPANY_EMAIL: ${{ vars.COMPANY_EMAIL }}
+          ENQUIRY_NOTIFICATION_EMAIL: ${{ vars.ENQUIRY_NOTIFICATION_EMAIL }}
         run: |
           vercel deploy \
             --prebuilt \
             ${{ steps.target.outputs.prod_flag }} \
+            --env RESEND_API_KEY="$RESEND_API_KEY" \
+            --env RESEND_FROM_EMAIL="$RESEND_FROM_EMAIL" \
+            --env COMPANY_EMAIL="$COMPANY_EMAIL" \
+            --env ENQUIRY_NOTIFICATION_EMAIL="$ENQUIRY_NOTIFICATION_EMAIL" \
             --token=${{ secrets.VERCEL_TOKEN }}
