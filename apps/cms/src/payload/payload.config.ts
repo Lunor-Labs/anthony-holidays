@@ -21,6 +21,12 @@ const dirname = path.dirname(filename);
 
 const isProduction = process.env.NODE_ENV === "production";
 
+const sanitizeOrigin = (url?: string): string =>
+  url ? url.trim().replace(/\/+$/, "") : "";
+
+const frontendUrl = sanitizeOrigin(process.env.FRONTEND_URL);
+const backendUrl = sanitizeOrigin(process.env.BACKEND_URL);
+const allowedOrigins = [frontendUrl, backendUrl].filter(Boolean);
 
 export default buildConfig({
   admin: {
@@ -50,7 +56,7 @@ export default buildConfig({
     Testimonials,
     Inquiries,
   ],
-  serverURL: process.env.BACKEND_URL,
+  serverURL: backendUrl || undefined,
   globals: [SiteSettings],
   editor: lexicalEditor({}),
   sharp,
@@ -70,12 +76,6 @@ export default buildConfig({
       fileSize: 10000000, // 10MB
     },
   },
-  cors: [
-    process.env.FRONTEND_URL,
-    process.env.BACKEND_URL,
-  ].filter(Boolean) as string[],
-  csrf: [
-    process.env.FRONTEND_URL,
-    process.env.BACKEND_URL,
-  ].filter(Boolean) as string[],
+  cors: allowedOrigins,
+  csrf: allowedOrigins,
 });
