@@ -1,9 +1,9 @@
 # Coolify stack for the Payload CMS (apps/cms).
 # Image is built and pushed by .github/workflows/deploy-cms.yml.
-# Use tag `latest` for prod and `dev` for the dev stack.
+# Set IMAGE_TAG=dev in the dev stack; prod defaults to `latest`.
 services:
   cms:
-    image: 'ghcr.io/lunor-labs/anthony-holidays-cms:latest'
+    image: 'ghcr.io/lunor-labs/anthony-holidays-cms:${IMAGE_TAG:-latest}'
     restart: unless-stopped
     pull_policy: always
     healthcheck:
