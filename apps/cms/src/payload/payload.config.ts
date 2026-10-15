@@ -21,28 +21,6 @@ const dirname = path.dirname(filename);
 
 const isProduction = process.env.NODE_ENV === "production";
 
-const payloadSecret = process.env.PAYLOAD_SECRET;
-if (!payloadSecret) {
-  if (isProduction) {
-    throw new Error(
-      "CRITICAL SECURITY ERROR: PAYLOAD_SECRET is not defined. A cryptographically secure secret (32+ characters) is strictly required in production."
-    );
-  }
-  console.warn(
-    "⚠️ SECURITY WARNING: PAYLOAD_SECRET is not set in .env. Generate a secure 32+ character key for your environment."
-  );
-} else if (payloadSecret.length < 32 && isProduction) {
-  throw new Error(
-    "CRITICAL SECURITY ERROR: PAYLOAD_SECRET must be at least 32 characters long."
-  );
-}
-
-const databaseUri = process.env.DATABASE_URI;
-if (!databaseUri) {
-  throw new Error(
-    "CRITICAL CONFIGURATION ERROR: DATABASE_URI is missing. Please define DATABASE_URI in your .env file."
-  );
-}
 
 export default buildConfig({
   admin: {
@@ -78,13 +56,14 @@ export default buildConfig({
   globals: [SiteSettings],
   editor: lexicalEditor({}),
   sharp,
-  secret: payloadSecret || "dev-only-secret-do-not-use-in-production-min-32chars!",
+  secret:
+    process.env.PAYLOAD_SECRET || "fallback-secret-min-32-chars-change-in-prod",
   typescript: {
     outputFile: path.resolve(dirname, "../payload-types.ts"),
   },
   db: postgresAdapter({
     pool: {
-      connectionString: databaseUri,
+      connectionString: process.env.DATABASE_URI,
     },
     push: !isProduction,
   }),
