@@ -128,6 +128,27 @@ function toLexical(text: string) {
 const mediaCache: Record<string, string | number> = {};
 
 /**
+ * Removes a clean-named file and its generated sizes (e.g. name-400x300.jpg) from
+ * public/media so Payload can write with the exact name instead of appending '-1', '-2'.
+ */
+function clearMediaFilesOnDisk(fileName: string) {
+  const mediaDir = path.resolve(process.cwd(), "public/media");
+  if (!fs.existsSync(mediaDir)) return;
+  const ext = path.extname(fileName);
+  const base = fileName.slice(0, -ext.length).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const sizePattern = new RegExp(`^${base}-\\d+x\\d+\\${ext}$`);
+  for (const f of fs.readdirSync(mediaDir)) {
+    if (f === fileName || sizePattern.test(f)) {
+      try {
+        fs.unlinkSync(path.resolve(mediaDir, f));
+      } catch {
+        // ignore unlink error
+      }
+    }
+  }
+}
+
+/**
  * Downloads an image from an online URL or loads it from local disk,
  * and creates or updates it in Payload's media collection.
  */
@@ -171,14 +192,16 @@ async function getOrCreateMediaFromUrl(
       for (const mDir of mediaDirs) {
         if (fs.existsSync(mDir)) {
           const files = fs.readdirSync(mDir);
-          const found = files.find(f => 
-            !f.match(/-\d+x\d+\./) && (
-              f === baseName || 
-              f === sanitizedName || 
-              f.startsWith(`${baseWithoutExt}-`) || 
-              f.startsWith(`${sanitizedName.replace(/\.jpg$/, "")}-`)
-            )
-          );
+          // Prefer the exact clean name; '-' sorts before '.', so a prefix match
+          // would otherwise pick a stale Payload duplicate like name-2.jpg first
+          const found =
+            files.find(f => f === baseName || f === sanitizedName) ||
+            files.find(f =>
+              !f.match(/-\d+x\d+\./) && (
+                f.startsWith(`${baseWithoutExt}-`) ||
+                f.startsWith(`${sanitizedName.replace(/\.jpg$/, "")}-`)
+              )
+            );
           if (found) {
             searchPaths.unshift(path.resolve(mDir, found));
           }
@@ -232,7 +255,11 @@ async function getOrCreateMediaFromUrl(
       const currentFile = existingDoc.filename;
       const currentFilePath = currentFile ? path.resolve(process.cwd(), "public/media", currentFile) : null;
 
-      if (currentFilePath && fs.existsSync(currentFilePath)) {
+      // Only keep the record as-is when it already points at the expected clean file.
+      // Records stuck on a suffixed duplicate (e.g. name-2.jpg) get their file replaced below.
+      const hasCleanFile = currentFile === sanitizedName && currentFilePath && fs.existsSync(currentFilePath);
+
+      if (hasCleanFile || (!buffer && currentFilePath && fs.existsSync(currentFilePath))) {
         await payload.update({
           collection: "media",
           id: existingId,
@@ -247,6 +274,7 @@ async function getOrCreateMediaFromUrl(
       }
 
       if (buffer) {
+        clearMediaFilesOnDisk(sanitizedName);
         try {
           await payload.update({
             collection: "media",
@@ -262,8 +290,11 @@ async function getOrCreateMediaFromUrl(
               size: buffer.length,
             },
           });
-          console.log(`  ✓ Updated existing media: ${sanitizedName} (ID: ${existingId})`);
-        } catch {
+          console.log(`  ✓ Updated existing media: ${currentFile} → ${sanitizedName} (ID: ${existingId})`);
+        } catch (err: any) {
+          console.warn(`  ⚠️ Could not replace file for media ID ${existingId}: ${err.message}`);
+          // Restore the clean source file so a later run can retry
+          fs.writeFileSync(path.resolve(process.cwd(), "public/media", sanitizedName), buffer);
           await payload.update({
             collection: "media",
             id: existingId,
@@ -282,20 +313,7 @@ async function getOrCreateMediaFromUrl(
     if (buffer) {
       // If file already exists on disk (e.g. from git repo), remove it first so Payload
       // writes with the exact clean name instead of auto-appending '-1', '-2', etc.
-      const targetDiskFile = path.resolve(process.cwd(), "public/media", sanitizedName);
-      if (fs.existsSync(targetDiskFile)) {
-        try {
-          fs.unlinkSync(targetDiskFile);
-          const baseNoExt = sanitizedName.replace(/\.[^/.]+$/, "");
-          const mediaDir = path.resolve(process.cwd(), "public/media");
-          const existingSizes = fs.readdirSync(mediaDir).filter(f => f.startsWith(`${baseNoExt}-`) && f.match(/-\d+x\d+\./));
-          for (const sFile of existingSizes) {
-            fs.unlinkSync(path.resolve(mediaDir, sFile));
-          }
-        } catch {
-          // ignore unlink error
-        }
-      }
+      clearMediaFilesOnDisk(sanitizedName);
 
       const createdMedia = await payload.create({
         collection: "media",
