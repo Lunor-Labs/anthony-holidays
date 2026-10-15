@@ -195,9 +195,21 @@ export function Footer({ siteSettings }: FooterProps = {}) {
         </div>
 
         {/* Bottom Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-4 pt-7">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-7">
           <p className="text-xs text-ivory/70">
             © {currentYear} Anthony Holidays. All rights reserved.
+          </p>
+
+          <p className="text-xs text-ivory/60">
+            Powered by{' '}
+            <a
+              href="https://www.lunorlabs.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-ivory/80 hover:text-gold transition-colors font-medium underline-offset-4 hover:underline"
+            >
+              Lunor Labs Pvt Ltd
+            </a>
           </p>
 
           <div className="flex gap-6">
