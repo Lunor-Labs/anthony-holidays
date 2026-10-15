@@ -50,9 +50,7 @@ export default buildConfig({
     Testimonials,
     Inquiries,
   ],
-  serverURL:
-    process.env.BACKEND_URL ||
-    (!isProduction ? "http://localhost:3001" : undefined),
+  serverURL: process.env.BACKEND_URL,
   globals: [SiteSettings],
   editor: lexicalEditor({}),
   sharp,
@@ -74,12 +72,10 @@ export default buildConfig({
   },
   cors: [
     process.env.FRONTEND_URL,
-    !isProduction ? "http://localhost:3000" : null,
-    !isProduction ? "http://127.0.0.1:3000" : null,
+    process.env.BACKEND_URL,
   ].filter(Boolean) as string[],
   csrf: [
     process.env.FRONTEND_URL,
-    !isProduction ? "http://localhost:3000" : null,
-    !isProduction ? "http://127.0.0.1:3000" : null,
+    process.env.BACKEND_URL,
   ].filter(Boolean) as string[],
 });
