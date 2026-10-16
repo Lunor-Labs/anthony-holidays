@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { MarqueeTicker } from "@/components/ui/MarqueeTicker";
@@ -56,11 +57,50 @@ const HERO_VIDEOS: HeroVideo[] = [
 
 export function HeroSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [loadedIndices, setLoadedIndices] = useState<Set<number>>(() => new Set([0]));
+  const [isFirstVideoPlaying, setIsFirstVideoPlaying] = useState(false);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
   const advanceToNext = useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % HERO_VIDEOS.length);
+    setCurrentIndex((prev) => {
+      const next = (prev + 1) % HERO_VIDEOS.length;
+      setLoadedIndices((current) => {
+        if (current.has(next)) return current;
+        const updated = new Set(current);
+        updated.add(next);
+        return updated;
+      });
+      return next;
+    });
   }, []);
+
+  useEffect(() => {
+    loadedIndices.forEach((idx) => {
+      const vid = videoRefs.current[idx];
+      if (
+        vid &&
+        (vid.networkState === HTMLMediaElement.NETWORK_EMPTY ||
+          vid.networkState === HTMLMediaElement.NETWORK_NO_SOURCE)
+      ) {
+        vid.load();
+      }
+    });
+  }, [loadedIndices]);
+
+  useEffect(() => {
+    const nextIndex = (currentIndex + 1) % HERO_VIDEOS.length;
+
+    const lazyTimer = setTimeout(() => {
+      setLoadedIndices((prev) => {
+        if (prev.has(nextIndex)) return prev;
+        const updated = new Set(prev);
+        updated.add(nextIndex);
+        return updated;
+      });
+    }, 3500);
+
+    return () => clearTimeout(lazyTimer);
+  }, [currentIndex]);
 
   useEffect(() => {
     const currentVid = videoRefs.current[currentIndex];
@@ -71,14 +111,7 @@ export function HeroSection() {
         if (playPromise !== undefined) {
           playPromise.catch(() => {});
         }
-      } catch {
-      }
-    }
-
-    const nextIndex = (currentIndex + 1) % HERO_VIDEOS.length;
-    const nextVid = videoRefs.current[nextIndex];
-    if (nextVid && nextVid.preload !== "auto") {
-      nextVid.preload = "auto";
+      } catch {}
     }
 
     const pauseTimer = setTimeout(() => {
@@ -109,8 +142,7 @@ export function HeroSection() {
       <div className="absolute inset-0 z-0 overflow-hidden bg-forest">
         {HERO_VIDEOS.map((video, index) => {
           const isActive = index === currentIndex;
-          const isNext = index === (currentIndex + 1) % HERO_VIDEOS.length;
-          const shouldLoad = isActive || isNext;
+          const isLoaded = loadedIndices.has(index);
 
           return (
             <video
@@ -121,8 +153,13 @@ export function HeroSection() {
               muted
               playsInline
               autoPlay={index === 0}
-              preload={index === 0 ? "auto" : isNext ? "metadata" : "none"}
+              preload={index === 0 ? "auto" : isLoaded ? "auto" : "none"}
               aria-label={video.name}
+              onPlaying={() => {
+                if (index === 0) {
+                  setIsFirstVideoPlaying(true);
+                }
+              }}
               onEnded={() => {
                 if (index === currentIndex) {
                   advanceToNext();
@@ -137,7 +174,7 @@ export function HeroSection() {
                 isActive ? "opacity-100 z-1" : "opacity-0 z-0 pointer-events-none"
               }`}
             >
-              {shouldLoad && (
+              {isLoaded && (
                 <>
                   <source src={video.localSrc} type="video/mp4" />
                   {video.onlineSrc ? (
