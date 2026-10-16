@@ -58,7 +58,7 @@ function renderNode(node: any, index: number): React.ReactNode {
   switch (node.type) {
     case "paragraph":
       return (
-        <p key={index} className="mb-7 text-stone leading-relaxed font-light text-base sm:text-lg">
+        <p key={index} className="mb-7 text-stone leading-relaxed font-normal text-base sm:text-lg">
           {children}
         </p>
       );
@@ -92,13 +92,13 @@ function renderNode(node: any, index: number): React.ReactNode {
     case "list": {
       if (node.listType === "number") {
         return (
-          <ol key={index} className="list-decimal pl-6 space-y-2 mb-7 text-stone text-base sm:text-lg font-light">
+          <ol key={index} className="list-decimal pl-6 space-y-2 mb-7 text-stone text-base sm:text-lg font-normal">
             {children}
           </ol>
         );
       }
       return (
-        <ul key={index} className="list-disc pl-6 space-y-2 mb-7 text-stone text-base sm:text-lg font-light">
+        <ul key={index} className="list-disc pl-6 space-y-2 mb-7 text-stone text-base sm:text-lg font-normal">
           {children}
         </ul>
       );
@@ -186,7 +186,7 @@ export function RichText({ content, className = "" }: RichTextProps) {
             );
           }
           return (
-            <p key={idx} className="mb-7 text-stone leading-relaxed font-light text-base sm:text-lg">
+            <p key={idx} className="mb-7 text-stone leading-relaxed font-normal text-base sm:text-lg">
               {p}
             </p>
           );

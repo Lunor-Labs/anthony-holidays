@@ -44,7 +44,7 @@ export function AboutHero() {
         <h1 className="text-heading-1 text-ivory mb-6 font-light">
           Stewards of Ceylon’s Living Heritage
         </h1>
-        <p className="text-ivory/85 text-base md:text-lg max-w-2xl mx-auto leading-relaxed font-light">
+        <p className="text-ivory/95 text-base md:text-lg max-w-2xl mx-auto leading-relaxed font-normal">
           Founded and directed by Sri Lanka Tourism Development Authority
           Licensed National Tourist Guide Lecturers, dedicated to genuine
           cultural immersion and peerless private journeys.

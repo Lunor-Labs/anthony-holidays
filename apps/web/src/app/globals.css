@@ -10,7 +10,7 @@
   --color-accent: #d4af37;
   --color-surface: #fdfbf7;
   --color-sand: #e8dfd1;
-  --color-muted: #71867a;
+  --color-muted: #475e52;
   --color-subtle: #4a5d52;
   --color-deep: #2c4035;
 
@@ -23,8 +23,8 @@
   --color-gold-light: #d4b96a;
   --color-gold-dark: #8c6517;
   --color-charcoal: #1a1a1a;
-  --color-stone: #595246;
-  --color-stone-light: #786f60;
+  --color-stone: #383229;
+  --color-stone-light: #50483c;
   --color-cream: #ede8df;
   --color-white: #ffffff;
   --color-offwhite: #fdfbf8;
@@ -58,8 +58,8 @@
   --stone-light: var(--color-stone-light);
   --cream: var(--color-cream);
   --offwhite: var(--color-offwhite);
-  --font-serif: "Cinzel", "Georgia", serif;
-  --font-sans: "Montserrat", system-ui, -apple-system, sans-serif;
+  --font-serif: var(--font-cinzel), "Cinzel", "Georgia", serif;
+  --font-sans: var(--font-montserrat), "Montserrat", system-ui, -apple-system, sans-serif;
 }
 
 /* =============================================
@@ -100,7 +100,8 @@ body {
   font-family: var(--font-sans);
   background-color: var(--color-offwhite);
   color: var(--color-charcoal);
-  line-height: 1.6;
+  font-weight: 300;
+  line-height: 1.68;
   overflow-x: hidden;
 }
 
@@ -381,9 +382,9 @@ header .section-label {
   align-items: center;
   gap: 0.375rem;
   font-family: var(--font-sans);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-forest);
   text-decoration: none;

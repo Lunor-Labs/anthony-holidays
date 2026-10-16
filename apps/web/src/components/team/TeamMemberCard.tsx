@@ -56,7 +56,7 @@ export function TeamMemberCard({ member }: TeamMemberCardProps) {
           {role}
         </p>
 
-        <p className="text-xs text-stone leading-relaxed mb-6 font-light line-clamp-3">
+        <p className="text-sm text-stone leading-relaxed mb-6 line-clamp-3">
           {bio}
         </p>
 

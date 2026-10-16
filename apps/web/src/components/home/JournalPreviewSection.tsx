@@ -79,7 +79,7 @@ export function JournalPreviewSection({ posts = [] }: JournalPreviewSectionProps
                     </h3>
 
                     {post.excerpt && (
-                      <p className="text-sm text-stone leading-relaxed mb-6 line-clamp-3 font-light">
+                      <p className="text-[15px] text-stone leading-relaxed mb-6 line-clamp-3 font-normal">
                         {post.excerpt}
                       </p>
                     )}
@@ -109,7 +109,7 @@ export function JournalPreviewSection({ posts = [] }: JournalPreviewSectionProps
               <h3 className="font-serif text-2xl text-charcoal mb-3 font-normal">
                 Field Notes &amp; Essays in Preparation
               </h3>
-              <p className="text-stone text-sm leading-relaxed mb-8 font-light max-w-lg mx-auto">
+              <p className="text-stone text-sm leading-relaxed mb-8 font-normal max-w-lg mx-auto">
                 Our licensed guide lecturers and naturalists are currently authoring new firsthand essays, archaeological guides, and seasonal insights across Sri Lanka. Check back shortly for our upcoming publications.
               </p>
               <div className="flex flex-wrap justify-center gap-4">

@@ -64,7 +64,7 @@ export function JourneyCard({ journey }: JourneyCardProps) {
           {journey.destinations && journey.destinations.length > 0 && (
             <div className="flex items-center gap-1.5 mb-3">
               <MapPin size={11} className="text-gold shrink-0" />
-              <span className="text-xs text-stone tracking-wide line-clamp-1">
+              <span className="text-xs text-stone font-medium tracking-wide line-clamp-1">
                 {journey.destinations.slice(0, 3).join(' · ')}
                 {journey.destinations.length > 3 &&
                   ` +${journey.destinations.length - 3}`}
@@ -79,7 +79,7 @@ export function JourneyCard({ journey }: JourneyCardProps) {
           </h3>
 
           {journey.excerpt && (
-            <p className="text-sm text-stone leading-relaxed mb-6 line-clamp-3">
+            <p className="text-[15px] text-stone leading-relaxed mb-6 line-clamp-3">
               {journey.excerpt}
             </p>
           )}

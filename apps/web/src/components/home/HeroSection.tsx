@@ -177,7 +177,7 @@ export function HeroSection() {
             </span>
           </h1>
 
-          <p className="text-base md:text-lg font-sans animate-fade-in-up animation-delay-800 text-ivory/85 max-w-lg mb-10 leading-relaxed tracking-wide drop-shadow-sm font-light">
+          <p className="text-base md:text-lg font-sans animate-fade-in-up animation-delay-800 text-ivory/95 max-w-lg mb-10 leading-relaxed tracking-wide drop-shadow-sm font-normal">
             Expert-led private journeys across the ancient island - crafted by
             licensed national tourist guide lecturers who know every stone,
             every story, every sunrise.

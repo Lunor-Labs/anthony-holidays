@@ -428,7 +428,7 @@ export function WhyChooseUsSection() {
                           {panel.heading}
                         </h3>
 
-                        <p className="font-sans text-xs lg:text-sm font-light text-ivory/80 leading-relaxed mb-3 line-clamp-3 xl:line-clamp-none">
+                        <p className="font-sans text-sm lg:text-[15px] font-normal text-ivory/95 leading-relaxed mb-3 line-clamp-3 xl:line-clamp-none">
                           {panel.description}
                         </p>
 
@@ -436,7 +436,7 @@ export function WhyChooseUsSection() {
                           {panel.highlights.map((h, i) => (
                             <div
                               key={i}
-                              className="flex items-start gap-2 text-xs text-ivory/90 font-light"
+                              className="flex items-start gap-2 text-xs sm:text-sm text-ivory font-normal"
                             >
                               <CheckCircle2
                                 size={13}
@@ -534,7 +534,7 @@ export function WhyChooseUsSection() {
                     {panel.heading}
                   </h3>
 
-                  <p className="font-sans text-xs sm:text-sm font-light text-ivory/80 leading-relaxed mb-4">
+                  <p className="font-sans text-sm font-normal text-ivory/95 leading-relaxed mb-4">
                     {panel.description}
                   </p>
 
@@ -542,7 +542,7 @@ export function WhyChooseUsSection() {
                     {panel.highlights.map((h, i) => (
                       <div
                         key={i}
-                        className="flex items-start gap-2 text-xs text-ivory/90 font-light"
+                        className="flex items-start gap-2 text-xs sm:text-sm text-ivory font-normal"
                       >
                         <CheckCircle2
                           size={13}

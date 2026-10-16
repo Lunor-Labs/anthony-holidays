@@ -67,7 +67,7 @@ export function SpecialPackageCard({ packageItem }: SpecialPackageCardProps) {
           </Link>
         </h3>
 
-        <p className="text-sm text-stone leading-relaxed mb-6 line-clamp-3">
+        <p className="text-[15px] text-stone leading-relaxed mb-6 line-clamp-3">
           {excerpt}
         </p>
 

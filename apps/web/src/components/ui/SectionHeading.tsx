@@ -35,7 +35,7 @@ export function SectionHeading({
   const labelColor = isDark ? 'text-gold' : 'text-gold-dark'
   const titleColor = isDark ? 'text-ivory' : 'text-forest'
   const highlightColor = isDark ? 'text-gold font-normal' : 'text-gold-dark font-normal'
-  const descColor = isDark ? 'text-ivory/70' : 'text-stone'
+  const descColor = isDark ? 'text-ivory/90' : 'text-stone'
 
   return (
     <div

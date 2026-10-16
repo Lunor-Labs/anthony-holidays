@@ -26,7 +26,7 @@ export function CallToActionSection() {
             <em className="italic text-gold">the Real Sri Lanka?</em>
           </h2>
           <span className="w-12 h-[1px] bg-gold my-6 mx-auto block" />
-          <p className="text-ivory/85 text-lg max-w-lg mx-auto mb-12 leading-relaxed font-light tracking-wide">
+          <p className="text-ivory/95 text-lg max-w-lg mx-auto mb-12 leading-relaxed font-normal tracking-wide">
             Tell us your travel dreams. We&apos;ll craft a bespoke Sri Lanka
             journey that exceeds every expectation.
           </p>

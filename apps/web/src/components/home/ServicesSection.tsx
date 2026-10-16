@@ -113,7 +113,7 @@ export function ServicesSection({ services = [] }: ServicesSectionProps) {
                           {card.title}
                         </h3>
                         <span className="w-12 h-[1px] bg-gold my-3 block transition-all duration-300 group-hover:w-20" />
-                        <p className="text-sm text-ivory/65 leading-relaxed font-light mb-6">
+                        <p className="text-sm text-ivory/90 leading-relaxed font-normal mb-6">
                           {card.desc}
                         </p>
                       </div>
@@ -156,7 +156,7 @@ export function ServicesSection({ services = [] }: ServicesSectionProps) {
               <h3 className="font-serif text-2xl md:text-3xl text-ivory mb-3 font-normal">
                 Travel Logistics Catalog Being Synchronized
               </h3>
-              <p className="text-ivory/75 text-sm leading-relaxed mb-8 font-light max-w-lg mx-auto">
+              <p className="text-ivory/90 text-sm leading-relaxed mb-8 font-normal max-w-lg mx-auto">
                 Our complete range of private chauffeur transport, luxury vehicle charters, boutique accommodation reservations, and licensed guiding services is currently being updated in our system. Our direct concierge team is available 24/7 for custom requests.
               </p>
               <div className="flex flex-wrap justify-center gap-4">

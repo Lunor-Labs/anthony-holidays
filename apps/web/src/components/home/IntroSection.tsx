@@ -41,7 +41,7 @@ export function IntroSection() {
                   <p className="font-serif text-xl text-gold font-normal mb-1">
                     Authentic Ceylon
                   </p>
-                  <p className="text-xs text-ivory/75 leading-relaxed font-light">
+                  <p className="text-xs text-ivory/90 leading-relaxed font-normal">
                     Private journeys crafted with deep heritage mastery and personal care.
                   </p>
                 </div>
@@ -50,7 +50,7 @@ export function IntroSection() {
           </div>
           <div className="lg:col-span-7 lg:pl-4">
             <ScrollReveal direction="right" delay={250}>
-              <p className="font-sans text-base font-light leading-[1.88] text-stone mb-6">
+              <p className="font-sans text-base leading-[1.88] text-stone mb-6">
                 At Anthony Holidays, we believe true exploration cannot be
                 scripted in a distant office or rushed through generic group bus
                 trails. Sri Lanka is a living sanctuary of intimate wonders:
@@ -59,7 +59,7 @@ export function IntroSection() {
                 ocean headlands where turquoise waters kiss golden sands.
               </p>
 
-              <p className="font-sans text-base font-light leading-[1.88] text-stone mb-8">
+              <p className="font-sans text-base leading-[1.88] text-stone mb-8">
                 Founded on the timeless spirit of authentic Ceylon hospitality, every
                 itinerary is curated as a deeply personal journey. We connect you
                 with master tea planters, temple historians, and warm village kitchens,

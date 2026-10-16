@@ -86,7 +86,7 @@ export function PageHero({
 
         {description && (
           <p
-            className={`font-sans text-base lg:text-lg text-ivory/75 leading-relaxed font-light ${maxWidthClass}`}
+            className={`font-sans text-base lg:text-lg text-ivory/90 leading-relaxed font-normal ${maxWidthClass}`}
           >
             {description}
           </p>
