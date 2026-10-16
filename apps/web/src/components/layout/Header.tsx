@@ -167,9 +167,9 @@ export function Header() {
 
               <Link
                 href="/start-planning"
-                className={`btn py-2 px-4 text-xs tracking-wider transition-colors ${
+                className={`btn py-2 px-4 text-xs tracking-wider transition-all font-semibold ${
                   isTransparent
-                    ? "bg-ivory/15 border border-ivory/40 text-ivory hover:bg-ivory hover:text-forest"
+                    ? "bg-ivory/20 backdrop-blur-xs border border-white/60 !text-white shadow-xs hover:bg-white hover:!text-forest hover:border-white"
                     : "btn-primary"
                 }`}
               >

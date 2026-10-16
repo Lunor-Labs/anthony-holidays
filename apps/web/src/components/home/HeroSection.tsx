@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { MarqueeTicker } from "@/components/ui/MarqueeTicker";
@@ -26,6 +25,22 @@ interface HeroVideo {
 
 const HERO_VIDEOS: HeroVideo[] = [
   {
+    id: "beach",
+    name: "Golden Coastal Beaches of Ceylon",
+    localSrc: "/videos/beach.mp4",
+  },
+  {
+    id: "watadageya",
+    name: "Ancient Polonnaruwa Vatadage",
+    localSrc: "/videos/watadageya.mp4",
+  },
+  {
+    id: "elephant",
+    name: "Wild Elephants Gathering",
+    localSrc: "/videos/elephant.mp4",
+    onlineSrc: "https://pixabay.com/videos/download/video-242272_medium.mp4",
+  },
+  {
     id: "ambuluwawa",
     name: "Ambuluwawa Biodiversity Complex",
     localSrc: "/videos/hero-ambuluwawa.mp4",
@@ -36,12 +51,6 @@ const HERO_VIDEOS: HeroVideo[] = [
     name: "Sigiriya Lion Rock Citadel",
     localSrc: "/videos/sigiriya.mp4",
     onlineSrc: "https://pixabay.com/videos/download/video-191283_medium.mp4",
-  },
-  {
-    id: "elephant",
-    name: "Wild Elephants Gathering",
-    localSrc: "/videos/elephant.mp4",
-    onlineSrc: "https://pixabay.com/videos/download/video-242272_medium.mp4",
   },
 ];
 
@@ -98,14 +107,6 @@ export function HeroSection() {
       aria-label="Hero"
     >
       <div className="absolute inset-0 z-0 overflow-hidden bg-forest">
-        <Image
-          src="/images/hero-poster.webp"
-          alt="Anthony Holidays - Authentic Sri Lanka Journeys"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center scale-105 pointer-events-none"
-        />
         {HERO_VIDEOS.map((video, index) => {
           const isActive = index === currentIndex;
           const isNext = index === (currentIndex + 1) % HERO_VIDEOS.length;
@@ -119,8 +120,8 @@ export function HeroSection() {
               }}
               muted
               playsInline
+              autoPlay={index === 0}
               preload={index === 0 ? "auto" : isNext ? "metadata" : "none"}
-              poster="/images/hero-poster.webp"
               aria-label={video.name}
               onEnded={() => {
                 if (index === currentIndex) {
@@ -138,10 +139,10 @@ export function HeroSection() {
             >
               {shouldLoad && (
                 <>
+                  <source src={video.localSrc} type="video/mp4" />
                   {video.onlineSrc ? (
                     <source src={video.onlineSrc} type="video/mp4" />
                   ) : null}
-                  <source src={video.localSrc} type="video/mp4" />
                 </>
               )}
             </video>
