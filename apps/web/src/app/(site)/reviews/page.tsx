@@ -22,10 +22,10 @@ export default async function ReviewsPage() {
         badge="Verified Guest Reflections"
         title="Traveller Reviews & Firsthand Stories"
         description="Real feedback from discerning travellers who explored Sri Lanka with Anthony and our licensed guiding team. Every published review is independently verified and moderated for authenticity."
-        maxWidth="3xl"
+        maxWidth="5xl"
       />
 
-      <section className="section-padding bg-offwhite">
+      <section className="section-padding-sm bg-offwhite">
         <div className="container space-y-16">
           {/* Reviews Grid */}
           <div>

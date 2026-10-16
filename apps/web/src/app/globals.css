@@ -169,16 +169,16 @@ a {
 
 .section-sm,
 .section-padding-sm {
-  padding-top: clamp(3rem, 5vw, 5rem);
-  padding-bottom: clamp(3rem, 5vw, 5rem);
+  padding-top: clamp(2rem, 3vw, 3.5rem);
+  padding-bottom: clamp(2rem, 3vw, 3.5rem);
 }
 
 .section-padding-sm-top {
-  padding-top: clamp(3rem, 5vw, 5rem);
+  padding-top: clamp(2rem, 3vw, 3.5rem);
 }
 
 .section-padding-sm-bottom {
-  padding-bottom: clamp(3rem, 5vw, 5rem);
+  padding-bottom: clamp(2rem, 4vw, 3.5rem);
 }
 
 /* =============================================
@@ -482,7 +482,7 @@ header .section-label {
 .whatsapp-fab {
   position: fixed;
   bottom: 2rem;
-  right: 2rem;
+  right: 1rem;
   width: 3.5rem;
   height: 3.5rem;
   border-radius: 50%;
@@ -492,10 +492,16 @@ header .section-label {
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
-  z-index: 50;
+  z-index: 40;
   transition:
     transform var(--duration-fast) var(--ease-out),
     box-shadow var(--duration-fast) var(--ease-out);
+}
+
+@media (min-width: 640px) {
+  .whatsapp-fab {
+    right: 2rem;
+  }
 }
 
 .whatsapp-fab:hover {

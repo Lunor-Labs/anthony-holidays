@@ -5,7 +5,7 @@ import Image from 'next/image'
 export function AboutHero() {
   return (
     <section
-      className="relative h-[500px] md:h-[600px] lg:h-[680px] flex items-center justify-center overflow-hidden bg-charcoal"
+      className="relative h-[580px] md:h-[600px] lg:h-[680px] flex items-center justify-center overflow-hidden bg-charcoal"
       aria-label="About Hero"
     >
       <div className="absolute inset-0">

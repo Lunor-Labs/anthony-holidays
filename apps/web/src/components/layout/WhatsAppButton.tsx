@@ -22,7 +22,7 @@ export function WhatsAppButton({
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="whatsapp-fab"
+      className="whatsapp-fab right-4 sm:right-8"
       aria-label="Chat with us on WhatsApp"
       title="Chat with Anthony Holidays on WhatsApp"
     >

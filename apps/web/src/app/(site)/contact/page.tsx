@@ -75,10 +75,10 @@ export default async function ContactPage() {
         badge="Direct Inquiries"
         title="We Are Always Here to Assist"
         description="Connect directly with Anthony and our licensed guide lecturers. We answer every inquiry with precision, warmth, and genuine local expertise."
-        maxWidth="3xl"
+        maxWidth="5xl"
       />
 
-      <div className="section-padding bg-offwhite">
+      <div className="section-padding-sm bg-offwhite">
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             {/* Direct Contact Cards */}

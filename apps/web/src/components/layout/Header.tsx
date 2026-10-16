@@ -104,7 +104,7 @@ export function Header() {
         style={{ zIndex: isMobileOpen ? 70 : 50 }}
         className={`nav ${
           isMobileOpen
-            ? "nav-solid bg-transparent shadow-none"
+            ? "nav-solid !bg-forest/90 shadow-none"
             : isTransparent
               ? "nav-transparent"
               : "nav-solid"
@@ -225,7 +225,7 @@ export function Header() {
         </div>
       </header>
       <div
-        className={`fixed inset-0 z-40 pointer-events-none flex flex-col transition-opacity duration-300 ${
+        className={`fixed inset-0 z-50 pointer-events-none flex flex-col transition-opacity duration-300 ${
           isMobileOpen ? "opacity-100" : "opacity-0"
         }`}
         aria-hidden="true"
@@ -252,7 +252,7 @@ export function Header() {
         role="dialog"
         aria-modal="true"
         aria-label="Site Navigation"
-        className={`fixed inset-0 z-50 flex flex-col pt-28 pb-8 px-4 sm:px-8 overflow-y-auto no-scrollbar transition-all duration-400 ${
+        className={`fixed inset-0 z-60 flex flex-col pt-28 pb-8 px-4 sm:px-8 overflow-y-auto no-scrollbar transition-all duration-400 ${
           isMobileOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"

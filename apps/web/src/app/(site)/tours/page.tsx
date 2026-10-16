@@ -45,7 +45,7 @@ export default async function ToursPage() {
       />
 
       {/* Filter + Grid Section */}
-      <section className="section-padding bg-offwhite" aria-label="Journey listings">
+      <section className="section-padding-sm bg-offwhite" aria-label="Journey listings">
         <div className="container">
           <Suspense fallback={<div className="min-h-[400px] flex items-center justify-center text-stone font-light">Loading journeys...</div>}>
             <JourneysFilter journeys={journeys} />

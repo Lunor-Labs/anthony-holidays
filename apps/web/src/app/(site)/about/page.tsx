@@ -23,8 +23,7 @@ export default async function AboutPage() {
       <AboutHero />
       <PhilosophySection />
 
-      {/* Founder & Specialist Guiding Team Section */}
-      <section id="team" className="section-padding bg-white scroll-mt-20">
+      <section id="team" className="section-padding-sm bg-white scroll-mt-20">
         <div className="container">
           {teamMembers.length > 0 ? (
             <>

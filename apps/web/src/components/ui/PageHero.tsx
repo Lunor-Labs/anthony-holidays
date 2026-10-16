@@ -13,7 +13,7 @@ export interface PageHeroProps {
   breadcrumbs?: BreadcrumbItem[]
   breadcrumbCurrent?: string
   className?: string
-  maxWidth?: '2xl' | '3xl' | '4xl' | '5xl'
+  maxWidth?: '2xl' | '3xl' | '4xl' | '5xl' | '6xl'
   children?: React.ReactNode
 }
 
@@ -24,7 +24,7 @@ export function PageHero({
   breadcrumbs,
   breadcrumbCurrent,
   className = '',
-  maxWidth = '4xl',
+  maxWidth = '5xl',
   children,
 }: PageHeroProps) {
   const breadcrumbList: BreadcrumbItem[] = breadcrumbs || [
@@ -37,18 +37,19 @@ export function PageHero({
     '3xl': 'max-w-3xl',
     '4xl': 'max-w-4xl',
     '5xl': 'max-w-5xl',
+    '6xl': 'max-w-6xl',
   }[maxWidth]
 
   return (
     <header
-      className={`bg-forest pt-28 pb-10 md:pt-32 md:pb-12 text-ivory ${className}`}
+      className={`bg-forest pt-28 pb-8 md:pt-30 md:pb-10 text-ivory ${className}`}
       aria-label="Page header"
     >
       <div className="container">
         {breadcrumbList.length > 0 && (
           <nav
             aria-label="Breadcrumb"
-            className="flex items-center gap-2 text-xs sm:text-sm mb-8 text-ivory/50"
+            className="flex items-center gap-2 text-xs sm:text-sm mb-4 text-ivory/50"
           >
             {breadcrumbList.map((crumb, index) => {
               const isLast = index === breadcrumbList.length - 1
@@ -72,13 +73,13 @@ export function PageHero({
         )}
 
         {badge && (
-          <span className="section-label text-gold block mb-3">
+          <span className="section-label text-gold block mb-2">
             {badge}
           </span>
         )}
 
         <h1
-          className={`font-serif text-4xl sm:text-5xl lg:text-6xl text-ivory font-normal leading-[1.1] mb-6 ${maxWidthClass}`}
+          className={`font-serif text-4xl sm:text-5xl lg:text-6xl text-ivory font-normal leading-[1.1] mb-4 ${maxWidthClass}`}
         >
           {title}
         </h1>
@@ -91,7 +92,7 @@ export function PageHero({
           </p>
         )}
 
-        {children && <div className="mt-8">{children}</div>}
+        {children && <div className="mt-6">{children}</div>}
       </div>
     </header>
   )

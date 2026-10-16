@@ -25,7 +25,7 @@ export default async function ServicesPage() {
         description="Delivered exclusively by Licensed National Tourist Guide Lecturers and certified chauffeurs. Every service is personal, fully insured, and tailored to your high standards."
       />
 
-      <section className="section-padding bg-offwhite">
+      <section className="section-padding-sm bg-offwhite">
         <div className="container">
           {services.length > 0 ? (
             <div className="space-y-8">

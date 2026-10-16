@@ -25,7 +25,7 @@ export default async function BlogPage() {
         description="Curated essays, archaeological insights, and seasonal guidance authored by Sri Lanka’s Licensed National Tourist Guide Lecturers and destination specialists."
       />
 
-      <section className="section-padding bg-offwhite">
+      <section className="section-padding-sm bg-offwhite">
         <div className="container">
           {articles.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">

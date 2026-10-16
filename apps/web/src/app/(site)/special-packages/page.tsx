@@ -22,7 +22,7 @@ export default async function SpecialPackagesPage() {
         description="From hands-on marine turtle volunteering and Hikkaduwa surf immersions to smart budget trails and rugged wilderness treks, discover focused journeys tailored to individual passions."
       />
 
-      <section className="section-padding bg-offwhite">
+      <section className="section-padding-sm bg-offwhite">
         <div className="container">
           <SpecialPackagesFilter packages={packages} />
         </div>

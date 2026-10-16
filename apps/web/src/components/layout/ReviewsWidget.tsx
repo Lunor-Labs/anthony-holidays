@@ -137,7 +137,7 @@ export function ReviewsWidget() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed left-0 top-5/6 -translate-y-1/2 z-40 group cursor-pointer flex items-center bg-forest text-ivory border-y border-r border-gold/40 hover:border-gold shadow-[0_8px_30px_rgba(0,0,0,0.35)] rounded-r-xl transition-all duration-300 hover:translate-x-1 focus:outline-none focus:ring-2 focus:ring-gold/50"
+        className="fixed left-0 top-7/8 sm:top-5/6 -translate-y-1/2 z-30 group cursor-pointer flex items-center bg-forest text-ivory border-y border-r border-gold/40 hover:border-gold shadow-[0_8px_30px_rgba(0,0,0,0.35)] rounded-r-xl transition-all duration-300 hover:translate-x-1 focus:outline-none focus:ring-2 focus:ring-gold/50"
         aria-label="Open guest reviews and feedback side modal"
         title="Verified Client Reviews - Anthony Holidays"
       >
