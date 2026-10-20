@@ -69,7 +69,7 @@ export function Footer({ siteSettings }: FooterProps = {}) {
         {/* Main Footer Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-16 border-b border-ivory/10">
           {/* Brand Column */}
-          <div>
+          <div className="flex flex-col items-center md:items-start text-center md:text-left">
             <div className="mb-6">
               <p className="font-serif text-2xl font-semibold tracking-widest uppercase text-ivory mb-1">
                 Anthony
@@ -87,7 +87,7 @@ export function Footer({ siteSettings }: FooterProps = {}) {
             </p>
 
             {/* Social Links */}
-            <div className="flex gap-4">
+            <div className="flex gap-4 justify-center md:justify-start">
               {socialLinks.map(({ label, href, svg }) => (
                 <a
                   key={label}
@@ -104,11 +104,11 @@ export function Footer({ siteSettings }: FooterProps = {}) {
           </div>
 
           {/* Journeys Column */}
-          <div>
-            <p className="section-label text-gold mb-5">
+          <div className="flex flex-col items-center md:items-start text-center md:text-left">
+            <p className="section-label text-gold mb-5 justify-center md:justify-start">
               Journeys & Packages
             </p>
-            <ul className="list-none flex flex-col gap-2.5">
+            <ul className="list-none flex flex-col items-center md:items-start gap-2.5">
               {[
                 { href: '/tours', label: 'Tour Packages' },
                 { href: '/special-packages', label: 'Special Packages' },
@@ -129,11 +129,11 @@ export function Footer({ siteSettings }: FooterProps = {}) {
           </div>
 
           {/* Company Column */}
-          <div>
-            <p className="section-label text-gold mb-5">
+          <div className="flex flex-col items-center md:items-start text-center md:text-left">
+            <p className="section-label text-gold mb-5 justify-center md:justify-start">
               About & Trust
             </p>
-            <ul className="list-none flex flex-col gap-2.5">
+            <ul className="list-none flex flex-col items-center md:items-start gap-2.5">
               {[
                 { href: '/about', label: 'About Us' },
                 { href: '/about#team', label: 'Founder & Guiding Team' },
@@ -154,33 +154,33 @@ export function Footer({ siteSettings }: FooterProps = {}) {
           </div>
 
           {/* Contact Column */}
-          <div>
-            <p className="section-label text-gold mb-5">
+          <div className="flex flex-col items-center md:items-start text-center md:text-left">
+            <p className="section-label text-gold mb-5 justify-center md:justify-start">
               Get in Touch
             </p>
-            <ul className="list-none flex flex-col gap-3.5">
+            <ul className="list-none flex flex-col items-center md:items-start gap-3.5">
               <li>
                 <a
                   href={`mailto:${email}`}
-                  className="flex items-start gap-2.5 text-sm text-ivory/65 hover:text-ivory transition-colors"
+                  className="flex items-center md:items-start justify-center md:justify-start gap-2.5 text-sm text-ivory/65 hover:text-ivory transition-colors"
                 >
-                  <Mail size={14} className="mt-0.5 shrink-0 text-gold" />
-                  {email}
+                  <Mail size={14} className="shrink-0 text-gold md:mt-0.5" />
+                  <span>{email}</span>
                 </a>
               </li>
               <li>
                 <a
                   href={`tel:${phone.replace(/\s+/g, '')}`}
-                  className="flex items-start gap-2.5 text-sm text-ivory/65 hover:text-ivory transition-colors"
+                  className="flex items-center md:items-start justify-center md:justify-start gap-2.5 text-sm text-ivory/65 hover:text-ivory transition-colors"
                 >
-                  <Phone size={14} className="mt-0.5 shrink-0 text-gold" />
-                  {phone}
+                  <Phone size={14} className="shrink-0 text-gold md:mt-0.5" />
+                  <span>{phone}</span>
                 </a>
               </li>
               <li>
-                <span className="flex items-start gap-2.5 text-sm text-ivory/65">
-                  <MapPin size={14} className="mt-0.5 shrink-0 text-gold" />
-                  {address}
+                <span className="flex items-start justify-center md:justify-start gap-1.5 sm:gap-2.5 text-sm text-ivory/65">
+                  <MapPin size={14} className="shrink-0 text-gold md:mt-0.5" />
+                  <span>{address}</span>
                 </span>
               </li>
             </ul>
@@ -195,7 +195,7 @@ export function Footer({ siteSettings }: FooterProps = {}) {
         </div>
 
         {/* Bottom Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-7">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-7 text-center md:text-left">
           <p className="text-xs text-ivory/70">
             © {currentYear} Anthony Holidays. All rights reserved.
           </p>
@@ -212,7 +212,7 @@ export function Footer({ siteSettings }: FooterProps = {}) {
             </a>
           </p>
 
-          <div className="flex gap-6">
+          <div className="flex gap-6 justify-center">
             {[
               { href: '/privacy-policy', label: 'Privacy Policy' },
               { href: '/terms-and-conditions', label: 'Terms & Conditions' },
