@@ -1,22 +1,9 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
 import { checkRateLimit } from "@/lib/rate-limit";
+import { sendEnquiryNotification, sendEnquiryThankYou } from "@/lib/email";
 
 const PAYLOAD_URL =
   process.env.BACKEND_URL || "http://localhost:3001";
-const resendApiKey = process.env.RESEND_API_KEY;
-const isResendConfigured = Boolean(
-  resendApiKey && !resendApiKey.startsWith("re_placeholder")
-);
-const resend = isResendConfigured ? new Resend(resendApiKey) : null;
-const COMPANY_EMAIL =
-  process.env.COMPANY_EMAIL ||
-  "anthonyholidaysdmc@gmail.com";
-const RESEND_FROM_EMAIL =
-  process.env.RESEND_FROM_EMAIL ||
-  "Anthony Holidays <notifications@anthonyholidays.com>";
-const WHATSAPP_NUMBER =
-  process.env.PUBLIC_WHATSAPP_NUMBER || "94703247929";
 
 export async function POST(req: Request) {
   try {
@@ -174,30 +161,36 @@ Submission Timestamp: ${new Date().toUTCString()}
 Record ID: ${savedInquiryId || "Pending DB"}
 `;
 
-    // 6. Resend Email Dispatch
-    if (resend) {
-      try {
-        // Notification to Company
-        await resend.emails.send({
-          from: RESEND_FROM_EMAIL,
-          to: COMPANY_EMAIL,
-          subject: `✨ New Journey Enquiry: ${fullName} (${country})`,
-          text: inquirySummary,
-        });
+    // 6. Email Dispatch (Admin Notification + Guest Thank-You Confirmation)
+    const enquiryPayload = {
+      fullName: fullName.trim(),
+      email: email.trim().toLowerCase(),
+      phone: phone.trim(),
+      country: country.trim(),
+      numberOfAdults: adultsCount,
+      numberOfChildren: kidsCount,
+      travellerCount: adultsCount + kidsCount,
+      arrivalDate,
+      departureDate,
+      selectedTour,
+      selectedSpecialPackage,
+      interests: data.interests,
+      destinations: data.destinations,
+      pace: data.pace,
+      budgetTier: data.budgetTier,
+      specialRequests: specialRequests || message,
+      message,
+      contactPreference: data.contactPreference,
+    };
 
-        // Automatic Confirmation to Guest
-        await resend.emails.send({
-          from: RESEND_FROM_EMAIL,
-          to: email,
-          subject: "Ayubowan - We have received your Sri Lanka journey enquiry",
-          text: `Dear ${fullName},\n\nThank you for reaching out to Anthony Holidays.\n\nWe have received your enquiry for ${adultsCount} adult(s)${kidsCount > 0 ? ` and ${kidsCount} child(ren)` : ""} arriving around ${arrivalDate || "your requested dates"}.\n\nA Licensed National Tourist Guide Lecturer from our team is reviewing your requirements and will get back to you within 24 hours with a thoughtful, tailor-made proposal.\n\nIf you prefer to chat with us immediately on WhatsApp, feel free to message our concierge at +${WHATSAPP_NUMBER}.\n\nWarmest regards from Sri Lanka,\nAnthony Holidays Team`,
-        });
-      } catch (emailErr) {
-        console.warn(
-          "Resend email dispatch error (check credentials):",
-          emailErr,
-        );
-      }
+    try {
+      // Send both guest thank-you and admin notification in parallel
+      await Promise.allSettled([
+        sendEnquiryThankYou(enquiryPayload),
+        sendEnquiryNotification(enquiryPayload),
+      ]);
+    } catch (emailErr) {
+      console.warn("Email dispatch error:", emailErr);
     }
 
     return NextResponse.json({

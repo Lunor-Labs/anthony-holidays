@@ -1,13 +1,9 @@
 import { NextResponse } from 'next/server'
-import { Resend } from 'resend'
 import { checkRateLimit } from '@/lib/rate-limit'
+import { sendContactNotification, sendContactThankYou } from '@/lib/email'
 
 const PAYLOAD_URL =
   process.env.BACKEND_URL || 'http://localhost:3001'
-const resendApiKey = process.env.RESEND_API_KEY
-const resend = resendApiKey && !resendApiKey.startsWith('re_placeholder') ? new Resend(resendApiKey) : null
-const COMPANY_EMAIL = process.env.COMPANY_EMAIL || 'anthonyholidaysdmc@gmail.com'
-const RESEND_FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'Anthony Holidays <notifications@anthonyholidays.com>'
 
 export async function POST(req: Request) {
   try {
@@ -92,18 +88,14 @@ export async function POST(req: Request) {
       console.warn('Failed to forward contact message to Payload backend:', dbErr)
     }
 
-    // 4. Send email notification if configured
-    if (resend) {
-      try {
-        await resend.emails.send({
-          from: RESEND_FROM_EMAIL,
-          to: COMPANY_EMAIL,
-          subject: `Contact Message: ${subject || 'New Note'} from ${name}`,
-          text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
-        })
-      } catch (err) {
-        console.warn('Resend contact dispatch error:', err)
-      }
+    // 4. Send email notification & thank-you confirmation
+    try {
+      await Promise.allSettled([
+        sendContactThankYou({ name, email, subject, message }),
+        sendContactNotification({ name, email, subject, message }),
+      ]);
+    } catch (err) {
+      console.warn('Contact email dispatch error:', err);
     }
 
     return NextResponse.redirect(new URL('/contact?submitted=true', req.url))
