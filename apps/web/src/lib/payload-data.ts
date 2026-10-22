@@ -73,10 +73,6 @@ export function getMediaUrl(media: any, fallback: string = DEFAULT_MEDIA.url): s
 
   if (!filename) return fallback
 
-  if (media.mimeType === 'image/webp' && !/\.webp$/i.test(filename)) {
-    filename = filename.replace(/\.[^.]+$/, '.webp')
-  }
-
   return `/media/${filename}`
 }
 
