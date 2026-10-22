@@ -19,6 +19,10 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'cms.anthonyholidays.com',
+      },
+      {
+        protocol: 'https',
         hostname: '**',
       },
       {

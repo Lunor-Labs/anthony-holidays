@@ -36,50 +36,66 @@ async function fetchFromPayload<T>(endpoint: string, revalidate: number = 60): P
   }
 }
 
-/**
- * Helper to extract an image URL from Payload Media relation or fallback string
- */
 export function getMediaUrl(media: any, fallback: string = DEFAULT_MEDIA.url): string {
   if (!media) return fallback
-  let rawUrl = ''
+
+  let filename = ''
   let updatedAt: string | undefined
 
   if (typeof media === 'string') {
-    rawUrl = media
-  } else if (typeof media === 'object') {
-    if (media.filename) {
-      rawUrl = `/media/${media.filename}`
-    } else if (media.url) {
-      rawUrl = media.url
+    // Raw string — could be a full URL or a relative path
+    if (media.startsWith('http://') || media.startsWith('https://')) {
+      // Extract just the pathname so it goes through the Next.js rewrite proxy
+      try {
+        const parsed = new URL(media)
+        // e.g. /media/IMG-20261021-WA0057-1.jpg  →  keep as-is
+        return parsed.pathname
+      } catch {
+        return fallback
+      }
     }
-    if (media.updatedAt) {
-      updatedAt = media.updatedAt
+    // Already a relative path like /media/foo.jpg
+    return media || fallback
+  }
+
+  if (typeof media !== 'object') return fallback
+
+  // Prefer the filename field (direct static file reference)
+  if (media.filename) {
+    filename = media.filename
+  } else if (media.url) {
+    // Strip the origin so we get a relative path
+    try {
+      const parsed = new URL(media.url)
+      filename = parsed.pathname.replace('/media/', '')
+    } catch {
+      filename = media.url.replace(/^\/media\//, '')
     }
-  } else {
-    return fallback
   }
 
-  // Convert Payload REST /api/media/file/ to direct static /media/
-  if (rawUrl.includes('/api/media/file/')) {
-    rawUrl = rawUrl.replace('/api/media/file/', '/media/')
+  if (media.updatedAt) {
+    updatedAt = media.updatedAt
   }
 
-  let fullUrl = rawUrl
-  if (fullUrl.startsWith('/')) {
-    fullUrl = `${PAYLOAD_API_URL}${fullUrl}`
-  } else if (!fullUrl.startsWith('http://') && !fullUrl.startsWith('https://')) {
-    fullUrl = `${PAYLOAD_API_URL}/media/${fullUrl}`
+  if (!filename) return fallback
+
+  if (
+    media.mimeType === 'image/webp' &&
+    !/\.webp$/i.test(filename)
+  ) {
+    filename = filename.replace(/\.[^.]+$/, '.webp')
   }
 
-  // Cache busting query string to invalidate stale browser & Next.js image cache
+  let relativeUrl = `/media/${filename}`
+
   if (updatedAt) {
     const t = new Date(updatedAt).getTime()
-    if (!isNaN(t) && !fullUrl.includes('?v=')) {
-      fullUrl = `${fullUrl}?v=${t}`
+    if (!isNaN(t)) {
+      relativeUrl = `${relativeUrl}?v=${t}`
     }
   }
 
-  return fullUrl
+  return relativeUrl
 }
 
 /**

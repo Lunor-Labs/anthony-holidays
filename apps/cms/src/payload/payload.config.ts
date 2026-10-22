@@ -73,7 +73,7 @@ export default buildConfig({
   }),
   upload: {
     limits: {
-      fileSize: 10000000, // 10MB
+      fileSize: 20000000, // 20MB — allows high-res DSLR/RAW photos before WebP compression
     },
   },
   cors: allowedOrigins,
