@@ -1,5 +1,12 @@
 import type { NextConfig } from 'next'
 import path from 'path'
+const isProd = process.env.NODE_ENV === 'production'
+const defaultBackendUrl = isProd
+  ? 'https://cms.anthonyholidays.com'
+  : 'http://localhost:3001'
+const defaultFrontendUrl = isProd
+  ? 'https://dev.anthonyholidays.com'
+  : 'http://localhost:3000'
 
 const nextConfig: NextConfig = {
   turbopack: {
@@ -51,14 +58,14 @@ const nextConfig: NextConfig = {
     ],
   },
   env: {
-    FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:3000',
-    BACKEND_URL: process.env.BACKEND_URL || 'http://localhost:3001',
+    FRONTEND_URL: process.env.FRONTEND_URL || defaultFrontendUrl,
+    BACKEND_URL: process.env.BACKEND_URL || defaultBackendUrl,
     PUBLIC_WHATSAPP_NUMBER: process.env.PUBLIC_WHATSAPP_NUMBER || '94703247929',
     PUBLIC_PHONE_NUMBER: process.env.PUBLIC_PHONE_NUMBER || '+94 70 324 7929',
   },
   async redirects() {
     const payloadUrl =
-      process.env.BACKEND_URL || 'http://localhost:3001'
+      process.env.BACKEND_URL || defaultBackendUrl
     return [
       {
         source: '/admin',
@@ -74,7 +81,7 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     const payloadUrl =
-      process.env.BACKEND_URL || 'http://localhost:3001'
+      process.env.BACKEND_URL || defaultBackendUrl
     return [
       {
         source: '/api/media/:path*',

@@ -6,18 +6,23 @@ export const DEFAULT_MEDIA = {
   alt: 'Anthony Holidays Ceylon Travel',
 }
 
+const DEFAULT_BACKEND_URL =
+  process.env.NODE_ENV === 'production'
+    ? 'https://cms.anthonyholidays.com'
+    : 'http://localhost:3001'
+
 export const BACKEND_URL =
-  process.env.BACKEND_URL || 'http://localhost:3001'
+  process.env.BACKEND_URL || DEFAULT_BACKEND_URL
 export const PAYLOAD_API_URL = BACKEND_URL
 
 /**
  * Universal helper to execute cached REST requests against Payload CMS backend.
- * Falls back silently on network timeout or connection refused.
+ * Falls back safely on network timeout or connection refused, with console logging.
  */
 async function fetchFromPayload<T>(endpoint: string, revalidate: number = 60): Promise<T | null> {
+  const isDev = process.env.NODE_ENV === 'development'
+  const url = `${PAYLOAD_API_URL}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`
   try {
-    const isDev = process.env.NODE_ENV === 'development'
-    const url = `${PAYLOAD_API_URL}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`
     const res = await fetch(url, {
       cache: isDev ? 'no-store' : 'default',
       next: isDev ? undefined : { revalidate },
@@ -27,11 +32,13 @@ async function fetchFromPayload<T>(endpoint: string, revalidate: number = 60): P
     })
 
     if (!res.ok) {
+      console.error(`[fetchFromPayload] ${res.status} ${res.statusText} for URL: ${url}`)
       return null
     }
 
     return (await res.json()) as T
-  } catch {
+  } catch (err) {
+    console.error(`[fetchFromPayload] Network error fetching ${url}:`, err)
     return null
   }
 }

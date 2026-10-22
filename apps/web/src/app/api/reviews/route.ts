@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
 import { checkRateLimit } from "@/lib/rate-limit";
-import { getReviews } from "@/lib/payload-data";
+import { getReviews, BACKEND_URL } from "@/lib/payload-data";
 
-const PAYLOAD_URL =
-  process.env.BACKEND_URL || "http://localhost:3001";
+const PAYLOAD_URL = BACKEND_URL;
 
 export async function GET() {
   try {

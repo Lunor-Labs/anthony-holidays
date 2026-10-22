@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { sendEnquiryNotification, sendEnquiryThankYou } from "@/lib/email";
+import { BACKEND_URL } from "@/lib/payload-data";
 
-const PAYLOAD_URL =
-  process.env.BACKEND_URL || "http://localhost:3001";
+const PAYLOAD_URL = BACKEND_URL;
 
 export async function POST(req: Request) {
   try {
