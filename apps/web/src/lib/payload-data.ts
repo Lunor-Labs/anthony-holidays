@@ -40,7 +40,6 @@ export function getMediaUrl(media: any, fallback: string = DEFAULT_MEDIA.url): s
   if (!media) return fallback
 
   let filename = ''
-  let updatedAt: string | undefined
 
   if (typeof media === 'string') {
     // Raw string — could be a full URL or a relative path
@@ -48,7 +47,6 @@ export function getMediaUrl(media: any, fallback: string = DEFAULT_MEDIA.url): s
       // Extract just the pathname so it goes through the Next.js rewrite proxy
       try {
         const parsed = new URL(media)
-        // e.g. /media/IMG-20261021-WA0057-1.jpg  →  keep as-is
         return parsed.pathname
       } catch {
         return fallback
@@ -73,29 +71,13 @@ export function getMediaUrl(media: any, fallback: string = DEFAULT_MEDIA.url): s
     }
   }
 
-  if (media.updatedAt) {
-    updatedAt = media.updatedAt
-  }
-
   if (!filename) return fallback
 
-  if (
-    media.mimeType === 'image/webp' &&
-    !/\.webp$/i.test(filename)
-  ) {
+  if (media.mimeType === 'image/webp' && !/\.webp$/i.test(filename)) {
     filename = filename.replace(/\.[^.]+$/, '.webp')
   }
 
-  let relativeUrl = `/media/${filename}`
-
-  if (updatedAt) {
-    const t = new Date(updatedAt).getTime()
-    if (!isNaN(t)) {
-      relativeUrl = `${relativeUrl}?v=${t}`
-    }
-  }
-
-  return relativeUrl
+  return `/media/${filename}`
 }
 
 /**

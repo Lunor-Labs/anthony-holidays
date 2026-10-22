@@ -17,14 +17,8 @@ const nextConfig: NextConfig = {
     deviceSizes: [390, 640, 828, 1080, 1280, 1440, 1920],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     localPatterns: [
-      {
-        pathname: '/media/**',
-        search: '*',
-      },
-      {
-        pathname: '/images/**',
-        search: '',
-      },
+      { pathname: '/media/**' },
+      { pathname: '/images/**' },
     ],
     remotePatterns: [
       {
