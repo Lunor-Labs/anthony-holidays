@@ -44,13 +44,25 @@ export function getMediaUrl(media: any, fallback: string = DEFAULT_MEDIA.url): s
   if (typeof media === 'string') {
     // Raw string — could be a full URL or a relative path
     if (media.startsWith('http://') || media.startsWith('https://')) {
-      // Extract just the pathname so it goes through the Next.js rewrite proxy
       try {
         const parsed = new URL(media)
+        if (parsed.pathname.startsWith('/api/media/file/')) {
+          const raw = parsed.pathname.slice('/api/media/file/'.length)
+          return `/media/${decodeURIComponent(raw)}`
+        }
+        if (parsed.pathname.startsWith('/media/')) {
+          const raw = parsed.pathname.slice('/media/'.length)
+          return `/media/${decodeURIComponent(raw)}`
+        }
         return parsed.pathname
       } catch {
         return fallback
       }
+    }
+    // Handle relative /api/media/file/ path
+    if (media.startsWith('/api/media/file/')) {
+      const raw = media.slice('/api/media/file/'.length)
+      return `/media/${decodeURIComponent(raw)}`
     }
     // Already a relative path like /media/foo.jpg
     return media || fallback
@@ -58,16 +70,17 @@ export function getMediaUrl(media: any, fallback: string = DEFAULT_MEDIA.url): s
 
   if (typeof media !== 'object') return fallback
 
-  // Prefer the filename field (direct static file reference)
+  // Prefer the filename field (direct file reference)
   if (media.filename) {
     filename = media.filename
   } else if (media.url) {
-    // Strip the origin so we get a relative path
     try {
       const parsed = new URL(media.url)
-      filename = parsed.pathname.replace('/media/', '')
+      const clean = parsed.pathname.replace(/^\/api\/media\/file\//, '').replace(/^\/media\//, '')
+      filename = decodeURIComponent(clean)
     } catch {
-      filename = media.url.replace(/^\/media\//, '')
+      const clean = media.url.replace(/^\/api\/media\/file\//, '').replace(/^\/media\//, '')
+      filename = decodeURIComponent(clean)
     }
   }
 

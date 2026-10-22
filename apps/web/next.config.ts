@@ -19,6 +19,7 @@ const nextConfig: NextConfig = {
     localPatterns: [
       { pathname: '/media/**' },
       { pathname: '/images/**' },
+      { pathname: '/api/media/**' },
     ],
     remotePatterns: [
       {
@@ -81,7 +82,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: '/media/:path*',
-        destination: `${payloadUrl}/media/:path*`,
+        destination: `${payloadUrl}/api/media/file/:path*`,
       },
     ]
   },

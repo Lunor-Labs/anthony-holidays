@@ -20,12 +20,22 @@ server {
     gzip on;
     gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript image/svg+xml;
 
-    # Payload Static Media Uploads (Direct file serving by Nginx for speed)
+    # Payload Static Media Uploads (Direct file serving by Nginx with fallback to Payload's API)
     location /media/ {
-        alias /var/www/anthony-holidays/apps/cms/public/media/;
+        root /var/www/anthony-holidays/apps/cms/public;
         expires 30d;
         add_header Cache-Control "public, no-transform, immutable";
-        try_files $uri @proxy;
+        try_files $uri @media_fallback;
+    }
+
+    location @media_fallback {
+        rewrite ^/media/(.*)$ /api/media/file/$1 break;
+        proxy_pass http://127.0.0.1:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 
     # Proxy to Payload CMS Node.js process (PM2 port 3001)
