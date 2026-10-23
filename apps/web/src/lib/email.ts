@@ -1,20 +1,15 @@
 /**
  * Transactional Email Service for Anthony Holidays
- * Supports MailerSend (primary) with Resend (fallback).
+ * Uses Resend REST API directly (no SDK) for reliable delivery in Next.js.
  */
 
-const MAILERSEND_API_KEY =
-  process.env.MAILERSEND_API_KEY ||
-  process.env.MAILERSEND_API_TOKEN ||
-  "";
+const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
 
-const MAILERSEND_FROM_EMAIL =
-  process.env.MAILERSEND_FROM_EMAIL ||
-  process.env.FROM_EMAIL ||
-  "noreply@team.anthonyholidays.com";
+const FROM_EMAIL =
+  process.env.RESEND_FROM_EMAIL || "noreply@team.anthonyholidays.com";
 
-const MAILERSEND_FROM_NAME =
-  process.env.MAILERSEND_FROM_NAME || "Anthony Holidays";
+const FROM_NAME =
+  process.env.RESEND_FROM_NAME || "Anthony Holidays";
 
 function getCompanyEmails(): string[] {
   const raw =
@@ -57,82 +52,52 @@ export interface SendEmailOptions {
 }
 
 /**
- * Universal email dispatcher
+ * Universal email dispatcher — calls Resend REST API directly via fetch.
+ * Avoids the Resend SDK's internal fetch wrapper which can conflict with
  */
 export async function sendEmail(opts: SendEmailOptions): Promise<{ success: boolean; error?: string }> {
-  // 1. Try MailerSend
-  if (MAILERSEND_API_KEY) {
-    try {
-      const payload: Record<string, unknown> = {
-        from: {
-          email: MAILERSEND_FROM_EMAIL,
-          name: MAILERSEND_FROM_NAME,
-        },
-        to: [
-          {
-            email: opts.to,
-            name: opts.toName || opts.to.split("@")[0],
-          },
-        ],
-        subject: opts.subject,
-        html: opts.html,
-        text: opts.text,
-      };
-
-      if (opts.replyTo) {
-        payload.reply_to = {
-          email: opts.replyTo,
-          name: opts.replyToName || opts.replyTo,
-        };
-      }
-
-      const res = await fetch("https://api.mailersend.com/v1/email", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${MAILERSEND_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (res.ok || res.status === 202) {
-        return { success: true };
-      }
-
-      const errorText = await res.text();
-      console.error(`MailerSend dispatch failed (status ${res.status}):`, errorText);
-      return { success: false, error: errorText };
-    } catch (err: unknown) {
-      const errMsg = err instanceof Error ? err.message : String(err);
-      console.error("MailerSend network error:", errMsg);
-      return { success: false, error: errMsg };
-    }
+  if (!RESEND_API_KEY) {
+    console.warn("No email service configured: RESEND_API_KEY is missing.");
+    return { success: false, error: "No email provider configured" };
   }
 
-  // 2. Fallback to Resend if configured
-  const resendApiKey = process.env.RESEND_API_KEY;
-  if (resendApiKey && !resendApiKey.startsWith("re_placeholder")) {
-    try {
-      const { Resend } = await import("resend");
-      const resend = new Resend(resendApiKey);
-      await resend.emails.send({
-        from: `${MAILERSEND_FROM_NAME} <${process.env.RESEND_FROM_EMAIL || MAILERSEND_FROM_EMAIL}>`,
-        to: opts.to,
-        subject: opts.subject,
-        html: opts.html,
-        text: opts.text,
-        replyTo: opts.replyTo,
-      });
+  const payload: Record<string, unknown> = {
+    from: `${FROM_NAME} <${FROM_EMAIL}>`,
+    to: [opts.to],
+    subject: opts.subject,
+    html: opts.html,
+    text: opts.text,
+  };
+
+  if (opts.replyTo) {
+    payload.reply_to = opts.replyToName
+      ? `${opts.replyToName} <${opts.replyTo}>`
+      : opts.replyTo;
+  }
+
+  try {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+      cache: "no-store",
+    });
+
+    if (res.ok) {
       return { success: true };
-    } catch (err: unknown) {
-      const errMsg = err instanceof Error ? err.message : String(err);
-      console.error("Resend fallback dispatch error:", errMsg);
-      return { success: false, error: errMsg };
     }
-  }
 
-  console.warn("No email service configured (MAILERSEND_API_KEY or RESEND_API_KEY missing).");
-  return { success: false, error: "No email provider configured" };
+    const errorBody = await res.text();
+    console.error(`Resend API error (status ${res.status}):`, errorBody);
+    return { success: false, error: `Resend ${res.status}: ${errorBody}` };
+  } catch (err: unknown) {
+    const errMsg = err instanceof Error ? err.message : String(err);
+    console.error("Resend fetch error:", errMsg);
+    return { success: false, error: errMsg };
+  }
 }
 
 export interface EnquiryData {
