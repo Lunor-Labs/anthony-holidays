@@ -13,11 +13,14 @@ import {
   Quote,
   ChevronRight,
 } from "lucide-react";
+import { TurnstileWidget, TurnstileWidgetRef } from "@/components/ui/TurnstileWidget";
+import { getRecaptchaToken } from "@/lib/recaptcha-client";
 
 export function ReviewsWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"write" | "read">("write");
   const drawerRef = useRef<HTMLDivElement>(null);
+  const turnstileWidgetRef = useRef<TurnstileWidgetRef>(null);
 
   const [rating, setRating] = useState<number>(5);
   const [hoverRating, setHoverRating] = useState<number>(0);
@@ -26,6 +29,7 @@ export function ReviewsWidget() {
   const [tourName, setTourName] = useState<string>("");
   const [reviewText, setReviewText] = useState<string>("");
   const [websiteTrap, setWebsiteTrap] = useState<string>("");
+  const [turnstileToken, setTurnstileToken] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -83,9 +87,17 @@ export function ReviewsWidget() {
       return;
     }
 
+    if (!turnstileToken) {
+      setErrorMessage("Please complete the security check before submitting.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
+      // Execute Google reCAPTCHA v3
+      const recaptchaToken = await getRecaptchaToken("review_submission");
+
       const res = await fetch("/api/reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -96,6 +108,8 @@ export function ReviewsWidget() {
           tourName: tourName.trim() || undefined,
           reviewText: reviewText.trim(),
           website_trap: websiteTrap,
+          cf_turnstile_response: turnstileToken,
+          g_recaptcha_response: recaptchaToken,
         }),
       });
 
@@ -110,6 +124,8 @@ export function ReviewsWidget() {
       setErrorMessage(
         err.message || "An error occurred while submitting your review.",
       );
+      turnstileWidgetRef.current?.reset();
+      setTurnstileToken("");
     } finally {
       setIsSubmitting(false);
     }
@@ -123,6 +139,8 @@ export function ReviewsWidget() {
     setReviewText("");
     setRating(5);
     setErrorMessage("");
+    setTurnstileToken("");
+    turnstileWidgetRef.current?.reset();
   };
 
   const ratingLabels: { [key: number]: string } = {
@@ -421,10 +439,17 @@ export function ReviewsWidget() {
                     </p>
                   </div>
 
+                  {/* Cloudflare Turnstile */}
+                  <TurnstileWidget
+                    ref={turnstileWidgetRef}
+                    onVerify={(token) => setTurnstileToken(token)}
+                    onExpire={() => setTurnstileToken("")}
+                  />
+
                   <button
                     type="submit"
-                    disabled={isSubmitting}
-                    className="btn btn-gold w-full justify-center py-3.5 cursor-pointer text-sm shadow-md"
+                    disabled={isSubmitting || !turnstileToken}
+                    className="btn btn-gold w-full justify-center py-3.5 cursor-pointer text-sm shadow-md disabled:opacity-50"
                   >
                     {isSubmitting ? (
                       "Submitting Reflection…"

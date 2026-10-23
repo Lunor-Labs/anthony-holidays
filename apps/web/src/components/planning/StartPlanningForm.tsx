@@ -2,11 +2,14 @@
 
 import React, { useState } from 'react'
 import { Check, ArrowRight, ArrowLeft, Send, Sparkles } from 'lucide-react'
+import { TurnstileWidget } from '@/components/ui/TurnstileWidget'
+import { getRecaptchaToken } from '@/lib/recaptcha-client'
 
 export function StartPlanningForm({ preselectedTour = '' }: { preselectedTour?: string }) {
   const [step, setStep] = useState(1)
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState('')
+  const [turnstileToken, setTurnstileToken] = useState('')
 
   const [formData, setFormData] = useState({
     // Step 1: Traveller
@@ -78,11 +81,18 @@ export function StartPlanningForm({ preselectedTour = '' }: { preselectedTour?: 
       alert('Please agree to the privacy terms to submit your inquiry.')
       return
     }
+    if (!turnstileToken) {
+      alert('Please complete the security check before submitting.')
+      return
+    }
 
     setStatus('submitting')
     setErrorMessage('')
 
     try {
+      // Execute Google reCAPTCHA v3
+      const recaptchaToken = await getRecaptchaToken('enquiry_submission')
+
       const res = await fetch('/api/enquiries', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -106,6 +116,8 @@ export function StartPlanningForm({ preselectedTour = '' }: { preselectedTour?: 
           budgetTier: formData.budgetTier,
           privacyConsent: formData.consent,
           website_trap: websiteTrap,
+          cf_turnstile_response: turnstileToken,
+          g_recaptcha_response: recaptchaToken,
         }),
       })
 
@@ -591,6 +603,12 @@ export function StartPlanningForm({ preselectedTour = '' }: { preselectedTour?: 
                 {errorMessage}
               </div>
             )}
+
+            {/* Cloudflare Turnstile Widget */}
+            <TurnstileWidget
+              onVerify={(token) => setTurnstileToken(token)}
+              onExpire={() => setTurnstileToken('')}
+            />
 
             <div className="pt-6 flex justify-between items-center">
               <button

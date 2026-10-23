@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import { Cinzel, Montserrat } from 'next/font/google'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
@@ -132,6 +133,12 @@ export default async function RootLayout({
           <ScrollToTop />
           <ReviewsWidget />
         </SmoothScrollProvider>
+        {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && (
+          <Script
+            src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+            strategy="afterInteractive"
+          />
+        )}
       </body>
     </html>
   )

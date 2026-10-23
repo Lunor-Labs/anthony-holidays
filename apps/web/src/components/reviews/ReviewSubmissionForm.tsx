@@ -1,7 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Star, Send, ShieldCheck, CheckCircle2, AlertCircle } from 'lucide-react'
+import { TurnstileWidget, TurnstileWidgetRef } from '@/components/ui/TurnstileWidget'
+import { getRecaptchaToken } from '@/lib/recaptcha-client'
 
 export function ReviewSubmissionForm() {
   const [rating, setRating] = useState<number>(5)
@@ -11,9 +13,11 @@ export function ReviewSubmissionForm() {
   const [tourName, setTourName] = useState<string>('')
   const [reviewText, setReviewText] = useState<string>('')
   const [websiteTrap, setWebsiteTrap] = useState<string>('') // Honeypot
+  const [turnstileToken, setTurnstileToken] = useState<string>('')
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
   const [submitted, setSubmitted] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string>('')
+  const turnstileWidgetRef = useRef<TurnstileWidgetRef>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -29,9 +33,17 @@ export function ReviewSubmissionForm() {
       return
     }
 
+    if (!turnstileToken) {
+      setErrorMessage('Please complete the security check before submitting.')
+      return
+    }
+
     setIsSubmitting(true)
 
     try {
+      // Execute Google reCAPTCHA v3
+      const recaptchaToken = await getRecaptchaToken('review_submission')
+
       const res = await fetch('/api/reviews', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -42,6 +54,8 @@ export function ReviewSubmissionForm() {
           tourName,
           reviewText,
           website_trap: websiteTrap,
+          cf_turnstile_response: turnstileToken,
+          g_recaptcha_response: recaptchaToken,
         }),
       })
 
@@ -54,6 +68,8 @@ export function ReviewSubmissionForm() {
       setSubmitted(true)
     } catch (err: any) {
       setErrorMessage(err.message || 'An error occurred while submitting your review.')
+      turnstileWidgetRef.current?.reset()
+      setTurnstileToken('')
     } finally {
       setIsSubmitting(false)
     }
@@ -78,6 +94,8 @@ export function ReviewSubmissionForm() {
             setReviewText('')
             setCountry('')
             setTourName('')
+            setTurnstileToken('')
+            turnstileWidgetRef.current?.reset()
           }}
           className="btn btn-outline text-xs"
         >
@@ -98,14 +116,14 @@ export function ReviewSubmissionForm() {
       </div>
 
       {errorMessage && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
-          <AlertCircle size={15} className="shrink-0" />
+        <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2 rounded-xs">
+          <AlertCircle size={16} className="shrink-0" />
           <span>{errorMessage}</span>
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Honeypot field (hidden from genuine users) */}
+        {/* Honeypot anti-bot trap */}
         <div className="hidden" aria-hidden="true">
           <input
             type="text"
@@ -117,45 +135,47 @@ export function ReviewSubmissionForm() {
           />
         </div>
 
-        {/* Interactive Star Rating */}
+        {/* Star Rating */}
         <div>
           <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal mb-2">
-            Your Rating *
+            Overall Rating *
           </label>
           <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <button
-                  type="button"
-                  key={star}
-                  onClick={() => setRating(star)}
-                  onMouseEnter={() => setHoverRating(star)}
-                  onMouseLeave={() => setHoverRating(0)}
-                  className="p-1 text-gold cursor-pointer transition-transform hover:scale-110 focus:outline-none"
-                  aria-label={`${star} star rating`}
-                >
-                  <Star
-                    size={28}
-                    className={
-                      star <= (hoverRating || rating)
-                        ? 'fill-gold text-gold'
-                        : 'text-cream stroke-1'
-                    }
-                  />
-                </button>
-              ))}
-            </div>
-            <span className="text-xs font-medium text-stone ml-2">
-              {rating} of 5 Stars
+            {[1, 2, 3, 4, 5].map((star) => (
+              <button
+                type="button"
+                key={star}
+                onClick={() => setRating(star)}
+                onMouseEnter={() => setHoverRating(star)}
+                onMouseLeave={() => setHoverRating(0)}
+                className="p-1 cursor-pointer transition-transform hover:scale-115"
+                aria-label={`${star} star`}
+              >
+                <Star
+                  size={24}
+                  className={
+                    star <= (hoverRating || rating)
+                      ? 'fill-gold text-gold'
+                      : 'text-sand stroke-1'
+                  }
+                />
+              </button>
+            ))}
+            <span className="text-xs text-stone ml-2 font-serif italic">
+              {rating === 5 && 'Truly Exceptional'}
+              {rating === 4 && 'Very Good'}
+              {rating === 3 && 'Average'}
+              {rating === 2 && 'Below Expectation'}
+              {rating === 1 && 'Unsatisfactory'}
             </span>
           </div>
         </div>
 
-        {/* Name and Country */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Guest Name & Country */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal mb-1.5">
-              Full Name or Display Name *
+              Your Name / Alias *
             </label>
             <input
               type="text"
@@ -173,7 +193,7 @@ export function ReviewSubmissionForm() {
             </label>
             <input
               type="text"
-              placeholder="e.g. United Kingdom, Australia"
+              placeholder="e.g. United Kingdom"
               value={country}
               onChange={(e) => setCountry(e.target.value)}
               className="w-full px-4 py-2.5 border border-cream font-sans text-sm text-charcoal outline-none focus:border-forest transition-colors"
@@ -181,10 +201,10 @@ export function ReviewSubmissionForm() {
           </div>
         </div>
 
-        {/* Tour / Package Taken */}
+        {/* Tour Name */}
         <div>
           <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal mb-1.5">
-            Tour or Package Experienced (Optional)
+            Tour / Journey Taken (Optional)
           </label>
           <input
             type="text"
@@ -218,10 +238,17 @@ export function ReviewSubmissionForm() {
           </span>
         </div>
 
+        {/* Cloudflare Turnstile */}
+        <TurnstileWidget
+          ref={turnstileWidgetRef}
+          onVerify={(token) => setTurnstileToken(token)}
+          onExpire={() => setTurnstileToken('')}
+        />
+
         <button
           type="submit"
-          disabled={isSubmitting}
-          className="btn btn-primary w-full justify-center text-center py-3"
+          disabled={isSubmitting || !turnstileToken}
+          className="btn btn-primary w-full justify-center text-center py-3 disabled:opacity-50"
         >
           {isSubmitting ? (
             'Submitting for Moderation…'

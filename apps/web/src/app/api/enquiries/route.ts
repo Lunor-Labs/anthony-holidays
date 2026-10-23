@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { sendEnquiryNotification, sendEnquiryThankYou } from "@/lib/email";
 import { BACKEND_URL } from "@/lib/payload-data";
+import { verifyTurnstile } from "@/lib/turnstile";
+import { verifyRecaptcha } from "@/lib/recaptcha";
 
 const PAYLOAD_URL = BACKEND_URL;
 
@@ -35,7 +37,28 @@ export async function POST(req: Request) {
       });
     }
 
-    // 3. Server-side Validation
+    // 3. Cloudflare Turnstile verification
+    const turnstile = await verifyTurnstile(data.cf_turnstile_response);
+    if (!turnstile.success) {
+      return NextResponse.json(
+        { error: "Security verification (Turnstile) failed. Please refresh and try again." },
+        { status: 403 },
+      );
+    }
+
+    // 4. Google reCAPTCHA v3 verification
+    const recaptcha = await verifyRecaptcha(
+      data.g_recaptcha_response || data.recaptcha_token,
+      "enquiry_submission",
+    );
+    if (!recaptcha.success) {
+      return NextResponse.json(
+        { error: "Security verification (reCAPTCHA) failed. Please refresh and try again." },
+        { status: 403 },
+      );
+    }
+
+    // 5. Server-side Validation
     const {
       fullName,
       email,
@@ -96,7 +119,7 @@ export async function POST(req: Request) {
     const adultsCount = Number(numberOfAdults || travellerCount || 2);
     const kidsCount = Number(numberOfChildren || 0);
 
-    // 4. Save to Payload CMS via REST API
+    // 5. Save to Payload CMS via REST API
     let savedInquiryId: string | number | null = null;
     try {
       const response = await fetch(`${PAYLOAD_URL}/api/inquiries`, {
@@ -133,7 +156,7 @@ export async function POST(req: Request) {
       console.warn("Payload CMS REST inquiry persistence error:", dbErr);
     }
 
-    // 5. Format notification summaries
+    // 6. Format notification summaries
     const inquirySummary = `
 New Journey Enquiry received on Anthony Holidays:
 --------------------------------------------------
@@ -161,7 +184,7 @@ Submission Timestamp: ${new Date().toUTCString()}
 Record ID: ${savedInquiryId || "Pending DB"}
 `;
 
-    // 6. Email Dispatch (Admin Notification + Guest Thank-You Confirmation)
+    // 7. Email Dispatch (Admin Notification + Guest Thank-You Confirmation)
     const enquiryPayload = {
       fullName: fullName.trim(),
       email: email.trim().toLowerCase(),

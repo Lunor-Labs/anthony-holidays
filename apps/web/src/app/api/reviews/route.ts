@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { getReviews, BACKEND_URL } from "@/lib/payload-data";
+import { verifyTurnstile } from "@/lib/turnstile";
+import { verifyRecaptcha } from "@/lib/recaptcha";
 
 const PAYLOAD_URL = BACKEND_URL;
 
@@ -41,7 +43,28 @@ export async function POST(req: Request) {
       });
     }
 
-    // 3. Validation
+    // 3. Cloudflare Turnstile verification
+    const turnstile = await verifyTurnstile(data.cf_turnstile_response);
+    if (!turnstile.success) {
+      return NextResponse.json(
+        { error: "Security verification (Turnstile) failed. Please refresh and try again." },
+        { status: 403 },
+      );
+    }
+
+    // 4. Google reCAPTCHA v3 verification
+    const recaptcha = await verifyRecaptcha(
+      data.g_recaptcha_response || data.recaptcha_token,
+      "review_submission",
+    );
+    if (!recaptcha.success) {
+      return NextResponse.json(
+        { error: "Security verification (reCAPTCHA) failed. Please refresh and try again." },
+        { status: 403 },
+      );
+    }
+
+    // 5. Validation
     const { guestName, country, rating, reviewText, tourName } = data;
 
     if (!guestName || typeof guestName !== "string" || guestName.trim().length < 2) {

@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 import { checkRateLimit } from '@/lib/rate-limit'
 import { sendContactNotification, sendContactThankYou } from '@/lib/email'
 import { BACKEND_URL } from '@/lib/payload-data'
+import { verifyTurnstile } from '@/lib/turnstile'
+import { verifyRecaptcha } from '@/lib/recaptcha'
 
 const PAYLOAD_URL = BACKEND_URL
 
@@ -27,6 +29,8 @@ export async function POST(req: Request) {
     let subject = ''
     let message = ''
     let botTrap = ''
+    let turnstileToken = ''
+    let recaptchaToken = ''
 
     if (contentType.includes('application/json')) {
       const data = await req.json()
@@ -35,6 +39,8 @@ export async function POST(req: Request) {
       subject = data.subject || ''
       message = data.message || ''
       botTrap = data.website_trap || data.honeypot || data.bot_field || ''
+      turnstileToken = data.cf_turnstile_response || ''
+      recaptchaToken = data.g_recaptcha_response || data.recaptcha_token || ''
     } else {
       const formData = await req.formData()
       name = (formData.get('name') as string) || ''
@@ -46,11 +52,31 @@ export async function POST(req: Request) {
         (formData.get('honeypot') as string) ||
         (formData.get('bot_field') as string) ||
         ''
+      turnstileToken = (formData.get('cf-turnstile-response') as string) || (formData.get('cf_turnstile_response') as string) || ''
+      recaptchaToken = (formData.get('g-recaptcha-response') as string) || (formData.get('recaptcha_token') as string) || ''
     }
 
     // 2. Honeypot check for bots
     if (botTrap) {
       return NextResponse.redirect(new URL('/contact?submitted=true', req.url))
+    }
+
+    // 3. Cloudflare Turnstile verification
+    const turnstile = await verifyTurnstile(turnstileToken)
+    if (!turnstile.success) {
+      return NextResponse.json(
+        { error: 'Security verification (Turnstile) failed. Please refresh and try again.' },
+        { status: 403 }
+      )
+    }
+
+    // 4. Google reCAPTCHA v3 verification
+    const recaptcha = await verifyRecaptcha(recaptchaToken, 'contact_submission')
+    if (!recaptcha.success) {
+      return NextResponse.json(
+        { error: 'Security verification (reCAPTCHA) failed. Please refresh and try again.' },
+        { status: 403 }
+      )
     }
 
     name = name.trim()

@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { Mail, Phone, MapPin, Clock, MessageSquare, Send } from 'lucide-react'
+import { Mail, Phone, MapPin, Clock, MessageSquare } from 'lucide-react'
 import { getWhatsAppUrl } from '@/lib/utils'
 import { getSiteSettings } from '@/lib/payload-data'
 import { PageHero } from '@/components/ui/PageHero'
+import { ContactForm } from '@/components/layout/ContactForm'
 
 export const metadata: Metadata = {
   title: 'Contact Us - Anthony Holidays Sri Lanka',
@@ -211,75 +212,7 @@ export default async function ContactPage() {
 
             {/* Quick Contact Form */}
             <div className="lg:col-span-7">
-              <div className="bg-white p-8 md:p-10 border border-cream shadow-sm">
-                <span className="section-label text-gold block mb-2">Send a Message</span>
-                <h2 className="font-serif text-2xl md:text-3xl text-charcoal mb-6">
-                  Online Enquiry
-                </h2>
-
-                <form action="/api/contact" method="POST" className="space-y-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal mb-2">
-                        Your Full Name *
-                      </label>
-                      <input
-                        type="text"
-                        name="name"
-                        required
-                        placeholder="e.g. David Miller"
-                        className="w-full px-4 py-3 bg-offwhite border border-cream text-sm text-charcoal outline-none focus:border-forest transition-colors"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal mb-2">
-                        Email Address *
-                      </label>
-                      <input
-                        type="email"
-                        name="email"
-                        required
-                        placeholder="e.g. david@example.com"
-                        className="w-full px-4 py-3 bg-offwhite border border-cream text-sm text-charcoal outline-none focus:border-forest transition-colors"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal mb-2">
-                      Subject or Travel Interest
-                    </label>
-                    <input
-                      type="text"
-                      name="subject"
-                      placeholder="e.g. Tailor-Made Journey / Guide Consultation / General Question"
-                      className="w-full px-4 py-3 bg-offwhite border border-cream text-sm text-charcoal outline-none focus:border-forest transition-colors"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-charcoal mb-2">
-                      Message *
-                    </label>
-                    <textarea
-                      name="message"
-                      rows={5}
-                      required
-                      placeholder="How can we assist your Sri Lankan travel aspirations?"
-                      className="w-full px-4 py-3 bg-offwhite border border-cream text-sm text-charcoal outline-none focus:border-forest transition-colors resize-y"
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="btn btn-primary w-full sm:w-auto px-8 py-3.5"
-                  >
-                    <span>Send Message</span>
-                    <Send size={14} />
-                  </button>
-                </form>
-              </div>
+              <ContactForm />
             </div>
           </div>
 
