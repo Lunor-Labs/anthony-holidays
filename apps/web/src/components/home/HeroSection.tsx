@@ -42,6 +42,11 @@ const HERO_VIDEOS: HeroVideo[] = [
     onlineSrc: "https://pixabay.com/videos/download/video-242272_medium.mp4",
   },
   {
+    id: "leopard-1",
+    name: "Wild Sri Lankan Leopard",
+    localSrc: "/videos/leopard-1.mp4",
+  },
+  {
     id: "ambuluwawa",
     name: "Ambuluwawa Biodiversity Complex",
     localSrc: "/videos/hero-ambuluwawa.mp4",
