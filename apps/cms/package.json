@@ -8,7 +8,10 @@
     "build": "next build",
     "start": "next start -p 3001",
     "lint": "eslint",
-    "seed": "tsx --env-file=.env src/scripts/seed.ts"
+    "seed": "tsx --env-file=.env src/scripts/seed.ts",
+    "migrate": "payload migrate",
+    "migrate:status": "payload migrate:status",
+    "migrate:create": "payload migrate:create"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.90.2",

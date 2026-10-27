@@ -16,6 +16,9 @@
     "start:web": "npm run start --workspace=apps/web",
     "start:cms": "npm run start --workspace=apps/cms",
     "seed": "npm run seed --workspace=apps/cms",
+    "migrate": "npm run migrate --workspace=apps/cms",
+    "migrate:status": "npm run migrate:status --workspace=apps/cms",
+    "migrate:create": "npm run migrate:create --workspace=apps/cms",
     "lint": "npm run lint --workspaces --if-present"
   },
   "devDependencies": {

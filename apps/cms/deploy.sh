@@ -10,6 +10,9 @@ git pull origin main
 echo "==> Installing dependencies..."
 npm install
 
+echo "==> Running database migrations..."
+npm run migrate
+
 echo "==> Building Payload CMS backend..."
 npm run build:cms
 

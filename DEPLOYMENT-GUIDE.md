@@ -140,9 +140,13 @@ npm install
 npm run build:cms
 ```
 
-### Step 4.4: Seed Initial Data
+### Step 4.4: Run Database Migrations
 ```bash
-# Populate database with tours, packages, media catalog & site settings
+npm run migrate
+```
+
+### Step 4.5: Seed Initial Data (Optional)
+```bash
 npm run seed
 ```
 
