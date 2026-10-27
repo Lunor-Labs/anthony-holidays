@@ -15,6 +15,7 @@ import { JournalPosts } from "./collections/JournalPosts";
 import { Testimonials } from "./collections/Testimonials";
 import { Inquiries } from "./collections/Inquiries";
 import { SiteSettings } from "./globals/SiteSettings";
+import { migrations } from "../migrations";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -70,6 +71,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI,
     },
     push: !isProduction,
+    prodMigrations: migrations,
   }),
   upload: {
     limits: {
