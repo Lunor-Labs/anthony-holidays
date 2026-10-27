@@ -23,13 +23,18 @@ export async function generateMetadata({
   const article = await getJournalPostBySlug(slug);
   if (!article) return { title: "Article Not Found" };
 
+  const title = (article as any).seo?.title || `${article.title} - Anthony Holidays Blog`;
+  const description = (article as any).seo?.description || article.excerpt;
+  const ogImage = (article as any).seo?.ogImage || (article as any).image || (article as any).coverImage;
+
   return {
-    title: `${article.title} - Anthony Holidays Blog`,
-    description: article.excerpt,
+    title,
+    description,
+    robots: (article as any).seo?.noIndex ? { index: false, follow: false } : undefined,
     openGraph: {
-      title: article.title,
-      description: article.excerpt,
-      images: [{ url: (article as any).image || (article as any).coverImage }],
+      title,
+      description,
+      images: [{ url: ogImage }],
     },
   };
 }

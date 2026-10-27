@@ -1108,10 +1108,16 @@ async function seed() {
           googleMapsEmbedUrl:
             "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.228519495393!2d79.9515598!3d6.9823432!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae25776269b0eb3%3A0x6b4ef8d4b310d5ec!2sSubodha%20Mawatha%2C%20Kadawatha!5e0!3m2!1sen!2slk!4v1700000000000",
         },
+        socialLinks: {
+          facebook: "https://www.facebook.com/profile.php?id=61595480729179&mibextid=wwXIfr",
+          instagram: "https://www.instagram.com/anthonyholidays?xtok=eHJpbjlpbXV6ajhr&utm_source=qr",
+          tiktok: "https://www.tiktok.com/@anthony.holidays?_r=1&_t=ZS-9AtbNBLoa3g",
+          youtube: "https://youtube.com/@anthonyholidays?si=tm5qd-em3zdhROQJ",
+        },
       },
     });
     console.log(
-      "  ✓ Updated Site Settings (company name, tagline, contacts, Kadawatha address)",
+      "  ✓ Updated Site Settings (company name, tagline, contacts, social links, Kadawatha address)",
     );
   } catch (err: any) {
     console.warn("  ⚠️ SiteSettings update note:", err.message);

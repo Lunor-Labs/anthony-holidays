@@ -26,14 +26,18 @@ export async function generateMetadata({
   }
 
   const siteUrl = process.env.FRONTEND_URL || "http://localhost:3000";
+  const title = (journey as any).seo?.title || `${journey.title} - Anthony Holidays`;
+  const description = (journey as any).seo?.description || journey.excerpt;
+  const ogImage = (journey as any).seo?.ogImage || journey.coverImage;
 
   return {
-    title: `${journey.title} - Anthony Holidays`,
-    description: journey.excerpt,
+    title,
+    description,
+    robots: (journey as any).seo?.noIndex ? { index: false, follow: false } : undefined,
     openGraph: {
-      title: `${journey.title} - Anthony Holidays`,
-      description: journey.excerpt,
-      images: [{ url: journey.coverImage, alt: journey.alt }],
+      title,
+      description,
+      images: [{ url: ogImage, alt: journey.alt }],
       type: "website",
       url: `${siteUrl}/tours/${slug}`,
     },

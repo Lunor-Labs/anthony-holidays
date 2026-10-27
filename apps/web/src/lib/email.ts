@@ -11,7 +11,7 @@ const FROM_EMAIL =
 const FROM_NAME =
   process.env.RESEND_FROM_NAME || "Anthony Holidays";
 
-function getCompanyEmails(): string[] {
+function getCompanyEmails(overrideEmail?: string): string[] {
   const raw =
     process.env.COMPANY_EMAIL ||
     process.env.ENQUIRY_NOTIFICATION_EMAIL ||
@@ -20,6 +20,14 @@ function getCompanyEmails(): string[] {
     .split(",")
     .map((e) => e.trim().toLowerCase())
     .filter(Boolean);
+
+  if (overrideEmail && overrideEmail.trim()) {
+    const clean = overrideEmail.trim().toLowerCase();
+    if (!list.includes(clean)) {
+      list.unshift(clean);
+    }
+  }
+
   return list.length > 0 ? list : ["anthonyholidaysdmc@gmail.com", "info@anthonyholidays.com"];
 }
 
@@ -325,7 +333,10 @@ Official Destination Management Company (DMC)
 /**
  * 2. Admin notification sent to COMPANY_EMAIL when a new enquiry arrives
  */
-export async function sendEnquiryNotification(data: EnquiryData): Promise<{ success: boolean; error?: string }> {
+export async function sendEnquiryNotification(
+  data: EnquiryData,
+  notificationEmail?: string
+): Promise<{ success: boolean; error?: string }> {
   const adults = Number(data.numberOfAdults || data.travellerCount || 2);
   const children = Number(data.numberOfChildren || 0);
   const tourName = data.selectedTour || data.selectedSpecialPackage || "Custom Journey Planning";
@@ -412,7 +423,7 @@ Submission Time: ${new Date().toUTCString()}
 </html>
 `.trim();
 
-  const recipients = getCompanyEmails();
+  const recipients = getCompanyEmails(notificationEmail);
   const dispatches = await Promise.allSettled(
     recipients.map((targetEmail) =>
       sendEmail({
@@ -542,7 +553,10 @@ https://anthonyholidays.com
 /**
  * 4. Admin notification sent to COMPANY_EMAIL for contact form submissions
  */
-export async function sendContactNotification(data: { name: string; email: string; subject?: string; message: string }): Promise<{ success: boolean; error?: string }> {
+export async function sendContactNotification(
+  data: { name: string; email: string; subject?: string; message: string },
+  notificationEmail?: string
+): Promise<{ success: boolean; error?: string }> {
   const subject = `📩 New Contact Form Message: ${data.name} - ${data.subject || "General Note"}`;
 
   const plainText = `
@@ -588,7 +602,7 @@ Timestamp: ${new Date().toUTCString()}
 </html>
 `.trim();
 
-  const recipients = getCompanyEmails();
+  const recipients = getCompanyEmails(notificationEmail);
   const dispatches = await Promise.allSettled(
     recipients.map((targetEmail) =>
       sendEmail({

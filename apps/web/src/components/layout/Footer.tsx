@@ -7,6 +7,10 @@ export interface FooterProps {
   siteSettings?: {
     companyName?: string
     tagline?: string
+    logoText?: string
+    logo?: any
+    footerText?: string
+    registrationInfo?: string
     contact?: {
       email?: string
       phone?: string
@@ -16,24 +20,36 @@ export interface FooterProps {
     socialLinks?: {
       facebook?: string
       instagram?: string
+      tiktok?: string
       twitter?: string
       youtube?: string
       tripadvisor?: string
     }
   }
+  logoUrl?: string
 }
 
-export function Footer({ siteSettings }: FooterProps = {}) {
+export function Footer({ siteSettings, logoUrl }: FooterProps = {}) {
   const currentYear = new Date().getFullYear()
+
+  const companyName = siteSettings?.companyName || 'Anthony Holidays'
+  const fullLogoText = siteSettings?.logoText || companyName
+  const logoParts = fullLogoText.trim().split(/\s+/)
+  const firstWord = logoParts[0]
+  const restWords = logoParts.slice(1).join(' ')
 
   const email = siteSettings?.contact?.email || process.env.COMPANY_EMAIL || 'anthonyholidaysdmc@gmail.com'
   const phone = siteSettings?.contact?.phone || process.env.PUBLIC_PHONE_NUMBER || '+94 70 324 7929'
   const address = siteSettings?.contact?.address || '480/2, Subodha Mawatha, Kadawatha, Sri Lanka'
 
+  const footerAboutText =
+    siteSettings?.footerText ||
+    `${companyName} is a Sri Lankan destination management company led by licensed national tourist guide lecturers. We create authentic, personalised journeys across the island.`
+
   const socialLinks = [
     {
       label: 'Instagram',
-      href: siteSettings?.socialLinks?.instagram || '#',
+      href: siteSettings?.socialLinks?.instagram || 'https://www.instagram.com/anthonyholidays?xtok=eHJpbjlpbXV6ajhr&utm_source=qr',
       svg: (
         <svg className="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
           <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
@@ -44,7 +60,7 @@ export function Footer({ siteSettings }: FooterProps = {}) {
     },
     {
       label: 'Facebook',
-      href: siteSettings?.socialLinks?.facebook || '#',
+      href: siteSettings?.socialLinks?.facebook || 'https://www.facebook.com/profile.php?id=61595480729179&mibextid=wwXIfr',
       svg: (
         <svg className="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
           <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
@@ -52,8 +68,17 @@ export function Footer({ siteSettings }: FooterProps = {}) {
       ),
     },
     {
+      label: 'TikTok',
+      href: siteSettings?.socialLinks?.tiktok || 'https://www.tiktok.com/@anthony.holidays?_r=1&_t=ZS-9AtbNBLoa3g',
+      svg: (
+        <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+          <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z" />
+        </svg>
+      ),
+    },
+    {
       label: 'YouTube',
-      href: siteSettings?.socialLinks?.youtube || '#',
+      href: siteSettings?.socialLinks?.youtube || 'https://youtube.com/@anthonyholidays?si=tm5qd-em3zdhROQJ',
       svg: (
         <svg className="w-4 h-4 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
           <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17" />
@@ -71,20 +96,36 @@ export function Footer({ siteSettings }: FooterProps = {}) {
           {/* Brand Column */}
           <div className="flex flex-col items-center md:items-start text-center md:text-left">
             <div className="mb-6">
-              <p className="font-serif text-2xl font-semibold tracking-widest uppercase text-ivory mb-1">
-                Anthony
-              </p>
-              <p className="font-sans text-xs tracking-[0.25em] uppercase text-sand">
-                Holidays
-              </p>
+              {logoUrl ? (
+                <img
+                  src={logoUrl}
+                  alt={fullLogoText}
+                  className="h-10 sm:h-12 w-auto object-contain brightness-0 invert mb-1"
+                />
+              ) : (
+                <>
+                  <p className="font-serif text-2xl font-semibold tracking-widest uppercase text-ivory mb-1">
+                    {firstWord}
+                  </p>
+                  {restWords && (
+                    <p className="font-sans text-xs tracking-[0.25em] uppercase text-sand">
+                      {restWords}
+                    </p>
+                  )}
+                </>
+              )}
             </div>
 
             <div className="w-8 h-px bg-gold mb-5" />
 
             <p className="text-sm leading-relaxed text-ivory/65 mb-6 max-w-[280px]">
-              Expert-led Sri Lanka journeys crafted by Licensed National Tourist Guide Lecturers.
-              Authentic, personalised, unforgettable.
+              {footerAboutText}
             </p>
+            {siteSettings?.registrationInfo && (
+              <p className="text-xs text-gold/80 mb-6 font-mono tracking-wider">
+                SLTDA: {siteSettings.registrationInfo}
+              </p>
+            )}
 
             {/* Social Links */}
             <div className="flex gap-4 justify-center md:justify-start">
@@ -92,7 +133,7 @@ export function Footer({ siteSettings }: FooterProps = {}) {
                 <a
                   key={label}
                   href={href}
-                  aria-label={`Anthony Holidays on ${label}`}
+                  aria-label={`${companyName} on ${label}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-9 h-9 border border-ivory/20 flex items-center justify-center text-ivory/60 hover:border-gold hover:text-gold transition-colors"
@@ -197,7 +238,7 @@ export function Footer({ siteSettings }: FooterProps = {}) {
         {/* Bottom Bar */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-7 text-center md:text-left">
           <p className="text-xs text-ivory/70">
-            © {currentYear} Anthony Holidays. All rights reserved.
+            © {currentYear} {companyName}. All rights reserved.
           </p>
 
           <p className="text-xs text-ivory/60">

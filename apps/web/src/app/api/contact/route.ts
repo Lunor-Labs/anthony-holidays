@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { checkRateLimit } from '@/lib/rate-limit'
 import { sendContactNotification, sendContactThankYou } from '@/lib/email'
-import { BACKEND_URL } from '@/lib/payload-data'
+import { BACKEND_URL, getSiteSettings } from '@/lib/payload-data'
 import { verifyTurnstile } from '@/lib/turnstile'
 import { verifyRecaptcha } from '@/lib/recaptcha'
 
@@ -116,9 +116,12 @@ export async function POST(req: Request) {
 
     // 4. Send email notification & thank-you confirmation
     try {
+      const siteSettings = await getSiteSettings()
+      const notificationEmail = siteSettings?.enquiryNotificationEmail || undefined
+
       await Promise.allSettled([
         sendContactThankYou({ name, email, subject, message }),
-        sendContactNotification({ name, email, subject, message }),
+        sendContactNotification({ name, email, subject, message }, notificationEmail),
       ]);
     } catch (err) {
       console.warn('Contact email dispatch error:', err);

@@ -240,6 +240,12 @@ export async function getJourneyBySlug(slug: string) {
         relatedSlugs: [],
         featured: Boolean(doc.featured),
         status: doc.status || 'published',
+        seo: doc.seo ? {
+          title: doc.seo.title || '',
+          description: doc.seo.description || '',
+          ogImage: getMediaUrl(doc.seo.ogImage),
+          noIndex: Boolean(doc.seo.noIndex),
+        } : undefined,
       }
     }
   } catch (err) {
@@ -305,6 +311,12 @@ export async function getJournalPostBySlug(slug: string) {
         readTime: '6 min read',
         coverImage: getMediaUrl(doc.coverImage),
         image: getMediaUrl(doc.coverImage),
+        seo: doc.seo ? {
+          title: doc.seo.title || '',
+          description: doc.seo.description || '',
+          ogImage: getMediaUrl(doc.seo.ogImage),
+          noIndex: Boolean(doc.seo.noIndex),
+        } : undefined,
       }
     }
   } catch (err) {
@@ -334,9 +346,46 @@ export async function getTestimonials() {
  * Fetch Global Site Settings from Payload CMS (REST API)
  */
 export async function getSiteSettings() {
+  const defaultSocialLinks = {
+    facebook: 'https://www.facebook.com/profile.php?id=61595480729179&mibextid=wwXIfr',
+    instagram: 'https://www.instagram.com/anthonyholidays?xtok=eHJpbjlpbXV6ajhr&utm_source=qr',
+    tiktok: 'https://www.tiktok.com/@anthony.holidays?_r=1&_t=ZS-9AtbNBLoa3g',
+    youtube: 'https://youtube.com/@anthonyholidays?si=tm5qd-em3zdhROQJ',
+    twitter: '',
+    tripadvisor: '',
+  }
+
+  const defaultSeo = {
+    defaultTitle: 'Anthony Holidays - Expert-Led Sri Lanka Journeys',
+    defaultDescription:
+      'Discover Sri Lanka with Anthony Holidays - led by licensed national tourist guide lecturers. Tailor-made journeys, private tours, and authentic travel experiences across the island.',
+    defaultOgImage: null,
+    googleSiteVerification: null,
+    googleAnalyticsId: null,
+  }
+
   try {
     const settings = await fetchFromPayload<any>('/api/globals/site-settings')
-    if (settings && settings.companyName) return settings
+    if (settings && settings.companyName) {
+      return {
+        ...settings,
+        seo: {
+          defaultTitle: settings.seo?.defaultTitle || defaultSeo.defaultTitle,
+          defaultDescription: settings.seo?.defaultDescription || defaultSeo.defaultDescription,
+          defaultOgImage: settings.seo?.defaultOgImage || defaultSeo.defaultOgImage,
+          googleSiteVerification: settings.seo?.googleSiteVerification || defaultSeo.googleSiteVerification,
+          googleAnalyticsId: settings.seo?.googleAnalyticsId || defaultSeo.googleAnalyticsId,
+        },
+        socialLinks: {
+          facebook: settings.socialLinks?.facebook || defaultSocialLinks.facebook,
+          instagram: settings.socialLinks?.instagram || defaultSocialLinks.instagram,
+          tiktok: settings.socialLinks?.tiktok || defaultSocialLinks.tiktok,
+          youtube: settings.socialLinks?.youtube || defaultSocialLinks.youtube,
+          twitter: settings.socialLinks?.twitter || defaultSocialLinks.twitter,
+          tripadvisor: settings.socialLinks?.tripadvisor || defaultSocialLinks.tripadvisor,
+        },
+      }
+    }
   } catch (err) {
     console.warn('Payload getSiteSettings error:', err)
   }
@@ -344,6 +393,11 @@ export async function getSiteSettings() {
   return {
     companyName: 'Anthony Holidays',
     tagline: 'Authentic Sri Lanka, Expert-Led Journeys',
+    logo: null,
+    logoText: 'Anthony Holidays',
+    footerText:
+      'Anthony Holidays is a Sri Lankan destination management company led by licensed national tourist guide lecturers. We create authentic, personalised journeys across the island.',
+    registrationInfo: null,
     contact: {
       email: process.env.COMPANY_EMAIL || 'anthonyholidaysdmc@gmail.com',
       phone: process.env.PUBLIC_PHONE_NUMBER || '+94 70 324 7929',
@@ -351,10 +405,8 @@ export async function getSiteSettings() {
       address: '480/2, Subodha Mawatha, Kadawatha, Sri Lanka',
       googleMapsEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.228519495393!2d79.9515598!3d6.9823432!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae25776269b0eb3%3A0x6b4ef8d4b310d5ec!2sSubodha%20Mawatha%2C%20Kadawatha!5e0!3m2!1sen!2slk!4v1700000000000',
     },
-    socialLinks: {
-      instagram: 'https://instagram.com/anthonyholidays',
-      facebook: 'https://facebook.com/anthonyholidays',
-    },
+    socialLinks: defaultSocialLinks,
+    seo: defaultSeo,
   }
 }
 
@@ -461,6 +513,12 @@ export async function getSpecialPackageBySlug(slug: string) {
           ? doc.exclusions.map((e: any) => (typeof e === 'string' ? e : e.item || ''))
           : [],
         featured: Boolean(doc.featured),
+        seo: doc.seo ? {
+          title: doc.seo.title || '',
+          description: doc.seo.description || '',
+          ogImage: getMediaUrl(doc.seo.ogImage),
+          noIndex: Boolean(doc.seo.noIndex),
+        } : undefined,
       }
     }
   } catch (err) {

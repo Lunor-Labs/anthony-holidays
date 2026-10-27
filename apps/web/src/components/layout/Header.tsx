@@ -48,11 +48,22 @@ const navLinks: NavLinkItem[] = [
   },
 ];
 
-export function Header() {
+interface HeaderProps {
+  companyName?: string
+  logoText?: string
+  logoUrl?: string
+}
+
+export function Header({ companyName, logoText, logoUrl }: HeaderProps = {}) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const pathname = usePathname();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+
+  const fullLogoText = logoText || companyName || "Anthony Holidays";
+  const logoParts = fullLogoText.trim().split(/\s+/);
+  const firstWord = logoParts[0];
+  const restWords = logoParts.slice(1).join(" ");
 
   const isTransparentPage =
     pathname === "/" ||
@@ -116,27 +127,37 @@ export function Header() {
             <Link
               href="/"
               onClick={() => setIsMobileOpen(false)}
-              aria-label="Anthony Holidays - Home"
+              aria-label={`${fullLogoText} - Home`}
               className="relative z-10"
             >
-              <div className="flex flex-col leading-tight">
-                <span
-                  className={`font-serif text-xl lg:text-2xl font-semibold tracking-[0.08em] uppercase transition-colors duration-400 ${
-                    isMobileOpen || isTransparent
-                      ? "text-ivory"
-                      : "text-forest"
-                  }`}
-                >
-                  Anthony
-                </span>
-                <span
-                  className={`font-sans text-xs font-medium tracking-[0.22em] uppercase transition-colors duration-400 ${
-                    isMobileOpen || isTransparent ? "text-gold-light" : "text-forest/80"
-                  }`}
-                >
-                  Holidays
-                </span>
-              </div>
+              {logoUrl ? (
+                <img
+                  src={logoUrl}
+                  alt={fullLogoText}
+                  className="h-9 sm:h-10 w-auto object-contain"
+                />
+              ) : (
+                <div className="flex flex-col leading-tight">
+                  <span
+                    className={`font-serif text-xl lg:text-2xl font-semibold tracking-[0.08em] uppercase transition-colors duration-400 ${
+                      isMobileOpen || isTransparent
+                        ? "text-ivory"
+                        : "text-forest"
+                    }`}
+                  >
+                    {firstWord}
+                  </span>
+                  {restWords && (
+                    <span
+                      className={`font-sans text-xs font-medium tracking-[0.22em] uppercase transition-colors duration-400 ${
+                        isMobileOpen || isTransparent ? "text-gold-light" : "text-forest/80"
+                      }`}
+                    >
+                      {restWords}
+                    </span>
+                  )}
+                </div>
+              )}
             </Link>
 
             <nav

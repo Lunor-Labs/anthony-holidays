@@ -1446,8 +1446,9 @@ export interface SiteSetting {
   socialLinks?: {
     facebook?: string | null;
     instagram?: string | null;
-    twitter?: string | null;
+    tiktok?: string | null;
     youtube?: string | null;
+    twitter?: string | null;
     tripadvisor?: string | null;
   };
   /**
@@ -1495,8 +1496,9 @@ export interface SiteSettingsSelect<T extends boolean = true> {
     | {
         facebook?: T;
         instagram?: T;
-        twitter?: T;
+        tiktok?: T;
         youtube?: T;
+        twitter?: T;
         tripadvisor?: T;
       };
   enquiryNotificationEmail?: T;

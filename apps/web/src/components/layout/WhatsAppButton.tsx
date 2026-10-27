@@ -3,19 +3,21 @@
 import { getWhatsAppUrl } from '@/lib/utils'
 
 const WHATSAPP_NUMBER = process.env.PUBLIC_WHATSAPP_NUMBER || '94703247929'
-const DEFAULT_MESSAGE =
-  "Hello, I'm interested in planning a Sri Lanka journey with Anthony Holidays. Could you help me?"
 
 export function WhatsAppButton({
   whatsappNumber,
+  companyName,
 }: {
   whatsappNumber?: string
+  companyName?: string
 } = {}) {
   const number =
     whatsappNumber ||
     process.env.PUBLIC_WHATSAPP_NUMBER ||
     '94703247929'
-  const whatsappUrl = getWhatsAppUrl(number, DEFAULT_MESSAGE)
+  const brandName = companyName || 'Anthony Holidays'
+  const defaultMessage = `Hello, I'm interested in planning a Sri Lanka journey with ${brandName}. Could you help me?`
+  const whatsappUrl = getWhatsAppUrl(number, defaultMessage)
 
   return (
     <a
@@ -23,8 +25,8 @@ export function WhatsAppButton({
       target="_blank"
       rel="noopener noreferrer"
       className="whatsapp-fab right-4 sm:right-8"
-      aria-label="Chat with us on WhatsApp"
-      title="Chat with Anthony Holidays on WhatsApp"
+      aria-label={`Chat with ${brandName} on WhatsApp`}
+      title={`Chat with ${brandName} on WhatsApp`}
     >
       {/* WhatsApp SVG icon */}
       <svg

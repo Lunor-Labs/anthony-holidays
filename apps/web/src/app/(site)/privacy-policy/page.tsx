@@ -85,12 +85,6 @@ export default function PrivacyPolicyPage() {
             </a>
             .
           </p>
-
-          <div className="p-4 bg-cream border border-sand text-xs text-subtle rounded-sm mt-8">
-            Note: This policy represents client-approved baseline terms for
-            Phase 1. Final legal registration numbers and official statutory
-            disclosures can be adjusted through the Payload CMS global settings.
-          </div>
         </div>
       </div>
     </div>

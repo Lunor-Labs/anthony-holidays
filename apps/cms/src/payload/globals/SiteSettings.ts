@@ -87,21 +87,30 @@ export const SiteSettings: GlobalConfig = {
           name: "facebook",
           type: "text",
           label: "Facebook URL",
+          defaultValue: "https://www.facebook.com/profile.php?id=61595480729179&mibextid=wwXIfr",
         },
         {
           name: "instagram",
           type: "text",
           label: "Instagram URL",
+          defaultValue: "https://www.instagram.com/anthonyholidays?xtok=eHJpbjlpbXV6ajhr&utm_source=qr",
         },
         {
-          name: "twitter",
+          name: "tiktok",
           type: "text",
-          label: "X / Twitter URL",
+          label: "TikTok URL",
+          defaultValue: "https://www.tiktok.com/@anthony.holidays?_r=1&_t=ZS-9AtbNBLoa3g",
         },
         {
           name: "youtube",
           type: "text",
           label: "YouTube URL",
+          defaultValue: "https://youtube.com/@anthonyholidays?si=tm5qd-em3zdhROQJ",
+        },
+        {
+          name: "twitter",
+          type: "text",
+          label: "X / Twitter URL",
         },
         {
           name: "tripadvisor",

@@ -14,7 +14,7 @@ export default function TermsPage() {
           Terms & Conditions
         </h1>
         <p className="text-xs text-muted mb-8 uppercase tracking-wider">
-          Phase 1 Inquiries & Travel Planning Terms • Anthony Holidays
+          Website Inquiries & Travel Planning Terms • Anthony Holidays
         </p>
 
         <div className="prose prose-emerald max-w-none text-deep space-y-6 text-sm leading-relaxed">
@@ -24,7 +24,7 @@ export default function TermsPage() {
           </p>
 
           <h2 className="font-serif text-xl text-primary pt-4 font-medium">
-            1. Nature of Website Services (Phase 1)
+            1. Nature of Website Services
           </h2>
           <p>
             This website functions as an inspirational showcase and bespoke
@@ -64,10 +64,10 @@ export default function TermsPage() {
           </p>
 
           <div className="p-4 bg-cream border border-sand text-xs text-subtle rounded-sm mt-8">
-            Placeholder Notice: These terms govern initial inquiry and planning
-            interactions for Phase 1. Complete formal contract conditions for
-            tour execution, cancellation tiers, and travel insurance
-            verification are provided alongside individual itinerary contracts.
+            These terms govern initial inquiry and journey planning
+            interactions. Complete formal contract conditions for tour
+            execution, cancellation tiers, and travel insurance verification
+            are provided alongside individual itinerary contracts.
           </div>
         </div>
       </div>

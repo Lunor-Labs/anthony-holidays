@@ -17,13 +17,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: 'Package Not Found - Anthony Holidays' }
   }
 
+  const title = (pkg as any).seo?.title || `${pkg.title} - Special Package`
+  const description = (pkg as any).seo?.description || pkg.excerpt || `Discover ${pkg.title} in Sri Lanka with Anthony Holidays.`
+  const ogImage = (pkg as any).seo?.ogImage || pkg.coverImage
+
   return {
-    title: `${pkg.title} - Special Package`,
-    description: pkg.excerpt || `Discover ${pkg.title} in Sri Lanka with Anthony Holidays.`,
+    title,
+    description,
+    robots: (pkg as any).seo?.noIndex ? { index: false, follow: false } : undefined,
     openGraph: {
-      title: `${pkg.title} - Anthony Holidays`,
-      description: pkg.excerpt,
-      images: [{ url: pkg.coverImage }],
+      title,
+      description,
+      images: [{ url: ogImage }],
     },
   }
 }

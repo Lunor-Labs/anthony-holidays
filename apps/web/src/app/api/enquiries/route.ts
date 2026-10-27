@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { sendEnquiryNotification, sendEnquiryThankYou } from "@/lib/email";
-import { BACKEND_URL } from "@/lib/payload-data";
+import { BACKEND_URL, getSiteSettings } from "@/lib/payload-data";
 import { verifyTurnstile } from "@/lib/turnstile";
 import { verifyRecaptcha } from "@/lib/recaptcha";
 
@@ -207,10 +207,13 @@ Record ID: ${savedInquiryId || "Pending DB"}
     };
 
     try {
+      const siteSettings = await getSiteSettings();
+      const notificationEmail = siteSettings?.enquiryNotificationEmail || undefined;
+
       // Send both guest thank-you and admin notification in parallel
       await Promise.allSettled([
         sendEnquiryThankYou(enquiryPayload),
-        sendEnquiryNotification(enquiryPayload),
+        sendEnquiryNotification(enquiryPayload, notificationEmail),
       ]);
     } catch (emailErr) {
       console.warn("Email dispatch error:", emailErr);
