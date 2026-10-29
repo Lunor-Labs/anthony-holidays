@@ -56,6 +56,8 @@ jobs:
             echo "PUBLIC_WHATSAPP_NUMBER=${{ vars.PUBLIC_WHATSAPP_NUMBER }}"
             echo "PUBLIC_PHONE_NUMBER=\"${{ vars.PUBLIC_PHONE_NUMBER }}\""
             echo "COMPANY_EMAIL=${{ vars.COMPANY_EMAIL }}"
+            echo "NEXT_PUBLIC_TURNSTILE_SITE_KEY=${{ vars.NEXT_PUBLIC_TURNSTILE_SITE_KEY }}"
+            echo "NEXT_PUBLIC_RECAPTCHA_SITE_KEY=${{ vars.NEXT_PUBLIC_RECAPTCHA_SITE_KEY }}"
           } > apps/web/.env.production
 
       - name: Install Vercel CLI
@@ -78,19 +80,25 @@ jobs:
       - name: Build project
         run: vercel build ${{ steps.target.outputs.prod_flag }} --token=${{ secrets.VERCEL_TOKEN }}
 
-      # Server-only values for API routes (emails), set as runtime env on the deployment
+      # Server-only values for API routes (emails, bot checks), set as runtime env on the deployment
       - name: Deploy to Vercel
         env:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           RESEND_FROM_EMAIL: ${{ vars.RESEND_FROM_EMAIL }}
+          RESEND_FROM_NAME: ${{ vars.RESEND_FROM_NAME }}
           COMPANY_EMAIL: ${{ vars.COMPANY_EMAIL }}
           ENQUIRY_NOTIFICATION_EMAIL: ${{ vars.ENQUIRY_NOTIFICATION_EMAIL }}
+          TURNSTILE_SECRET_KEY: ${{ secrets.TURNSTILE_SECRET_KEY }}
+          RECAPTCHA_SECRET_KEY: ${{ secrets.RECAPTCHA_SECRET_KEY }}
         run: |
           vercel deploy \
             --prebuilt \
             ${{ steps.target.outputs.prod_flag }} \
             --env RESEND_API_KEY="$RESEND_API_KEY" \
             --env RESEND_FROM_EMAIL="$RESEND_FROM_EMAIL" \
+            --env RESEND_FROM_NAME="$RESEND_FROM_NAME" \
             --env COMPANY_EMAIL="$COMPANY_EMAIL" \
             --env ENQUIRY_NOTIFICATION_EMAIL="$ENQUIRY_NOTIFICATION_EMAIL" \
+            --env TURNSTILE_SECRET_KEY="$TURNSTILE_SECRET_KEY" \
+            --env RECAPTCHA_SECRET_KEY="$RECAPTCHA_SECRET_KEY" \
             --token=${{ secrets.VERCEL_TOKEN }}
