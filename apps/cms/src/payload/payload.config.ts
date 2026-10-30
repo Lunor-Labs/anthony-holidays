@@ -40,10 +40,23 @@ export default buildConfig({
       icons: [
         {
           rel: "icon",
+          type: "image/svg+xml",
+          url: "/icon.svg",
+        },
+        {
+          rel: "icon",
           type: "image/x-icon",
           url: "/favicon.ico",
         },
       ],
+    },
+    components: {
+      graphics: {
+        Logo: "@/components/admin/Logo#Logo",
+        Icon: "@/components/admin/Icon#Icon",
+      },
+      actions: ["@/components/admin/ViewFrontendButton#ViewFrontendButton"],
+      afterNavLinks: ["@/components/admin/ViewFrontendNav#ViewFrontendNav"],
     },
   },
   collections: [

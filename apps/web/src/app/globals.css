@@ -511,6 +511,20 @@ header .section-label {
 }
 
 /* =============================================
+   RECAPTCHA V3 FLOATING BADGE SIZE REDUCTION
+   ============================================= */
+.grecaptcha-badge {
+  transform: scale(0.68) !important;
+  transition: transform 0.25s var(--ease-out), opacity 0.25s var(--ease-out) !important;
+  opacity: 0.85;
+}
+
+.grecaptcha-badge:hover {
+  opacity: 1 !important;
+  transform: scale(0.72) !important;
+}
+
+/* =============================================
    KEYFRAME ANIMATIONS
    ============================================= */
 @keyframes fadeInUp {

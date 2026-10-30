@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Deep Rich Forest Green Background with smooth squircle corners -->
+  <rect width="512" height="512" rx="112" fill="#1C3A2E"/>
+
+  <!-- Clean, Iconic Serif 'A' in Warm Champagne Gold -->
+  <g fill="#D4B96A">
+    <!-- Top Apex Horizontal Slab Serif -->
+    <polygon points="212,122 300,122 300,110 212,110"/>
+
+    <!-- Left Diagonal Stem (Light Classical Stem) -->
+    <polygon points="160,390 196,390 252,122 230,122"/>
+
+    <!-- Left Foot Serif -->
+    <polygon points="132,402 216,402 216,390 132,390"/>
+
+    <!-- Right Diagonal Stem (Dominant Heavy Stem) -->
+    <polygon points="248,122 284,122 352,390 310,390"/>
+
+    <!-- Right Foot Serif -->
+    <polygon points="286,402 380,402 380,390 286,390"/>
+
+    <!-- Clean Crossbar -->
+    <rect x="188" y="298" width="136" height="20" rx="3"/>
+  </g>
+</svg>
