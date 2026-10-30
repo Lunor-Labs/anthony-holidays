@@ -33,7 +33,11 @@ export interface FeaturedSpecialPackagesSectionProps {
 export function FeaturedSpecialPackagesSection({
   specialPackages = [],
 }: FeaturedSpecialPackagesSectionProps) {
-  const displayPackages = specialPackages || [];
+  const displayPackages = React.useMemo(() => {
+    if (!specialPackages || specialPackages.length === 0) return [];
+    const featured = specialPackages.filter((p) => p.featured);
+    return featured.length > 0 ? featured : specialPackages;
+  }, [specialPackages]);
 
   const sectionRef = useRef<HTMLElement>(null);
   const sliderRef = useRef<HTMLDivElement>(null);

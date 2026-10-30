@@ -328,16 +328,20 @@ export async function getJournalPostBySlug(slug: string) {
 
 /**
  * Fetch Testimonials from Payload CMS (REST API)
+ * Filters for reviews marked as "Featured on Homepage" in Payload CMS.
  */
 export async function getTestimonials() {
   const reviews = await getReviews()
-  return reviews.slice(0, 10).map((r) => ({
+  const featured = reviews.filter((r) => r.featured)
+  const list = featured.length > 0 ? featured : reviews
+  return list.slice(0, 10).map((r) => ({
     id: r.id,
     quote: r.reviewText,
     travellerName: r.guestName,
     travellerCountry: r.country,
     journeyTitle: r.tourName,
     rating: r.rating,
+    featured: Boolean(r.featured),
   }))
 }
 
@@ -624,6 +628,7 @@ export async function getReviews() {
         reviewText: doc.reviewText || doc.quote || '',
         travelDate: doc.travelDate || '',
         submittedAt: doc.submittedAt || doc.createdAt || '',
+        featured: Boolean(doc.featured),
       }))
     }
   } catch (err) {

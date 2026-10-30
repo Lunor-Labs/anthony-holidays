@@ -49,7 +49,9 @@ export function DiscoverSriLankaSection({
 }: DiscoverSriLankaSectionProps) {
   const displayJourneys: DiscoverJourneyItem[] = React.useMemo(() => {
     if (!journeys || journeys.length === 0) return [];
-    return [...journeys].sort((a, b) => {
+    const featured = journeys.filter((j) => j.featured);
+    const target = featured.length > 0 ? featured : journeys;
+    return [...target].sort((a, b) => {
       const idxA = CURATED_JOURNEY_SLUGS.indexOf(a.slug);
       const idxB = CURATED_JOURNEY_SLUGS.indexOf(b.slug);
       if (idxA === -1 && idxB === -1) return 0;

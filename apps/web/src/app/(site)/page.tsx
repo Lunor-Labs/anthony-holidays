@@ -39,7 +39,7 @@ export const metadata: Metadata = {
 }
 
 export default async function HomePage() {
-  const [journeys, specialPackages, testimonials, posts, services] =
+  const [allJourneys, allSpecialPackages, allTestimonials, posts, services] =
     await Promise.all([
       getJourneys(),
       getSpecialPackages(),
@@ -47,6 +47,10 @@ export default async function HomePage() {
       getJournalPosts(),
       getServices(),
     ])
+
+  const journeys = allJourneys.filter((j) => j.featured)
+  const specialPackages = allSpecialPackages.filter((p) => p.featured)
+  const testimonials = allTestimonials.filter((t) => t.featured ?? true)
 
   return (
     <>

@@ -13,6 +13,7 @@ export interface TestimonialItem {
   travellerCountry?: string
   journeyTitle?: string
   rating?: number
+  featured?: boolean
 }
 
 export interface TestimonialsSectionProps {
@@ -20,7 +21,11 @@ export interface TestimonialsSectionProps {
 }
 
 export function TestimonialsSection({ testimonials = [] }: TestimonialsSectionProps) {
-  const displayReviews: TestimonialItem[] = testimonials || []
+  const displayReviews: TestimonialItem[] = React.useMemo(() => {
+    if (!testimonials || testimonials.length === 0) return []
+    const featured = testimonials.filter((t) => t.featured)
+    return featured.length > 0 ? featured : testimonials
+  }, [testimonials])
 
   const sliderRef = useRef<HTMLDivElement>(null)
   const [activeIdx, setActiveIdx] = useState(0)

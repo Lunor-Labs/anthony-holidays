@@ -1,4 +1,4 @@
-import { Star, MapPin, Calendar, Compass } from 'lucide-react'
+import { Star, MapPin, Compass, Calendar } from 'lucide-react'
 
 export interface ReviewItemCardProps {
   review: {
@@ -13,8 +13,38 @@ export interface ReviewItemCardProps {
   }
 }
 
+/**
+ * Format date nicely for reviews (e.g. "10 Jan 2026" or "Jan 2026")
+ * Strips any time/timestamp parts completely.
+ */
+function formatReviewDate(dateString?: string): string {
+  if (!dateString) return ''
+  const clean = dateString.split('T')[0].trim()
+  const match = clean.match(/^(\d{4})-(\d{2})(?:-(\d{2}))?/)
+  if (match) {
+    const year = parseInt(match[1], 10)
+    const month = parseInt(match[2], 10) - 1
+    const day = match[3] ? parseInt(match[3], 10) : 1
+    const d = new Date(year, month, day)
+    if (!match[3]) {
+      return d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })
+    }
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+  }
+  try {
+    const d = new Date(dateString)
+    if (!isNaN(d.getTime())) {
+      return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+    }
+  } catch {
+    // fallback
+  }
+  return clean
+}
+
 export function ReviewItemCard({ review }: ReviewItemCardProps) {
-  const { guestName, country, rating, tourName, reviewText, travelDate } = review
+  const { guestName, country, rating, tourName, reviewText, travelDate, submittedAt } = review
+  const displayDate = formatReviewDate(travelDate || submittedAt)
 
   return (
     <article className="bg-white border border-cream p-8 flex flex-col justify-between transition-all duration-300 hover:shadow-md">
@@ -65,10 +95,10 @@ export function ReviewItemCard({ review }: ReviewItemCardProps) {
           )}
         </div>
 
-        {travelDate && (
-          <span className="text-stone flex items-center gap-1 text-xs">
-            <Calendar size={11} />
-            {travelDate}
+        {displayDate && (
+          <span className="text-stone flex items-center gap-1.5 text-xs font-light">
+            <Calendar size={12} className="text-gold shrink-0" />
+            <span>{displayDate}</span>
           </span>
         )}
       </div>
