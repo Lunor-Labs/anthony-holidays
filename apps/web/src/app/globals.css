@@ -429,13 +429,13 @@ header .section-label {
 
 .nav-transparent {
   background: transparent;
-  padding-block: 1.5rem;
+  padding-block: 1rem;
 }
 
 .nav-solid {
   background: var(--color-white);
   box-shadow: 0 1px 0 rgba(28, 58, 46, 0.1);
-  padding-block: 1rem;
+  padding-block: 0.5rem;
 }
 
 .nav-link {

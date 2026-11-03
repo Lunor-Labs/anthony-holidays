@@ -100,7 +100,7 @@ export function Footer({ siteSettings, logoUrl }: FooterProps = {}) {
                 <img
                   src={logoUrl}
                   alt={fullLogoText}
-                  className="h-10 sm:h-12 w-auto object-contain brightness-0 invert mb-1"
+                  className="h-14 sm:h-16 w-auto object-contain"
                 />
               ) : (
                 <>

@@ -134,7 +134,7 @@ export function Header({ companyName, logoText, logoUrl }: HeaderProps = {}) {
                 <img
                   src={logoUrl}
                   alt={fullLogoText}
-                  className="h-9 sm:h-10 w-auto object-contain"
+                  className={`h-14 sm:h-16 w-auto object-contain ${isTransparent ? "invert brightness-0" : ""}`}
                 />
               ) : (
                 <div className="flex flex-col leading-tight">
