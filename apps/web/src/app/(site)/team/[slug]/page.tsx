@@ -12,7 +12,7 @@ import {
   MessageCircle,
   Calendar,
 } from 'lucide-react'
-import { getTeamMembers, getTeamMemberBySlug } from '@/lib/payload-data'
+import { getTeamMembers, getTeamMemberBySlug, getSiteSettings } from '@/lib/payload-data'
 import { getWhatsAppUrl } from '@/lib/utils'
 import { CallToActionSection } from '@/components/home/CallToActionSection'
 
@@ -59,14 +59,22 @@ export default async function SingleTeamMemberPage({
   params: Params
 }) {
   const { slug } = await params
-  const member = await getTeamMemberBySlug(slug)
+  const [member, siteSettings] = await Promise.all([
+    getTeamMemberBySlug(slug),
+    getSiteSettings(),
+  ])
 
   if (!member) {
     notFound()
   }
 
+  const whatsappNumber =
+    siteSettings?.contact?.whatsappNumber ||
+    process.env.PUBLIC_WHATSAPP_NUMBER ||
+    '94703247929'
+
   const whatsappUrl = getWhatsAppUrl(
-    process.env.PUBLIC_WHATSAPP_NUMBER || '94703247929',
+    whatsappNumber,
     `Hello Anthony Holidays, I would like to inquire about planning a private journey with ${member.name} (${member.role}).`
   )
 

@@ -9,7 +9,7 @@ import {
   JourneySidebar,
   JourneyFaq,
 } from "@/components/journeys";
-import { getJourneys, getJourneyBySlug } from "@/lib/payload-data";
+import { getJourneys, getJourneyBySlug, getSiteSettings } from "@/lib/payload-data";
 
 type Params = Promise<{ slug: string }>;
 
@@ -58,14 +58,22 @@ export default async function JourneyDetailPage({
   params: Params;
 }) {
   const { slug } = await params;
-  const journey = await getJourneyBySlug(slug);
+  const [journey, siteSettings] = await Promise.all([
+    getJourneyBySlug(slug),
+    getSiteSettings(),
+  ]);
 
   if (!journey) {
     notFound();
   }
 
+  const whatsappNumber =
+    siteSettings?.contact?.whatsappNumber ||
+    process.env.PUBLIC_WHATSAPP_NUMBER ||
+    "94703247929";
+
   const whatsappUrl = getWhatsAppUrl(
-    process.env.PUBLIC_WHATSAPP_NUMBER || "94703247929",
+    whatsappNumber,
     `Hello, I'm interested in the "${journey.title}" journey. Could you provide more information?`
   );
 
