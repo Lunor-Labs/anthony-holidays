@@ -66,6 +66,28 @@ export function HeroSection() {
   const [isFirstVideoPlaying, setIsFirstVideoPlaying] = useState(false);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
+  // Fix: on iOS Safari bfcache restore, CSS animations don't re-run,
+  // leaving animated elements stuck at opacity:0. Force a reflow to replay them.
+  useEffect(() => {
+    const handlePageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) {
+        // Page was restored from bfcache — force animation classes to replay
+        document
+          .querySelectorAll<HTMLElement>(
+            ".animate-fade-in-up, .animate-fade-in, .animate-hero-reveal"
+          )
+          .forEach((el) => {
+            el.style.animation = "none";
+            // Trigger reflow
+            void el.offsetHeight;
+            el.style.animation = "";
+          });
+      }
+    };
+    window.addEventListener("pageshow", handlePageShow);
+    return () => window.removeEventListener("pageshow", handlePageShow);
+  }, []);
+
   const advanceToNext = useCallback(() => {
     setCurrentIndex((prev) => {
       const next = (prev + 1) % HERO_VIDEOS.length;
@@ -227,11 +249,19 @@ export function HeroSection() {
           </p>
 
           <div className="animate-fade-in-up animation-delay-1000 flex flex-wrap gap-4">
-            <Link href="/start-planning" className="btn btn-gold">
+            <Link
+              href="/start-planning"
+              className="btn btn-gold touch-manipulation"
+              style={{ WebkitTapHighlightColor: "transparent" }}
+            >
               Start Planning Your Journey
               <ArrowRight size={15} />
             </Link>
-            <Link href="/tours" className="btn btn-outline-ivory">
+            <Link
+              href="/tours"
+              className="btn btn-outline-ivory touch-manipulation"
+              style={{ WebkitTapHighlightColor: "transparent" }}
+            >
               Explore Tour Packages
             </Link>
           </div>

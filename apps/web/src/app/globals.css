@@ -240,6 +240,8 @@ header .section-label {
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   text-decoration: none;
   white-space: nowrap;
+  touch-action: manipulation; /* eliminates 300ms tap delay on mobile */
+  -webkit-tap-highlight-color: transparent; /* removes iOS grey flash on tap */
 }
 
 .btn svg {
@@ -642,17 +644,17 @@ header .section-label {
 
 /* Hero entrance animations */
 .animate-fade-in-up {
-  animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) both;
   opacity: 0;
 }
 
 .animate-hero-reveal {
-  animation: heroReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: heroReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
   opacity: 0;
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.8s var(--ease-out) forwards;
+  animation: fadeIn 0.8s var(--ease-out) both;
   opacity: 0;
 }
 
@@ -661,6 +663,17 @@ header .section-label {
 .animation-delay-600 { animation-delay: 600ms; }
 .animation-delay-800 { animation-delay: 800ms; }
 .animation-delay-1000 { animation-delay: 1000ms; }
+
+/* Respect reduced-motion & ensure animated elements are always visible/clickable */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in-up,
+  .animate-hero-reveal,
+  .animate-fade-in {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
 
 @keyframes imageZoom {
   from { transform: scale(1.12); }
