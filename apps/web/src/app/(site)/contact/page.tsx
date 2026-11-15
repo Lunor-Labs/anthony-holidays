@@ -25,10 +25,10 @@ export default async function ContactPage() {
   )
   const email = siteSettings?.contact?.email || process.env.COMPANY_EMAIL || 'anthonyholidaysdmc@gmail.com'
   const phone = siteSettings?.contact?.phone || process.env.PUBLIC_PHONE_NUMBER || '+94 70 324 7929'
-  const address = siteSettings?.contact?.address || '480/2, Subodha Mawatha, Kadawatha, Sri Lanka'
+  const address = siteSettings?.contact?.address || '63 Mile Post, Thiranagama, Hikkaduwa, Sri Lanka'
   const googleMapsEmbedUrl =
     (siteSettings?.contact as any)?.googleMapsEmbedUrl ||
-    'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.228519495393!2d79.9515598!3d6.9823432!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae25776269b0eb3%3A0x6b4ef8d4b310d5ec!2sSubodha%20Mawatha%2C%20Kadawatha!5e0!3m2!1sen!2slk!4v1700000000000'
+    'https://maps.google.com/maps?q=63+Mile+Post%2C+Thiranagama%2C+Hikkaduwa%2C+Sri+Lanka&t=&z=15&ie=UTF8&iwloc=&output=embed'
 
   const socialLinks = [
     {

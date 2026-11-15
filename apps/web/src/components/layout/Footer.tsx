@@ -40,7 +40,7 @@ export function Footer({ siteSettings, logoUrl }: FooterProps = {}) {
 
   const email = siteSettings?.contact?.email || process.env.COMPANY_EMAIL || 'anthonyholidaysdmc@gmail.com'
   const phone = siteSettings?.contact?.phone || process.env.PUBLIC_PHONE_NUMBER || '+94 70 324 7929'
-  const address = siteSettings?.contact?.address || '480/2, Subodha Mawatha, Kadawatha, Sri Lanka'
+  const address = siteSettings?.contact?.address || '63 Mile Post, Thiranagama, Hikkaduwa, Sri Lanka'
 
   const footerAboutText =
     siteSettings?.footerText ||

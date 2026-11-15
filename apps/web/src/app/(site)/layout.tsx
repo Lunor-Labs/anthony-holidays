@@ -110,7 +110,7 @@ export default async function RootLayout({
     address: {
       '@type': 'PostalAddress',
       addressCountry: 'LK',
-      addressLocality: siteSettings?.contact?.address || '480/2, Subodha Mawatha, Kadawatha, Sri Lanka',
+      addressLocality: siteSettings?.contact?.address || '63 Mile Post, Thiranagama, Hikkaduwa, Sri Lanka',
     },
     sameAs: [
       siteSettings?.socialLinks?.facebook,
