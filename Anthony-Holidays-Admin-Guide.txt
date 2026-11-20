@@ -534,6 +534,7 @@ CONTACT INFORMATION
 SOCIAL MEDIA LINKS
   Facebook    : Full URL to Facebook page
   Instagram   : Full URL to Instagram profile
+  TikTok      : Full URL to TikTok profile
   X / Twitter : Full URL to Twitter/X profile
   YouTube     : Full URL to YouTube channel
   TripAdvisor : Full URL to TripAdvisor listing

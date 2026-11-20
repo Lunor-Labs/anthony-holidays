@@ -1,0 +1,275 @@
+"use client";
+
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { MarqueeTicker } from "@/components/ui/MarqueeTicker";
+
+const marqueeWords = [
+  "Culture",
+  "Wildlife",
+  "Heritage",
+  "Tea",
+  "Beaches",
+  "Temples",
+  "Spice",
+  "Rainforest",
+];
+
+interface HeroVideo {
+  id: string;
+  name: string;
+  localSrc: string;
+  onlineSrc?: string;
+}
+
+const HERO_VIDEOS: HeroVideo[] = [
+  {
+    id: "beach",
+    name: "Golden Coastal Beaches of Ceylon",
+    localSrc: "/videos/beach.mp4",
+  },
+  {
+    id: "watadageya",
+    name: "Ancient Polonnaruwa Vatadage",
+    localSrc: "/videos/watadageya.mp4",
+  },
+  {
+    id: "elephant",
+    name: "Wild Elephants Gathering",
+    localSrc: "/videos/elephant.mp4",
+    onlineSrc: "https://pixabay.com/videos/download/video-242272_medium.mp4",
+  },
+  {
+    id: "leopard-1",
+    name: "Wild Sri Lankan Leopard",
+    localSrc: "/videos/leopard-1.mp4",
+  },
+  {
+    id: "ambuluwawa",
+    name: "Ambuluwawa Biodiversity Complex",
+    localSrc: "/videos/hero-ambuluwawa.mp4",
+    onlineSrc: "https://cdn.pixabay.com/video/2023/08/22/177127-856658451_medium.mp4",
+  },
+  {
+    id: "sigiriya",
+    name: "Sigiriya Lion Rock Citadel",
+    localSrc: "/videos/sigiriya.mp4",
+    onlineSrc: "https://pixabay.com/videos/download/video-191283_medium.mp4",
+  },
+];
+
+export function HeroSection() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [loadedIndices, setLoadedIndices] = useState<Set<number>>(() => new Set([0]));
+  const [isFirstVideoPlaying, setIsFirstVideoPlaying] = useState(false);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+
+  // Fix: on iOS Safari bfcache restore, CSS animations don't re-run,
+  // leaving animated elements stuck at opacity:0. Force a reflow to replay them.
+  useEffect(() => {
+    const handlePageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) {
+        // Page was restored from bfcache — force animation classes to replay
+        document
+          .querySelectorAll<HTMLElement>(
+            ".animate-fade-in-up, .animate-fade-in, .animate-hero-reveal"
+          )
+          .forEach((el) => {
+            el.style.animation = "none";
+            // Trigger reflow
+            void el.offsetHeight;
+            el.style.animation = "";
+          });
+      }
+    };
+    window.addEventListener("pageshow", handlePageShow);
+    return () => window.removeEventListener("pageshow", handlePageShow);
+  }, []);
+
+  const advanceToNext = useCallback(() => {
+    setCurrentIndex((prev) => {
+      const next = (prev + 1) % HERO_VIDEOS.length;
+      setLoadedIndices((current) => {
+        if (current.has(next)) return current;
+        const updated = new Set(current);
+        updated.add(next);
+        return updated;
+      });
+      return next;
+    });
+  }, []);
+
+  useEffect(() => {
+    loadedIndices.forEach((idx) => {
+      const vid = videoRefs.current[idx];
+      if (
+        vid &&
+        (vid.networkState === HTMLMediaElement.NETWORK_EMPTY ||
+          vid.networkState === HTMLMediaElement.NETWORK_NO_SOURCE)
+      ) {
+        vid.load();
+      }
+    });
+  }, [loadedIndices]);
+
+  useEffect(() => {
+    const nextIndex = (currentIndex + 1) % HERO_VIDEOS.length;
+
+    const lazyTimer = setTimeout(() => {
+      setLoadedIndices((prev) => {
+        if (prev.has(nextIndex)) return prev;
+        const updated = new Set(prev);
+        updated.add(nextIndex);
+        return updated;
+      });
+    }, 3500);
+
+    return () => clearTimeout(lazyTimer);
+  }, [currentIndex]);
+
+  useEffect(() => {
+    const currentVid = videoRefs.current[currentIndex];
+    if (currentVid) {
+      try {
+        currentVid.currentTime = 0;
+        const playPromise = currentVid.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {});
+        }
+      } catch {}
+    }
+
+    const pauseTimer = setTimeout(() => {
+      videoRefs.current.forEach((vid, idx) => {
+        if (idx !== currentIndex && vid) {
+          try {
+            vid.pause();
+          } catch {}
+        }
+      });
+    }, 1200);
+
+    const sceneTimer = setTimeout(() => {
+      advanceToNext();
+    }, 12000);
+
+    return () => {
+      clearTimeout(pauseTimer);
+      clearTimeout(sceneTimer);
+    };
+  }, [currentIndex, advanceToNext]);
+
+  return (
+    <section
+      className="relative min-h-screen flex items-end overflow-hidden"
+      aria-label="Hero"
+    >
+      <div className="absolute inset-0 z-0 overflow-hidden bg-forest">
+        {HERO_VIDEOS.map((video, index) => {
+          const isActive = index === currentIndex;
+          const isLoaded = loadedIndices.has(index);
+
+          return (
+            <video
+              key={video.id}
+              ref={(el) => {
+                videoRefs.current[index] = el;
+              }}
+              muted
+              playsInline
+              autoPlay={index === 0}
+              preload={index === 0 ? "auto" : isLoaded ? "auto" : "none"}
+              aria-label={video.name}
+              onPlaying={() => {
+                if (index === 0) {
+                  setIsFirstVideoPlaying(true);
+                }
+              }}
+              onEnded={() => {
+                if (index === currentIndex) {
+                  advanceToNext();
+                }
+              }}
+              onError={() => {
+                if (index === currentIndex) {
+                  advanceToNext();
+                }
+              }}
+              className={`absolute inset-0 w-full h-full object-cover object-center scale-105 transition-opacity duration-1000 ease-in-out ${
+                isActive ? "opacity-100 z-1" : "opacity-0 z-0 pointer-events-none"
+              }`}
+            >
+              {isLoaded && (
+                <>
+                  <source src={video.localSrc} type="video/mp4" />
+                  {video.onlineSrc ? (
+                    <source src={video.onlineSrc} type="video/mp4" />
+                  ) : null}
+                </>
+              )}
+            </video>
+          );
+        })}
+      </div>
+      <div
+        className="absolute inset-0 z-10 bg-gradient-to-b from-black/45 via-black/20 to-black/85 pointer-events-none"
+        aria-hidden="true"
+      />
+      <div className="relative z-20 pb-28 md:pb-36 lg:pb-40 container w-full">
+        <div className="max-w-4xl">
+          <p className="section-label animate-fade-in !text-gold">
+            Sri Lanka Journeys
+          </p>
+
+          <h1 className="text-display text-ivory mb-6 font-light leading-[0.95]">
+            <span className="block overflow-hidden">
+              <span
+                className="block animate-fade-in-up opacity-0"
+                style={{ animationDelay: "200ms" }}
+              >
+                Sri Lanka,
+              </span>
+            </span>
+            <span className="block overflow-hidden">
+              <span
+                className="block animate-fade-in-up opacity-0"
+                style={{ animationDelay: "500ms" }}
+              >
+                Authentically
+              </span>
+            </span>
+          </h1>
+
+          <p className="text-base md:text-lg font-sans animate-fade-in-up animation-delay-800 text-ivory/95 max-w-lg mb-10 leading-relaxed tracking-wide drop-shadow-sm font-normal">
+            Expert-led private journeys across the ancient island - crafted by
+            licensed national tourist guide lecturers who know every stone,
+            every story, every sunrise.
+          </p>
+
+          <div className="animate-fade-in-up animation-delay-1000 flex flex-wrap gap-4">
+            <Link
+              href="/start-planning"
+              className="btn btn-gold touch-manipulation"
+              style={{ WebkitTapHighlightColor: "transparent" }}
+            >
+              Start Planning Your Journey
+              <ArrowRight size={15} />
+            </Link>
+            <Link
+              href="/tours"
+              className="btn btn-outline-ivory touch-manipulation"
+              style={{ WebkitTapHighlightColor: "transparent" }}
+            >
+              Explore Tour Packages
+            </Link>
+          </div>
+        </div>
+      </div>
+      <div className="absolute bottom-0 inset-x-0 z-20 py-4 md:py-5 overflow-hidden bg-gradient-to-t from-black/90 via-black/40 to-transparent backdrop-blur-[2px]">
+        <MarqueeTicker items={marqueeWords} theme="light" />
+      </div>
+    </section>
+  );
+}
