@@ -5,7 +5,7 @@ const defaultBackendUrl = isProd
   ? 'https://cms.anthonyholidays.com'
   : 'http://localhost:3001'
 const defaultFrontendUrl = isProd
-  ? 'https://dev.anthonyholidays.com'
+  ? 'https://www.anthonyholidays.com'
   : 'http://localhost:3000'
 
 const nextConfig: NextConfig = {

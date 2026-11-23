@@ -84,7 +84,7 @@ npm run build:cms
 
 | App | Default Local URL | Production URL (Example) | Description |
 |---|---|---|---|
-| **Web Frontend** | `http://localhost:3000` | `https://anthonyholidays.com` | Guest website & inquiry multi-step forms |
+| **Web Frontend** | `http://localhost:3000` | `https://www.anthonyholidays.com` | Guest website & inquiry multi-step forms |
 | **Payload CMS** | `http://localhost:3001/admin` | `https://cms.anthonyholidays.com/admin` | Editorial Admin Studio & Content Management |
 | **Payload REST API** | `http://localhost:3001/api` | `https://cms.anthonyholidays.com/api` | REST API consumed by frontend |
 | **Media Uploads** | `http://localhost:3001/media` | `https://cms.anthonyholidays.com/media` | High-res tour & editorial photographs |

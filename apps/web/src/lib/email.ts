@@ -157,7 +157,7 @@ An SLTDA Licensed National Tourist Guide Lecturer from our executive team is rev
 Need immediate assistance?
 - WhatsApp Concierge: +${WHATSAPP_NUMBER}
 - Email: ${COMPANY_EMAIL}
-- Website: https://anthonyholidays.com
+- Website: https://www.anthonyholidays.com
 
 Warmest regards from Sri Lanka,
 Anthony Holidays Team
@@ -306,7 +306,7 @@ Official Destination Management Company (DMC)
               <p style="margin: 0; color: #6B7280;">
                 Email: <a href="mailto:${COMPANY_EMAIL}" style="color: ${BRAND.secondary}; text-decoration: none;">${COMPANY_EMAIL}</a> · 
                 WhatsApp: +${WHATSAPP_NUMBER} · 
-                <a href="https://anthonyholidays.com" style="color: ${BRAND.secondary}; text-decoration: none;">anthonyholidays.com</a>
+                <a href="https://www.anthonyholidays.com" style="color: ${BRAND.secondary}; text-decoration: none;">www.anthonyholidays.com</a>
               </p>
             </td>
           </tr>
@@ -464,7 +464,7 @@ If your inquiry is urgent or you prefer to chat with us immediately, feel free t
 Warmest regards from Sri Lanka,
 Anthony Holidays Team
 Official Destination Management Company
-https://anthonyholidays.com
+https://www.anthonyholidays.com
 `.trim();
 
   const html = `
@@ -527,7 +527,7 @@ https://anthonyholidays.com
               </p>
               <p style="margin: 0; color: #6B7280;">
                 Email: <a href="mailto:${COMPANY_EMAIL}" style="color: ${BRAND.secondary}; text-decoration: none;">${COMPANY_EMAIL}</a> · 
-                <a href="https://anthonyholidays.com" style="color: ${BRAND.secondary}; text-decoration: none;">anthonyholidays.com</a>
+                <a href="https://www.anthonyholidays.com" style="color: ${BRAND.secondary}; text-decoration: none;">www.anthonyholidays.com</a>
               </p>
             </td>
           </tr>

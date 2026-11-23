@@ -1,7 +1,7 @@
 ANTHONY HOLIDAYS — ADMIN PANEL COMPLETE GUIDE
 ==============================================
-Website: https://anthonyholidays.com
-Admin Panel: https://anthonyholidays.com/admin
+Website: https://www.anthonyholidays.com
+Admin Panel: https://www.anthonyholidays.com/admin
 Document Version: October 2026
 ==============================================
 
