@@ -364,7 +364,7 @@ export async function getSiteSettings() {
     defaultDescription:
       'Discover Sri Lanka with Anthony Holidays - led by licensed national tourist guide lecturers. Tailor-made journeys, private tours, and authentic travel experiences across the island.',
     defaultOgImage: null,
-    googleSiteVerification: null,
+    googleSiteVerification: 'google2f657798ac4c1731',
     googleAnalyticsId: null,
   }
 
