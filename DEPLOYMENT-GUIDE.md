@@ -12,7 +12,7 @@ This guide provides end-to-end instructions for deploying the **Payload CMS 3.x 
                       └───────┬────────────────────────┬───────┘
                               │                        │
        Frontend Traffic       │                        │ API Requests / Media
-       (https://anthonyholidays.com)                   │ (https://cms.anthonyholidays.com)
+       (https://www.anthonyholidays.com)               │ (https://cms.anthonyholidays.com)
                               ▼                        ▼
                ┌───────────────────────┐   ┌────────────────────────┐
                │       apps/web        │   │        apps/cms        │
@@ -125,7 +125,7 @@ PAYLOAD_SECRET=YOUR_GENERATED_32_CHAR_SECRET_KEY
 BACKEND_URL=https://cms.anthonyholidays.com
 
 # Allowed Frontend URL for CORS & CSRF Protection
-FRONTEND_URL=https://anthonyholidays.com
+FRONTEND_URL=https://www.anthonyholidays.com
 ```
 Save and exit (`Ctrl+O`, `Enter`, `Ctrl+X`).
 
@@ -220,7 +220,7 @@ In your frontend deployment (e.g., Vercel, VPS, or cloud host):
 
 Set the following environment variables:
 ```env
-FRONTEND_URL=https://anthonyholidays.com
+FRONTEND_URL=https://www.anthonyholidays.com
 BACKEND_URL=https://cms.anthonyholidays.com
 PUBLIC_WHATSAPP_NUMBER=94703247929
 PUBLIC_PHONE_NUMBER="+94 70 324 7929"
