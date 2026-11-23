@@ -1114,6 +1114,12 @@ async function seed() {
           tiktok: "https://www.tiktok.com/@anthony.holidays?_r=1&_t=ZS-9AtbNBLoa3g",
           youtube: "https://youtube.com/@anthonyholidays?si=tm5qd-em3zdhROQJ",
         },
+        seo: {
+          defaultTitle: "Anthony Holidays - Expert-Led Sri Lanka Journeys",
+          defaultDescription:
+            "Discover Sri Lanka with Anthony Holidays - led by licensed national tourist guide lecturers. Tailor-made journeys, private tours, and authentic travel experiences.",
+          googleSiteVerification: "google2f657798ac4c1731",
+        },
       },
     });
     console.log(

@@ -47,11 +47,9 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description,
     metadataBase: new URL(siteUrl),
-    verification: siteSettings?.seo?.googleSiteVerification
-      ? {
-          google: siteSettings.seo.googleSiteVerification,
-        }
-      : undefined,
+    verification: {
+      google: siteSettings?.seo?.googleSiteVerification || 'google2f657798ac4c1731',
+    },
     openGraph: {
       title,
       description,
